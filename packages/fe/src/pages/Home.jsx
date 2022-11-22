@@ -5,12 +5,12 @@ const TempWrapper = styled.div`
   display: flex;
   flex-direction: row;
   gap: 1rem;
-`
+`;
 
 const TempH1 = styled.h1`
   font-size: 3rem;
   color: #000;
-  transition: color .2s;
+  transition: color 0.2s;
   &:hover {
     color: #1bb;
   }
@@ -19,10 +19,10 @@ const TempH1 = styled.h1`
 const TempSpan = styled.span`
   color: #000;
   cursor: pointer;
-  padding: .25rem .5rem;
-  border-radius: .25rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
   background-color: #fbd680;
-  transition: color .2s, background-color .2s;
+  transition: color 0.2s, background-color 0.2s;
   &:hover {
     background-color: #fbaf87;
   }
@@ -39,12 +39,24 @@ export default function Home() {
   };
 
   return (
-  <div>
-  <TempH1>Kanban</TempH1>
-  <TempWrapper>
-    <TempSpan onClick={() => {changeLocale("it")}}>{t("italian")}</TempSpan>
-    <TempSpan onClick={() => {changeLocale("en")}}>{t("english")}</TempSpan>
-  </TempWrapper>
-  </div>
+    <div>
+      <TempH1>Kanban</TempH1>
+      <TempWrapper>
+        <TempSpan
+          onClick={() => {
+            changeLocale("it");
+          }}
+        >
+          {t("italian")}
+        </TempSpan>
+        <TempSpan
+          onClick={() => {
+            changeLocale("en");
+          }}
+        >
+          {t("english")}
+        </TempSpan>
+      </TempWrapper>
+    </div>
   );
 }

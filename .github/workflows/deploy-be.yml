@@ -1,0 +1,24 @@
+name: Publish back-end to Cloudflare Workers
+on:
+  push:
+    branches: [prod]
+    paths:
+      - "packages/be/**"
+
+jobs:
+  publish-be:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      deployments: write
+    name: Publish to Cloudflare Pages
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Build
+        run: yarn workspaces focus @kanban/be
+      - uses: cloudflare/wrangler-action@2.0.0
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          workingDirectory: "packages/be"
+          command: publish main.js --compatibility-date 2022-11-22 --name be
