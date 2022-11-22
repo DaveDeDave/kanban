@@ -23,7 +23,7 @@ jobs:
       - name: Build
         run: yarn workspaces focus @kanban/fe && yarn workspace @kanban/fe build
       - name: Publish to Cloudflare Pages
-        uses: cloudflare/pages-action@1.0.0
+        uses: cloudflare/pages-action@1.1.0
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
