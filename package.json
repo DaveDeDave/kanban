@@ -12,6 +12,10 @@
       "./packages/*"
     ]
   },
+  "scripts": {
+    "docker:start:dev": "docker-compose -f docker-compose.dev.yml up -d --build",
+    "docker:stop:dev": "docker-compose -f docker-compose.dev.yml down"
+  },
   "devDependencies": {
     "prettier": "^2.7.1"
   }

@@ -11,6 +11,16 @@ router.get(
     })
 );
 
+router.get(
+  "/test",
+  () =>
+    new Response(JSON.stringify({ response: ENVIRONMENT }), {
+      headers: {
+        "content-type": "application/json;charset=UTF-8"
+      }
+    })
+);
+
 router.all("*", () => new Response("Not Found.", { status: 404 }));
 
 addEventListener("fetch", (event) =>

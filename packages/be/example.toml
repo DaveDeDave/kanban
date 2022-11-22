@@ -2,11 +2,10 @@ name = "be"
 main = "main.js"
 account_id = ""
 
-compatibility_date = "2022-10-06"
-workers_dev = false
-
-[env]
-TEST = ""
+compatibility_date = "2022-11-22"
 
 [build]
 command = "yarn"
+
+[dev]
+port = 8000

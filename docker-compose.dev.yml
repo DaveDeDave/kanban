@@ -1,0 +1,31 @@
+version: "3.9"
+services:
+  kanban-be:
+    container_name: kanban-be
+    restart: always
+    tty: true
+    ports:
+      - "8000:8000"
+    build:
+      context: .
+      dockerfile: docker/be/Dockerfile.dev
+    volumes:
+      - ./packages/be:/app/packages/be
+    networks:
+      - kanban-network
+  kanban-fe:
+    container_name: kanban-fe
+    restart: always
+    tty: true
+    ports:
+      - "5173:5173"
+    build:
+      context: .
+      dockerfile: docker/fe/Dockerfile.dev
+    volumes:
+      - ./packages/fe:/app/packages/fe
+    networks:
+      - kanban-network
+networks:
+  kanban-network:
+    driver: bridge

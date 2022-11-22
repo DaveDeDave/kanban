@@ -1,6 +1,7 @@
 {
   "name": "@kanban/be",
   "version": "1.0.0",
+  "type": "module",
   "repository": "https://github.com/DaveDeDave/kanban",
   "author": "Davide Ceci",
   "license": "MIT",
