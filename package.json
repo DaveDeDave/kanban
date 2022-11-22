@@ -1,0 +1,18 @@
+{
+  "name": "kanban",
+  "version": "1.0.0",
+  "description": "Kanban task management web app challenge from frontend mentor",
+  "repository": "https://github.com/DaveDeDave/kanban",
+  "author": "Davide Ceci",
+  "license": "MIT",
+  "private": true,
+  "packageManager": "yarn@3.3.0",
+  "workspaces": {
+    "packages": [
+      "./packages/*"
+    ]
+  },
+  "devDependencies": {
+    "prettier": "^2.7.1"
+  }
+}

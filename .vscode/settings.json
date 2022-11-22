@@ -1,0 +1,8 @@
+{
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "prettier.ignorePath": ".prettierignore",
+  "editor.formatOnSave": true,
+  "editor.quickSuggestions": {
+    "strings": true
+  }
+}

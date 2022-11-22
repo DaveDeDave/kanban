@@ -1,0 +1,12 @@
+name = "be"
+main = "main.js"
+account_id = ""
+
+compatibility_date = "2022-10-06"
+workers_dev = false
+
+[env]
+TEST = ""
+
+[build]
+command = "yarn"
