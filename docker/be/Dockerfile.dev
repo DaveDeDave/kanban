@@ -8,4 +8,4 @@ COPY .yarnrc.yml .
 COPY .yarn ./.yarn/
 COPY packages/be/package.json ./packages/be/package.json
 RUN yarn workspaces focus @kanban/be
-CMD echo "y\n" | yarn workspace @kanban/be dev --local
+CMD echo "y\n" | yarn workspace @kanban/be dev --local --config local.toml --env development

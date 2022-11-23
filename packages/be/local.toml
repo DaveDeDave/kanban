@@ -1,0 +1,15 @@
+name = "be"
+main = "index.js"
+compatibility_date = "2022-11-22"
+
+[build]
+command = "yarn"
+
+[dev]
+port = 8000
+
+[env.development.vars]
+ENVIRONMENT = "Development"
+
+[env.testing.vars]
+ENVIRONMENT = "Testing"

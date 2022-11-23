@@ -12,9 +12,9 @@ router.get(
 );
 
 router.get(
-  "/test",
+  "/env",
   () =>
-    new Response(JSON.stringify({ response: ENVIRONMENT }), {
+    new Response(JSON.stringify({ environment: ENVIRONMENT }), {
       headers: {
         "content-type": "application/json;charset=UTF-8"
       }
@@ -23,6 +23,4 @@ router.get(
 
 router.all("*", () => new Response("Not Found.", { status: 404 }));
 
-addEventListener("fetch", (event) =>
-  event.respondWith(router.handle(event.request))
-);
+export const handle = router.handle;
