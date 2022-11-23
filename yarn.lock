@@ -868,7 +868,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@kanban/be@workspace:packages/be"
   dependencies:
+    itty-cors: ^0.3.4
     itty-router: ^2.6.6
+    itty-router-extras: ^0.4.2
     jest: ^29.3.1
     jest-environment-miniflare: ^2.11.0
     wrangler: ^2.4.2
@@ -884,6 +886,9 @@ __metadata:
     "@vitejs/plugin-react": ^2.2.0
     formik: ^2.2.9
     i18next: ^22.0.6
+    itty-cors: ^0.3.4
+    itty-router: ^2.6.6
+    prettier: ^2.7.1
     react: ^18.2.0
     react-dom: ^18.2.0
     react-i18next: ^12.0.0
@@ -3276,6 +3281,20 @@ __metadata:
     html-escaper: ^2.0.0
     istanbul-lib-report: ^3.0.0
   checksum: 7867228f83ed39477b188ea07e7ccb9b4f5320b6f73d1db93a0981b7414fa4ef72d3f80c4692c442f90fc250d9406e71d8d7ab65bb615cb334e6292b73192b89
+  languageName: node
+  linkType: hard
+
+"itty-cors@npm:^0.3.4":
+  version: 0.3.4
+  resolution: "itty-cors@npm:0.3.4"
+  checksum: d9385825a423708fde611f51314af400d2675ac9b85f6f53b8a6c07c4d8a3db5b4609140103830764e9e6d364278a55ebfdbb7107e4cf1503204aed01f078741
+  languageName: node
+  linkType: hard
+
+"itty-router-extras@npm:^0.4.2":
+  version: 0.4.2
+  resolution: "itty-router-extras@npm:0.4.2"
+  checksum: 3d98dac81561a9d7aab19f35c5a23af23ad5ff035c57b221c8991a6e6f79faf023e107c1c368af1c61b77e3861263967b0c7957c86ecfaed8879ae13b09bffe8
   languageName: node
   linkType: hard
 

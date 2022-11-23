@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "styled-components";
 
@@ -33,30 +34,46 @@ const TempSpan = styled.span`
 
 export default function Home() {
   const { i18n, t } = useTranslation();
+  const [loading, setLoading] = useState(true);
+  const [healthcheck, setHealthcheck] = useState("");
 
   const changeLocale = (locale) => {
     i18n.changeLanguage(locale);
   };
 
+  useEffect(() => {
+    (async () => {
+      const response = await fetch(`${import.meta.env.VITE_BE_ENDPOINT}/healthcheck`);
+      const content = await response.json();
+      setHealthcheck(content.hello);
+      setLoading(false);
+    })();
+  }, [loading]);
+
   return (
     <div>
-      <TempH1>Kanban</TempH1>
-      <TempWrapper>
-        <TempSpan
-          onClick={() => {
-            changeLocale("it");
-          }}
-        >
-          {t("italian")}
-        </TempSpan>
-        <TempSpan
-          onClick={() => {
-            changeLocale("en");
-          }}
-        >
-          {t("english")}
-        </TempSpan>
-      </TempWrapper>
+      {!loading && (
+        <>
+          <TempH1>Kanban</TempH1>
+          <p>Hello {healthcheck}</p>
+          <TempWrapper>
+            <TempSpan
+              onClick={() => {
+                changeLocale("it");
+              }}
+            >
+              {t("italian")}
+            </TempSpan>
+            <TempSpan
+              onClick={() => {
+                changeLocale("en");
+              }}
+            >
+              {t("english")}
+            </TempSpan>
+          </TempWrapper>
+        </>
+      )}
     </div>
   );
 }

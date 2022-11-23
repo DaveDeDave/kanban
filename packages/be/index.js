@@ -1,3 +1,3 @@
-import { handle } from "./main.js";
+import { handle, corsify } from "./main.js";
 
-addEventListener("fetch", (event) => event.respondWith(handle(event.request)));
+addEventListener("fetch", (event) => event.respondWith(handle(event.request).then(corsify)));

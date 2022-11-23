@@ -1,26 +1,19 @@
 import { Router } from "itty-router";
+import { json, missing } from "itty-router-extras";
+import { createCors } from "itty-cors";
 const router = Router();
 
-router.get(
-  "/healthcheck",
-  () =>
-    new Response(JSON.stringify({ hello: "world" }), {
-      headers: {
-        "content-type": "application/json;charset=UTF-8"
-      }
-    })
-);
+const { preflight, corsify } = createCors({
+  methods: ["GET", "POST", "DELETE"],
+  origins: ENVIRONMENT != "Production" ? ["*"] : ["https://kanban-35a.pages.dev"],
+  maxAge: 3600
+});
 
-router.get(
-  "/env",
-  () =>
-    new Response(JSON.stringify({ environment: ENVIRONMENT }), {
-      headers: {
-        "content-type": "application/json;charset=UTF-8"
-      }
-    })
-);
-
-router.all("*", () => new Response("Not Found.", { status: 404 }));
+router
+  .all("*", preflight)
+  .get("/healthcheck", () => json({ hello: "world" }))
+  .get("/env", () => json({ environment: ENVIRONMENT }))
+  .all("*", () => missing({ message: "Not Found." }));
 
 export const handle = router.handle;
+export { corsify };
