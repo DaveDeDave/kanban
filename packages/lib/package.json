@@ -1,0 +1,12 @@
+{
+  "name": "@kanban/lib",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "index.js",
+  "repository": "https://github.com/DaveDeDave/kanban",
+  "author": "Davide Ceci",
+  "license": "MIT",
+  "dependencies": {
+    "realm-web": "^2.0.0"
+  }
+}

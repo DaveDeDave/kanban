@@ -13,6 +13,7 @@
     "test": "NODE_OPTIONS=--experimental-vm-modules npx jest"
   },
   "dependencies": {
+    "@kanban/lib": "1.0.0",
     "itty-cors": "^0.3.4",
     "itty-router": "^2.6.6",
     "itty-router-extras": "^0.4.2"

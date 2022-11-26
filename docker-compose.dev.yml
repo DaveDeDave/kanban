@@ -1,5 +1,27 @@
 version: "3.9"
 services:
+  kanban-mongo:
+    container_name: kanban-mongo
+    image: mongo
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: 1234
+    ports:
+      - "27017:27017"
+    networks:
+      - kanban-network
+  kanban-mongo-proxy:
+    container_name: kanban-mongo-proxy
+    restart: always
+    tty: true
+    build:
+      context: .
+      dockerfile: docker/mongo-proxy/Dockerfile.dev
+    volumes:
+      - ./packages/mongo-proxy:/app/packages/mongo-proxy
+    networks:
+      - kanban-network
   kanban-be:
     container_name: kanban-be
     restart: always
@@ -11,6 +33,7 @@ services:
       dockerfile: docker/be/Dockerfile.dev
     volumes:
       - ./packages/be:/app/packages/be
+      - ./packages/lib:/app/packages/lib
     networks:
       - kanban-network
   kanban-fe:
