@@ -1778,6 +1778,7 @@ __metadata:
   resolution: "@kanban/be@workspace:packages/be"
   dependencies:
     "@kanban/lib": 1.0.0
+    "@kanban/models": 1.0.0
     itty-cors: ^0.3.4
     itty-router: ^2.6.6
     itty-router-extras: ^0.4.2
@@ -1813,7 +1814,15 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@kanban/lib@workspace:packages/lib"
   dependencies:
+    bcryptjs: ^2.4.3
+    node-jose: ^2.1.1
     realm-web: ^2.0.0
+  languageName: unknown
+  linkType: soft
+
+"@kanban/models@1.0.0, @kanban/models@workspace:packages/models":
+  version: 0.0.0-use.local
+  resolution: "@kanban/models@workspace:packages/models"
   languageName: unknown
   linkType: soft
 
@@ -2774,6 +2783,20 @@ __metadata:
   languageName: node
   linkType: hard
 
+"base64url@npm:^3.0.1":
+  version: 3.0.1
+  resolution: "base64url@npm:3.0.1"
+  checksum: a77b2a3a526b3343e25be424de3ae0aa937d78f6af7c813ef9020ef98001c0f4e2323afcd7d8b2d2978996bf8c42445c3e9f60c218c622593e5fdfd54a3d6e18
+  languageName: node
+  linkType: hard
+
+"bcryptjs@npm:^2.4.3":
+  version: 2.4.3
+  resolution: "bcryptjs@npm:2.4.3"
+  checksum: 0e80ed852a41f5dfb1853f53ee14a7390b0ef263ce05dba6e2ef3cd919dfad025a7c21ebcfe5bc7fa04b100990edf90c7a877ff7fe623d3e479753253131b629
+  languageName: node
+  linkType: hard
+
 "binary-extensions@npm:^2.0.0":
   version: 2.2.0
   resolution: "binary-extensions@npm:2.2.0"
@@ -3328,6 +3351,13 @@ __metadata:
   dependencies:
     is-arrayish: ^0.2.1
   checksum: c1c2b8b65f9c91b0f9d75f0debaa7ec5b35c266c2cac5de412c1a6de86d4cbae04ae44e510378cb14d032d0645a36925d0186f8bb7367bcc629db256b743a001
+  languageName: node
+  linkType: hard
+
+"es6-promise@npm:^4.2.8":
+  version: 4.2.8
+  resolution: "es6-promise@npm:4.2.8"
+  checksum: 95614a88873611cb9165a85d36afa7268af5c03a378b35ca7bda9508e1d4f1f6f19a788d4bc755b3fd37c8ebba40782018e02034564ff24c9d6fa37e959ad57d
   languageName: node
   linkType: hard
 
@@ -5140,6 +5170,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"long@npm:^5.2.0":
+  version: 5.2.1
+  resolution: "long@npm:5.2.1"
+  checksum: 9264da12d1b7df67e5aa6da4498144293caf1ad12e7f092efe4e9a2d32c53f0bbf7334f7cef997080a2a3af061142558ab366efa71698d98b1cdb883477445a7
+  languageName: node
+  linkType: hard
+
 "loose-envify@npm:^1.1.0":
   version: 1.4.0
   resolution: "loose-envify@npm:1.4.0"
@@ -5508,7 +5545,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"node-forge@npm:^1":
+"node-forge@npm:^1, node-forge@npm:^1.2.1":
   version: 1.3.1
   resolution: "node-forge@npm:1.3.1"
   checksum: 08fb072d3d670599c89a1704b3e9c649ff1b998256737f0e06fbd1a5bf41cae4457ccaee32d95052d80bbafd9ffe01284e078c8071f0267dc9744e51c5ed42a9
@@ -5539,6 +5576,23 @@ __metadata:
   version: 0.4.0
   resolution: "node-int64@npm:0.4.0"
   checksum: d0b30b1ee6d961851c60d5eaa745d30b5c95d94bc0e74b81e5292f7c42a49e3af87f1eb9e89f59456f80645d679202537de751b7d72e9e40ceea40c5e449057e
+  languageName: node
+  linkType: hard
+
+"node-jose@npm:^2.1.1":
+  version: 2.1.1
+  resolution: "node-jose@npm:2.1.1"
+  dependencies:
+    base64url: ^3.0.1
+    buffer: ^6.0.3
+    es6-promise: ^4.2.8
+    lodash: ^4.17.21
+    long: ^5.2.0
+    node-forge: ^1.2.1
+    pako: ^2.0.4
+    process: ^0.11.10
+    uuid: ^8.3.2
+  checksum: ae82fa789f3b7df39a2b3070b6ffdcf30b5fd3c03e6c2f056c4a4ed2d11cde7f69a22a7e49fb550c94a90ccac76a8b9a9341864be5c8e14782f3badd052e3d3a
   languageName: node
   linkType: hard
 
@@ -5714,6 +5768,13 @@ __metadata:
   version: 2.2.0
   resolution: "p-try@npm:2.2.0"
   checksum: f8a8e9a7693659383f06aec604ad5ead237c7a261c18048a6e1b5b85a5f8a067e469aa24f5bc009b991ea3b058a87f5065ef4176793a200d4917349881216cae
+  languageName: node
+  linkType: hard
+
+"pako@npm:^2.0.4":
+  version: 2.1.0
+  resolution: "pako@npm:2.1.0"
+  checksum: 71666548644c9a4d056bcaba849ca6fd7242c6cf1af0646d3346f3079a1c7f4a66ffec6f7369ee0dc88f61926c10d6ab05da3e1fca44b83551839e89edd75a3e
   languageName: node
   linkType: hard
 

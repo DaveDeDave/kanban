@@ -1,14 +1,9 @@
 {
-  "name": "@kanban/lib",
+  "name": "@kanban/models",
   "version": "1.0.0",
   "type": "module",
   "main": "index.js",
   "repository": "https://github.com/DaveDeDave/kanban",
   "author": "Davide Ceci",
-  "license": "MIT",
-  "dependencies": {
-    "bcryptjs": "^2.4.3",
-    "node-jose": "^2.1.1",
-    "realm-web": "^2.0.0"
-  }
+  "license": "MIT"
 }

@@ -24,4 +24,9 @@ const getInstance = async () => {
   return db;
 };
 
-export { getInstance };
+const injectClient = (mongo) => async (request) => {
+  mongo = mongo || (await getInstance());
+  request.mongo = mongo;
+};
+
+export { getInstance, injectClient };

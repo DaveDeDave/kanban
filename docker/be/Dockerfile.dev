@@ -8,5 +8,6 @@ COPY .yarnrc.yml .
 COPY .yarn ./.yarn/
 COPY packages/be/package.json ./packages/be/package.json
 COPY packages/lib/package.json ./packages/lib/package.json
+COPY packages/models/package.json ./packages/models/package.json
 RUN yarn workspaces focus @kanban/be
 CMD echo "y\n" | yarn workspace @kanban/be dev:local

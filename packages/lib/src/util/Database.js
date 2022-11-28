@@ -27,7 +27,9 @@ class Collection {
         "Content-Type": "application/json"
       }
     });
-    return await response.json();
+    const body = await response.json();
+    if (response.status != 200) throw new MongoError(body.message, `MONGOERROR-${body.code}`);
+    return body;
   }
 
   /**
@@ -122,6 +124,13 @@ class Collection {
    */
   async deleteMany(filter) {
     return await this.#execute("deleteMany", { filter });
+  }
+}
+
+class MongoError extends Error {
+  constructor(message, code) {
+    super(message);
+    this.code = code;
   }
 }
 

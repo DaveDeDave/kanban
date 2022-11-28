@@ -1,8 +1,9 @@
 import { Router } from "itty-router";
-import { json, missing, withContent } from "itty-router-extras";
+import { json, missing } from "itty-router-extras";
 import { createCors } from "itty-cors";
 import { mongoWrapper } from "@kanban/lib";
-const router = Router();
+import testRouter from "./routes/test/test";
+import authRouter from "./routes/auth/auth";
 
 const { preflight, corsify } = createCors({
   methods: ["GET", "POST", "DELETE"],
@@ -10,22 +11,15 @@ const { preflight, corsify } = createCors({
   maxAge: 3600
 });
 
+let mongo;
+
+const router = Router();
 router
   .all("*", preflight)
-  .post("/test", withContent, async ({ content }) => {
-    const mongo = await mongoWrapper.getInstance();
-    const collection = mongo.collection("test");
-    await collection.insertOne({ test: content.name });
-    return json({ message: "success" });
-  })
-  .get("/test", async () => {
-    const mongo = await mongoWrapper.getInstance();
-    const collection = mongo.collection("test");
-    const users = await collection.find({});
-    return json({ users });
-  })
-  .get("/healthcheck", () => json({ hello: "world" }))
-  .get("/env", () => json({ environment: ENVIRONMENT }))
+  .all("*", mongoWrapper.injectClient(mongo))
+  .all("/v1/test/*", testRouter.handle)
+  .all("/v1/auth/*", authRouter.handle)
+  .get("/v1/healthcheck", () => json({ "worker-name": "be", environment: ENVIRONMENT }))
   .all("*", () => missing({ message: "Not Found." }));
 
 export const handle = router.handle;

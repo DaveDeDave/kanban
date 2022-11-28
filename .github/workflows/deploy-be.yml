@@ -18,6 +18,8 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 18
+      - name: Launch test container
+        run: yarn docker:start:test
       - name: Build
         run: yarn workspaces focus @kanban/be
       - name: Run tests
