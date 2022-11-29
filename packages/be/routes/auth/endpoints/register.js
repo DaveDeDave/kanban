@@ -19,7 +19,7 @@ export default async ({ mongo, content }) => {
     else throw e;
   }
   delete user.password;
-  const token = await jwt.sign(user, {});
+  const token = await jwt.sign(user);
   return json({ token });
 };
 

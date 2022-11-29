@@ -1,4 +1,5 @@
 import jose from "node-jose";
+import { HTTPError } from "./error";
 
 let keystore;
 let key;
@@ -12,7 +13,7 @@ const loadKeystore = async () => {
 
 const ONE_WEEK = 60 * 60 * 24 * 7;
 
-const sign = async (input, { expiresIn = ONE_WEEK }) => {
+const sign = async (input, { expiresIn = ONE_WEEK } = { expiresIn: ONE_WEEK }) => {
   await loadKeystore();
   input.exp = Date.now() + expiresIn * 1000;
   const opts = { compact: true, fields: { typ: "JWT" } };
@@ -22,9 +23,15 @@ const sign = async (input, { expiresIn = ONE_WEEK }) => {
 
 const verify = async (input) => {
   await loadKeystore();
-  const result = await jose.JWS.createVerify(keystore, { algorithms: ["RS256"] }).verify(input);
+  let result;
+  try {
+    result = await jose.JWS.createVerify(keystore, { algorithms: ["RS256"] }).verify(input);
+  } catch (e) {
+    throw new HTTPError({ code: "error.invalid_token", status: 401, message: "Invalid token" });
+  }
   const payload = JSON.parse(result.payload.toString());
-  if (payload.exp <= Date.now()) throw new Error("Expired");
+  if (payload.exp <= Date.now())
+    throw new HTTPError({ code: "error.expired_token", status: 401, message: "Expired token" });
   return result.payload;
 };
 

@@ -1,3 +1,4 @@
+import { verify } from "./jwt";
 import { HTTPError } from "./error";
 
 const errorHandler = (error) => {
@@ -9,6 +10,7 @@ const errorHandler = (error) => {
       }
     });
   } else {
+    console.log(error);
     const unknownError = new HTTPError({
       code: "UnknowError",
       status: 500,
@@ -23,4 +25,10 @@ const errorHandler = (error) => {
   }
 };
 
-export { errorHandler };
+const autheticated = async (request) => {
+  const token = request.headers.get("authorization").split(" ")[1];
+  const payload = await verify(token);
+  request.user = payload;
+};
+
+export { errorHandler, autheticated };

@@ -18,7 +18,7 @@ export default async ({ mongo, content }) => {
   if (!valid)
     throw HTTPError({ code: "error.wrong_password", status: 400, message: "wrong password" });
   delete user.password;
-  const token = await jwt.sign(user, {});
+  const token = await jwt.sign(user);
   return json({ token });
 };
 
