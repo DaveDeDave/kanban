@@ -1832,6 +1832,7 @@ __metadata:
   dependencies:
     "@fastify/mongodb": ^6.1.0
     fastify: ^4.10.2
+    mongodb: ^4.12.1
     nodemon: ^2.0.20
   languageName: unknown
   linkType: soft
@@ -5460,7 +5461,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mongodb@npm:^4.0.1":
+"mongodb@npm:^4.0.1, mongodb@npm:^4.12.1":
   version: 4.12.1
   resolution: "mongodb@npm:4.12.1"
   dependencies:

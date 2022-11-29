@@ -28,7 +28,10 @@ class Collection {
       }
     });
     const body = await response.json();
-    if (response.status != 200) throw new MongoError(body.message, `MONGOERROR-${body.code}`);
+    if (response.status != 200) {
+      if (body.name == "MongoServerError") throw new MongoServerError(body.message, body);
+      else throw new Error("BrokenProxy");
+    }
     return body;
   }
 
@@ -57,23 +60,25 @@ class Collection {
   /**
    * Retrieve a single document
    * @param {Object} query - The query used to retrieve the document
+   * @param {Object} options - Specifies additional options for the query
    * @example
    * { example: value }
    * @return The document
    */
-  async findOne(query) {
-    return await this.#execute("findOne", { query });
+  async findOne(query, options = {}) {
+    return await this.#execute("findOne", { query, options });
   }
 
   /**
    * Retrieves multiple documents
    * @param {Object} data - The query used to retrieve the documents
+   * @param {Object} options - Specifies additional options for the query
    * @example
    * { example: value }
    * @return The documents
    */
-  async find(query) {
-    return await this.#execute("find", { query });
+  async find(query, options = {}) {
+    return await this.#execute("find", { query, options });
   }
 
   /**
@@ -127,10 +132,11 @@ class Collection {
   }
 }
 
-class MongoError extends Error {
-  constructor(message, code) {
+class MongoServerError extends Error {
+  constructor(message, content) {
     super(message);
-    this.code = code;
+    this.name = "MongoServerError";
+    Object.keys(content).forEach((key) => (this[key] = content[key]));
   }
 }
 

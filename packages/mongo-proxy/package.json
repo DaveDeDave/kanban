@@ -10,7 +10,8 @@
   },
   "dependencies": {
     "@fastify/mongodb": "^6.1.0",
-    "fastify": "^4.10.2"
+    "fastify": "^4.10.2",
+    "mongodb": "^4.12.1"
   },
   "devDependencies": {
     "nodemon": "^2.0.20"

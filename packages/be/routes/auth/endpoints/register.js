@@ -1,17 +1,22 @@
 import { bcryptWrapper, jwt, regex } from "@kanban/lib";
-import { json, error } from "itty-router-extras";
+import { json } from "itty-router-extras";
 import { User } from "@kanban/models";
+import { HTTPError } from "@kanban/lib/src/error";
 
 export default async ({ mongo, content }) => {
-  const isError = validate(content);
-  if (isError) return isError;
+  validate(content);
   const password = await bcryptWrapper.hash(content.password, 10);
   const user = new User({ email: content.email, password });
   try {
     await mongo.collection("user").insertOne(user);
   } catch (e) {
-    if (e.code == "MONGOERROR-11000") return error(400, "Email already exists");
-    else return error(500, "Uknown error");
+    if (e.name == "MongoServerError" && e.code == "11000")
+      throw new HTTPError({
+        code: "error.already_exists_email",
+        status: 400,
+        message: "email already exists"
+      });
+    else throw e;
   }
   delete user.password;
   const token = await jwt.sign(user, {});
@@ -19,12 +24,29 @@ export default async ({ mongo, content }) => {
 };
 
 const validate = (content) => {
-  if (!content.email) return error(400, "email field missing");
-  if (!content.password) return error(400, "password field missing");
-  if (!regex.email.test(content.email)) return error(400, "email field must be email format");
+  if (!content.email)
+    throw new HTTPError({
+      code: "error.missing_email",
+      status: 400,
+      message: "email field missing"
+    });
+  if (!content.password)
+    throw new HTTPError({
+      code: "error.missing_password",
+      status: 400,
+      message: "password field missing"
+    });
+  if (!regex.email.test(content.email))
+    throw new HTTPError({
+      code: "error.wrong_format_email",
+      status: 400,
+      message: "email field must be email format"
+    });
   if (!regex.password.test(content.password))
-    return error(
-      400,
-      "password field must be at least 8 characters long and contain an uppercase letter, a lowercase letter, a number and a symbol among these: !\"#$%'()*+,-./"
-    );
+    throw new HTTPError({
+      code: "error.too_weak_password",
+      status: 400,
+      message:
+        "password field must be at least 8 characters long and contain an uppercase letter, a lowercase letter, a number and a symbol among these: !\"#$%'()*+,-./"
+    });
 };
