@@ -26,7 +26,10 @@ const errorHandler = (error) => {
 };
 
 const autheticated = async (request) => {
-  const token = request.headers.get("authorization").split(" ")[1];
+  const authorizationHeader = request.headers.get("authorization");
+  if (!authorizationHeader)
+    throw new HTTPError({ code: "error.missing_token", status: 401, message: "Missing token" });
+  const token = authorizationHeader.split(" ")[1];
   const payload = await verify(token);
   request.user = payload;
 };

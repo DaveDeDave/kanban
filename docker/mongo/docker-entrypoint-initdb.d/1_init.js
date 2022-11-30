@@ -14,4 +14,69 @@ db.createCollection("user", {
   }
 });
 
+db.createCollection("board", {
+  validator: {
+    $jsonSchema: {
+      required: ["_id", "ownerId", "name"],
+      properties: {
+        _id: { bsonType: "objectId" },
+        ownerId: { bsonType: "objectId" },
+        name: { bsonType: "string" }
+      },
+      additionalProperties: false
+    }
+  }
+});
+
+db.createCollection("column", {
+  validator: {
+    $jsonSchema: {
+      required: ["_id", "ownerId", "boardId", "name"],
+      properties: {
+        _id: { bsonType: "objectId" },
+        ownerId: { bsonType: "objectId" },
+        boardId: { bsonType: "objectId" },
+        name: { bsonType: "string" },
+        color: { bsonType: "string", default: "#8ecae6" }
+      },
+      additionalProperties: false
+    }
+  }
+});
+
+db.createCollection("task", {
+  validator: {
+    $jsonSchema: {
+      required: ["_id", "ownerId", "boardId", "columnId", "title", "description", "status"],
+      properties: {
+        _id: { bsonType: "objectId" },
+        ownerId: { bsonType: "objectId" },
+        boardId: { bsonType: "objectId" },
+        columnId: { bsonType: "objectId" },
+        title: { bsonType: "string" },
+        description: { bsonType: "string" },
+        status: { bsonType: "string" }
+      },
+      additionalProperties: false
+    }
+  }
+});
+
+db.createCollection("subtask", {
+  validator: {
+    $jsonSchema: {
+      required: ["_id", "ownerId", "boardId", "columnId", "taskId", "description"],
+      properties: {
+        _id: { bsonType: "objectId" },
+        ownerId: { bsonType: "objectId" },
+        boardId: { bsonType: "objectId" },
+        columnId: { bsonType: "objectId" },
+        taskId: { bsonType: "objectId" },
+        description: { bsonType: "string" }
+      },
+      additionalProperties: false
+    }
+  }
+});
+
 db.user.createIndex({ email: 1 }, { unique: true });
