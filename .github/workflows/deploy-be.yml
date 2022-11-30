@@ -15,17 +15,17 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - name: Install Node.js 18
+        uses: actions/setup-node@v3
         with:
           node-version: 18
+      - name: Install wrangler-cli
+        run: npm install -g wrangler
       - name: Launch test container
-        run: yarn docker:start:test
+        run: yarn && yarn docker:start:test
       - name: Build
         run: yarn workspaces focus @kanban/be
       - name: Run tests
         run: yarn workspace @kanban/be test
-      - uses: cloudflare/wrangler-action@2.0.0
-        with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          workingDirectory: "packages/be"
-          command: publish index.js --compatibility-date 2022-11-22 --name be
+      - name: Deploy
+        run: cd packages/be/dist && CLOUDFLARE_API_TOKEN=${{ secrets.CLOUDFLARE_API_TOKEN }} wrangler publish index.js --compatibility-date 2022-11-22 --node-compat --name be

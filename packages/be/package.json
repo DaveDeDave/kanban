@@ -10,7 +10,8 @@
     "dev": "wrangler dev --config local.toml --env development",
     "dev:local": "wrangler dev --local --config local.toml --env development",
     "tail": "wrangler tail",
-    "test": "NODE_OPTIONS=--experimental-vm-modules npx jest"
+    "build": "esbuild --bundle --sourcemap --outdir=dist ./index.js",
+    "test": "yarn build && ava --verbose test/*.spec.js"
   },
   "dependencies": {
     "@kanban/lib": "1.0.0",
@@ -20,8 +21,8 @@
     "itty-router-extras": "^0.4.2"
   },
   "devDependencies": {
-    "jest": "^29.3.1",
-    "jest-environment-miniflare": "^2.11.0",
+    "ava": "^5.1.0",
+    "esbuild": "^0.15.16",
     "wrangler": "^2.4.2"
   }
 }

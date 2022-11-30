@@ -1,9 +1,7 @@
 name = "be"
 main = "index.js"
 compatibility_date = "2022-11-22"
-
-[build]
-command = "yarn"
+node_compat = true
 
 [dev]
 port = 8000

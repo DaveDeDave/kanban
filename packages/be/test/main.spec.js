@@ -1,7 +1,18 @@
-import { handle } from "../main.js";
+import test from "ava";
+import { Miniflare } from "miniflare";
 
-test("test", async () => {
-  const response = await handle(new Request("http://localhost/v1/healthcheck"));
+test.before((t) => {
+  const mf = new Miniflare({
+    scriptPath: "./dist/index.js",
+    wranglerConfigPath: "./local.toml",
+    wranglerConfigEnv: "testing"
+  });
+  t.context = { mf };
+});
+
+test("test", async (t) => {
+  const { mf } = t.context;
+  const response = await mf.dispatchFetch("http://localhost:8000/v1/healthcheck");
   const data = await response.json();
-  expect(JSON.stringify(data)).toBe(JSON.stringify({ "worker-name": "be", environment: "Testing" }));
+  t.is(JSON.stringify(data), JSON.stringify({ "worker-name": "be", environment: "Testing" }));
 });
