@@ -1,7 +1,7 @@
 import { HTTPError } from "@kanban/lib/src/error";
 import { json } from "itty-router-extras";
 
-export default async ({ mongo, user }) => {
+export default async ({ mongo, query, user }) => {
   validate(query);
   const subtasks = await mongo
     .collection("subtask")
@@ -16,7 +16,7 @@ const validate = (query) => {
       status: 400,
       message: "query is missing"
     });
-  if (!query.boardId)
+  if (!query.taskId)
     throw new HTTPError({
       code: "error.missing_taskId",
       status: 400,

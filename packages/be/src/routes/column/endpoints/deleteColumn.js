@@ -16,7 +16,7 @@ const checkIds = async (mongo, userId, ids) => {
       .findOne({ _id: mongo.ObjectID(ids.columnId), ownerId: userId });
     if (!column)
       throw new HTTPError({
-        code: "error.doesnt_exist_board",
+        code: "error.doesnt_exist_column",
         status: 404,
         message: "column doesn't exist"
       });

@@ -8,20 +8,23 @@ export default async ({ mongo, content, params, user }) => {
   return status(204);
 };
 
-const validate = () => {
+const validate = (content) => {
   if (!content)
     throw new HTTPError({
       code: "error.missing_body",
       status: 400,
       message: "body is missing"
     });
-  if (!content.description)
+  if (!content.description && !content.completed)
     throw new HTTPError({
       code: "error.missing_update_fields",
       status: 400,
-      message: "specify at least one update field amoung these: [description]"
+      message: "specify at least one update field amoung these: [description, completed]"
     });
-  return { $set: { description: content.description } };
+  const update = { $set: {} };
+  if (content.description) update.$set.description = content.description;
+  if (content.completed) update.$set.completed = content.completed;
+  return update;
 };
 
 const checkIds = async (mongo, userId, ids) => {

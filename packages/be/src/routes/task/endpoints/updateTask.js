@@ -1,4 +1,5 @@
 import { HTTPError } from "@kanban/lib/src/error";
+import { Task } from "@kanban/models";
 import { status } from "itty-router-extras";
 
 export default async ({ mongo, content, params, user }) => {
@@ -8,7 +9,7 @@ export default async ({ mongo, content, params, user }) => {
   return status(204);
 };
 
-const validate = () => {
+const validate = (content) => {
   if (!content)
     throw new HTTPError({
       code: "error.missing_body",
@@ -27,7 +28,7 @@ const validate = () => {
       status: 400,
       message: `status must be one amoung these: [${Task.statuses.join(", ")}]`
     });
-  const update = { $set };
+  const update = { $set: {} };
   if (content.title) update.$set.title = content.title;
   if (content.description) update.$set.description = content.description;
   if (content.status) update.$set.status = content.status;

@@ -72,7 +72,8 @@ db.createCollection("subtask", {
         boardId: { bsonType: "string" },
         columnId: { bsonType: "string" },
         taskId: { bsonType: "string" },
-        description: { bsonType: "string" }
+        description: { bsonType: "string" },
+        completed: { bsonType: "boolean" }
       },
       additionalProperties: false
     }

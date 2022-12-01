@@ -1,3 +1,4 @@
+import { regex } from "@kanban/lib";
 import { HTTPError } from "@kanban/lib/src/error";
 import { status } from "itty-router-extras";
 
@@ -27,7 +28,7 @@ const validate = (content) => {
       status: 400,
       message: "color field must be a color (e.g. #ffffff)"
     });
-  const update = { $set };
+  const update = { $set: {} };
   if (content.name) update.$set.name = content.name;
   if (content.color) update.$set.color = content.color;
   return update;

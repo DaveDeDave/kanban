@@ -4,13 +4,13 @@ import { json } from "itty-router-extras";
 
 export default async ({ mongo, content, user }) => {
   validate(content);
-  await checkIds(mongo, user._id, { boardId: content.boardId, columnId: content.columnId });
+  const ids = await checkIds(mongo, user._id, { columnId: content.columnId });
   const task = new Task({
     title: content.title,
     description: content.description,
     status: content.status,
     ownerId: user._id,
-    boardId: content.boardId,
+    boardId: ids.boardId,
     columnId: content.columnId
   });
   const result = await mongo.collection("task").insertOne(task);
@@ -23,12 +23,6 @@ const validate = (content) => {
       code: "error.missing_body",
       status: 400,
       message: "body is missing"
-    });
-  if (!content.boardId)
-    throw new HTTPError({
-      code: "error.missing_boardId",
-      status: 400,
-      message: "boardId field missing"
     });
   if (!content.columnId)
     throw new HTTPError({
@@ -64,15 +58,6 @@ const validate = (content) => {
 
 const checkIds = async (mongo, userId, ids) => {
   try {
-    const board = await mongo
-      .collection("board")
-      .findOne({ _id: mongo.ObjectID(ids.boardId), ownerId: userId });
-    if (!board)
-      throw new HTTPError({
-        code: "error.doesnt_exist_board",
-        status: 404,
-        message: "board doesn't exist"
-      });
     const column = await mongo
       .collection("column")
       .findOne({ _id: mongo.ObjectID(ids.columnId), ownerId: userId });
@@ -82,6 +67,7 @@ const checkIds = async (mongo, userId, ids) => {
         status: 404,
         message: "column doesn't exist"
       });
+    return { boardId: column.boardId };
   } catch (e) {
     if (e.name == "BSONTypeError") {
       throw new HTTPError({

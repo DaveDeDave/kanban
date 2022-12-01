@@ -16,7 +16,7 @@ const validate = (query) => {
       status: 400,
       message: "query is missing"
     });
-  if (!query.boardId)
+  if (!query.columnId)
     throw new HTTPError({
       code: "error.missing_columnId",
       status: 400,
