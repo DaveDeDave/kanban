@@ -7,8 +7,8 @@
   "license": "MIT",
   "scripts": {
     "publish": "wrangler publish",
-    "dev": "wrangler dev --config src/local.toml --env development",
-    "dev:local": "miniflare dist/index.js --wrangler-config src/local.toml --wrangler-env development --port 8000",
+    "dev": "wrangler dev --config local.toml --env development",
+    "dev:local": "miniflare dist/index.js --wrangler-config local.toml --wrangler-env development --port 8000 --watch",
     "tail": "wrangler tail",
     "build": "esbuild --bundle --sourcemap --outdir=dist ./src/index.js",
     "test": "yarn build && ava --verbose test/*.spec.js"
