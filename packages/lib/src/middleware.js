@@ -31,6 +31,9 @@ const autheticated = async (request) => {
     throw new HTTPError({ code: "error.missing_token", status: 401, message: "Missing token" });
   const token = authorizationHeader.split(" ")[1];
   const payload = await verify(token);
+  const user = await request.mongo.collection("user").findOne({ email: payload.email });
+  if (!user)
+    throw new HTTPError({ code: "error.invalid_token", status: 401, message: "Invalid token" });
   request.user = payload;
 };
 

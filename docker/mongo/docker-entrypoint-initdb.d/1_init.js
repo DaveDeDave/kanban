@@ -31,13 +31,13 @@ db.createCollection("board", {
 db.createCollection("column", {
   validator: {
     $jsonSchema: {
-      required: ["_id", "ownerId", "boardId", "name"],
+      required: ["_id", "ownerId", "boardId", "name", "color"],
       properties: {
         _id: { bsonType: "objectId" },
         ownerId: { bsonType: "objectId" },
         boardId: { bsonType: "objectId" },
         name: { bsonType: "string" },
-        color: { bsonType: "string", default: "#8ecae6" }
+        color: { bsonType: "string" }
       },
       additionalProperties: false
     }

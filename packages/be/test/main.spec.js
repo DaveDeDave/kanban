@@ -4,7 +4,7 @@ import { Miniflare } from "miniflare";
 test.before((t) => {
   const mf = new Miniflare({
     scriptPath: "./dist/index.js",
-    wranglerConfigPath: "./local.toml",
+    wranglerConfigPath: "./src/local.toml",
     wranglerConfigEnv: "testing"
   });
   t.context = { mf };

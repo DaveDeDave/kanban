@@ -7,10 +7,10 @@
   "license": "MIT",
   "scripts": {
     "publish": "wrangler publish",
-    "dev": "wrangler dev --config local.toml --env development",
-    "dev:local": "wrangler dev --local --config local.toml --env development",
+    "dev": "wrangler dev --config src/local.toml --env development",
+    "dev:local": "miniflare dist/index.js --wrangler-config src/local.toml --wrangler-env development --port 8000",
     "tail": "wrangler tail",
-    "build": "esbuild --bundle --sourcemap --outdir=dist ./index.js",
+    "build": "esbuild --bundle --sourcemap --outdir=dist ./src/index.js",
     "test": "yarn build && ava --verbose test/*.spec.js"
   },
   "dependencies": {
@@ -23,6 +23,7 @@
   "devDependencies": {
     "ava": "^5.1.0",
     "esbuild": "^0.15.16",
+    "miniflare": "^2.11.0",
     "wrangler": "^2.4.2"
   }
 }

@@ -7,7 +7,7 @@ export default async ({ mongo, content }) => {
   validate(content);
   const user = await mongo
     .collection("user")
-    .findOne({ email: content.email }, { projection: { _id: 0 } });
+    .findOne({ email: content.email });
   if (!user)
     throw new HTTPError({
       code: "error.doesnt_exist_email",
