@@ -8,3 +8,5 @@ export default class Task {
     this.status = status;
   }
 }
+
+Task.statuses = ["TODO", "DOING", "COMPLETED"];

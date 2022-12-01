@@ -32,7 +32,7 @@ const verify = async (input) => {
   const payload = JSON.parse(result.payload.toString());
   if (payload.exp <= Date.now())
     throw new HTTPError({ code: "error.expired_token", status: 401, message: "Expired token" });
-  return result.payload;
+  return payload;
 };
 
 export { sign, verify };

@@ -5,9 +5,7 @@ import { json } from "itty-router-extras";
 
 export default async ({ mongo, content }) => {
   validate(content);
-  const user = await mongo
-    .collection("user")
-    .findOne({ email: content.email });
+  const user = await mongo.collection("user").findOne({ email: content.email });
   if (!user)
     throw new HTTPError({
       code: "error.doesnt_exist_email",
@@ -23,6 +21,12 @@ export default async ({ mongo, content }) => {
 };
 
 const validate = (content) => {
+  if (!content)
+    throw new HTTPError({
+      code: "error.missing_body",
+      status: 400,
+      message: "body is missing"
+    });
   if (!content.email)
     throw new HTTPError({
       code: "error.missing_email",

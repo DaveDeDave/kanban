@@ -1,5 +1,6 @@
-import { status } from "itty-router-extras";
+import { json } from "itty-router-extras";
 
-export default async () => {
-  return status(501, "TO BE IMPLEMENTED");
+export default async ({ mongo, user }) => {
+  const boards = await mongo.collection("board").find({ ownerId: user._id });
+  return json(boards);
 };

@@ -8,7 +8,8 @@ export default async ({ mongo, content }) => {
   const password = await bcryptWrapper.hash(content.password, 10);
   const user = new User({ email: content.email, password });
   try {
-    await mongo.collection("user").insertOne(user);
+    const result = await mongo.collection("user").insertOne(user);
+    user._id = result.insertedId;
   } catch (e) {
     if (e.name == "MongoServerError" && e.code == "11000")
       throw new HTTPError({
@@ -24,6 +25,12 @@ export default async ({ mongo, content }) => {
 };
 
 const validate = (content) => {
+  if (!content)
+    throw new HTTPError({
+      code: "error.missing_body",
+      status: 400,
+      message: "body is missing"
+    });
   if (!content.email)
     throw new HTTPError({
       code: "error.missing_email",

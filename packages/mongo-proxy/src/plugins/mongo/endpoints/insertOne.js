@@ -3,7 +3,7 @@ const handler = async function (req, res) {
     body: { db, collection, document }
   } = req;
   const result = await this.mongo.client.db(db).collection(collection).insertOne(document);
-  return { success: result.acknowledged };
+  return result;
 };
 
 const schema = {
@@ -15,15 +15,6 @@ const schema = {
       db: { type: "string" },
       collection: { type: "string" },
       document: { type: "object" }
-    }
-  },
-  response: {
-    200: {
-      type: "object",
-      required: ["success"],
-      properties: {
-        success: { type: "boolean" }
-      }
     }
   }
 };

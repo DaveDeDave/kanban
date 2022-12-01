@@ -3,6 +3,6 @@ export default class Column {
     this.ownerId = ownerId;
     this.boardId = boardId;
     this.name = name;
-    if (color) this.color = color;
+    this.color = color || "#457b9d";
   }
 }

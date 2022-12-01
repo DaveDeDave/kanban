@@ -20,7 +20,7 @@ db.createCollection("board", {
       required: ["_id", "ownerId", "name"],
       properties: {
         _id: { bsonType: "objectId" },
-        ownerId: { bsonType: "objectId" },
+        ownerId: { bsonType: "string" },
         name: { bsonType: "string" }
       },
       additionalProperties: false
@@ -34,8 +34,8 @@ db.createCollection("column", {
       required: ["_id", "ownerId", "boardId", "name", "color"],
       properties: {
         _id: { bsonType: "objectId" },
-        ownerId: { bsonType: "objectId" },
-        boardId: { bsonType: "objectId" },
+        ownerId: { bsonType: "string" },
+        boardId: { bsonType: "string" },
         name: { bsonType: "string" },
         color: { bsonType: "string" }
       },
@@ -50,9 +50,9 @@ db.createCollection("task", {
       required: ["_id", "ownerId", "boardId", "columnId", "title", "description", "status"],
       properties: {
         _id: { bsonType: "objectId" },
-        ownerId: { bsonType: "objectId" },
-        boardId: { bsonType: "objectId" },
-        columnId: { bsonType: "objectId" },
+        ownerId: { bsonType: "string" },
+        boardId: { bsonType: "string" },
+        columnId: { bsonType: "string" },
         title: { bsonType: "string" },
         description: { bsonType: "string" },
         status: { bsonType: "string" }
@@ -68,10 +68,10 @@ db.createCollection("subtask", {
       required: ["_id", "ownerId", "boardId", "columnId", "taskId", "description"],
       properties: {
         _id: { bsonType: "objectId" },
-        ownerId: { bsonType: "objectId" },
-        boardId: { bsonType: "objectId" },
-        columnId: { bsonType: "objectId" },
-        taskId: { bsonType: "objectId" },
+        ownerId: { bsonType: "string" },
+        boardId: { bsonType: "string" },
+        columnId: { bsonType: "string" },
+        taskId: { bsonType: "string" },
         description: { bsonType: "string" }
       },
       additionalProperties: false

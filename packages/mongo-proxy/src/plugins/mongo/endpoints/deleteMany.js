@@ -4,7 +4,7 @@ const handler = async function (req, res) {
   } = req;
   if (filter._id) filter._id = this.mongo.ObjectId(filter._id);
   const result = await this.mongo.client.db(db).collection(collection).deleteMany(filter);
-  return { success: result.acknowledged };
+  return result;
 };
 
 const schema = {
@@ -16,15 +16,6 @@ const schema = {
       db: { type: "string" },
       collection: { type: "string" },
       filter: { type: "object" }
-    }
-  },
-  response: {
-    200: {
-      type: "object",
-      required: ["success"],
-      properties: {
-        success: { type: "boolean" }
-      }
     }
   }
 };
