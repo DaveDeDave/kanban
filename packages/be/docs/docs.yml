@@ -1,18 +1,10 @@
 openapi: 3.0.3
 info:
-  title: Swagger Kanban - OpenAPI 3.0
+  title: Kanban Documentation - OpenAPI 3.0
   description: |-
     This is the documentation of the backend of project kanban.
-    
-    Some useful links:
-    - [The Pet Store repository](https://github.com/swagger-api/swagger-petstore)
-    - [The source API definition for the Pet Store](https://github.com/swagger-api/swagger-petstore/blob/master/src/main/resources/openapi.yaml)
-  # termsOfService: http://swagger.io/terms/
-  # contact:
-    # email: apiteam@swagger.io
-  # license:
-    # name: Apache 2.0
-    # url: http://www.apache.org/licenses/LICENSE-2.0.html
+  license:
+    name: MIT
   version: 1.0
 servers:
   - url: http://localhost:8000/v1
@@ -33,6 +25,23 @@ tags:
   - name: general
     description: General endpoints
 paths:
+  /healthcheck:
+    get:
+      tags:
+        - general
+      summary: Healthcheck endpoint  
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  worker-name:
+                    type: string
+                  environment:
+                    type: string
+                additionalProperties: false
   /auth/register:
     post:
       tags:
@@ -42,24 +51,24 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#components/schemas/User'
+              $ref: "#components/schemas/User"
         required: true
       responses:
-        '200':
+        "200":
           content:
             application/json:
               schema:
-                $ref: '#components/responseBodies/Authenticated'
-        '400':
+                $ref: "#components/responseBodies/Authenticated"
+        "400":
           content:
             application/json:
-             schema:
-              $ref: '#components/responseBodies/ErrorResponse'
-        '500':
+              schema:
+                $ref: "#components/responseBodies/ErrorResponse"
+        "500":
           content:
             application/json:
-             schema:
-              $ref: '#components/responseBodies/ErrorResponse'
+              schema:
+                $ref: "#components/responseBodies/ErrorResponse"
   /auth/login:
     post:
       tags:
@@ -69,32 +78,32 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#components/schemas/User'
+              $ref: "#components/schemas/User"
         required: true
       responses:
-        '200':
+        "200":
           content:
             application/json:
               schema:
-                $ref: '#components/responseBodies/Authenticated'
-        '400':
+                $ref: "#components/responseBodies/Authenticated"
+        "400":
           content:
             application/json:
-             schema:
-              $ref: '#components/responseBodies/ErrorResponse'
+              schema:
+                $ref: "#components/responseBodies/ErrorResponse"
   /user:
     delete:
       tags:
         - user
       summary: Deletes the current user
       responses:
-        '204':
+        "204":
           description: Success
-        '401':
+        "401":
           content:
             application/json:
               schema:
-                $ref: '#components/responseBodies/ErrorResponse'
+                $ref: "#components/responseBodies/ErrorResponse"
       security:
         - bearerAuth: []
   /board:
@@ -106,37 +115,42 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#components/schemas/Board'
+              $ref: "#components/schemas/Board"
       responses:
-        '200':
+        "200":
           content:
             application/json:
               schema:
                 $ref: "#components/responseBodies/Created"
-        '401':
+        "400":
           content:
             application/json:
               schema:
-                $ref: '#components/responseBodies/ErrorResponse'
+                $ref: "#components/responseBodies/ErrorResponse"
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: "#components/responseBodies/ErrorResponse"
       security:
         - bearerAuth: []
     get:
       tags:
         - board
-      summary: Gets all the boards of the current user 
+      summary: Gets all the boards of the current user
       responses:
-        '200':
+        "200":
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: '#components/schemas/Board'
-        '401':
+                  $ref: "#components/schemas/Board"
+        "401":
           content:
             application/json:
               schema:
-                $ref: '#components/responseBodies/ErrorResponse'
+                $ref: "#components/responseBodies/ErrorResponse"
       security:
         - bearerAuth: []
   /board/{boardId}:
@@ -156,15 +170,25 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#components/schemas/Board'
+              $ref: "#components/schemas/Board"
       responses:
-        '204':
+        "204":
           description: Success
-        '401':
+        "400":
           content:
             application/json:
               schema:
-                $ref: '#components/responseBodies/ErrorResponse'
+                $ref: "#components/responseBodies/ErrorResponse"
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: "#components/responseBodies/ErrorResponse"
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: "#components/responseBodies/ErrorResponse"
       security:
         - bearerAuth: []
     delete:
@@ -180,13 +204,23 @@ paths:
             type: string
             example: 638a357683d9bcda990a92a5
       responses:
-        '204':
+        "204":
           description: Success
-        '401':
+        "400":
           content:
             application/json:
               schema:
-                $ref: '#components/responseBodies/ErrorResponse'
+                $ref: "#components/responseBodies/ErrorResponse"
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: "#components/responseBodies/ErrorResponse"
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: "#components/responseBodies/ErrorResponse"
       security:
         - bearerAuth: []
   /column:
@@ -198,18 +232,28 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#components/schemas/Column'
+              $ref: "#components/schemas/Column"
       responses:
-        '200':
+        "200":
           content:
             application/json:
               schema:
                 $ref: "#components/responseBodies/Created"
-        '401':
+        "400":
           content:
             application/json:
               schema:
-                $ref: '#components/responseBodies/ErrorResponse'
+                $ref: "#components/responseBodies/ErrorResponse"
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: "#components/responseBodies/ErrorResponse"
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: "#components/responseBodies/ErrorResponse"
       security:
         - bearerAuth: []
     get:
@@ -225,18 +269,23 @@ paths:
             type: string
             example: 638a357683d9bcda990a92a5
       responses:
-        '200':
+        "200":
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: '#components/schemas/Board'
-        '401':
+                  $ref: "#components/schemas/Board"
+        "400":
           content:
             application/json:
               schema:
-                $ref: '#components/responseBodies/ErrorResponse'
+                $ref: "#components/responseBodies/ErrorResponse"
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: "#components/responseBodies/ErrorResponse"
       security:
         - bearerAuth: []
 
@@ -257,15 +306,25 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#components/requestBodies/UpdateColumn'
+              $ref: "#components/requestBodies/UpdateColumn"
       responses:
-        '204':
+        "204":
           description: Success
-        '401':
+        "400":
           content:
             application/json:
               schema:
-                $ref: '#components/responseBodies/ErrorResponse'
+                $ref: "#components/responseBodies/ErrorResponse"
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: "#components/responseBodies/ErrorResponse"
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: "#components/responseBodies/ErrorResponse"
       security:
         - bearerAuth: []
     delete:
@@ -281,13 +340,328 @@ paths:
             type: string
             example: 638a357683d9bcda990a92a5
       responses:
-        '204':
+        "204":
           description: Success
-        '401':
+        "400":
           content:
             application/json:
               schema:
-                $ref: '#components/responseBodies/ErrorResponse'
+                $ref: "#components/responseBodies/ErrorResponse"
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: "#components/responseBodies/ErrorResponse"
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: "#components/responseBodies/ErrorResponse"
+      security:
+        - bearerAuth: []
+  /task:
+    post:
+      tags:
+        - task
+      summary: Creates a task
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#components/requestBodies/CreateTask"
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#components/responseBodies/Created"
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: "#components/responseBodies/ErrorResponse"
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: "#components/responseBodies/ErrorResponse"
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: "#components/responseBodies/ErrorResponse"
+      security:
+        - bearerAuth: []
+    get:
+      tags:
+        - task
+      summary: Gets all tasks of the specified column
+      parameters:
+        - name: columnId
+          in: query
+          description: Id of the column
+          required: true
+          schema:
+            type: string
+            example: 638a357683d9bcda990a92a5
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#components/schemas/Task"
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: "#components/responseBodies/ErrorResponse"
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: "#components/responseBodies/ErrorResponse"
+      security:
+        - bearerAuth: []
+  /task/{taskId}:
+    patch:
+      tags:
+        - task
+      summary: Updates a task
+      parameters:
+        - name: taskId
+          in: path
+          description: Id of the task to be updated
+          required: true
+          schema:
+            type: string
+            example: 638a357683d9bcda990a92a5
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#components/requestBodies/UpdateTask"
+      responses:
+        "204":
+          description: Success
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: "#components/responseBodies/ErrorResponse"
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: "#components/responseBodies/ErrorResponse"
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: "#components/responseBodies/ErrorResponse"
+      security:
+        - bearerAuth: []
+    delete:
+      tags:
+        - task
+      summary: Deletes a task
+      parameters:
+        - name: taskId
+          in: path
+          description: Id of the task to be deleted
+          required: true
+          schema:
+            type: string
+            example: 638a357683d9bcda990a92a5
+      responses:
+        "204":
+          description: Success
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: "#components/responseBodies/ErrorResponse"
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: "#components/responseBodies/ErrorResponse"
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: "#components/responseBodies/ErrorResponse"
+      security:
+        - bearerAuth: []
+    get:
+      tags:
+        - task
+      summary: Gets a task
+      parameters:
+        - name: taskId
+          in: path
+          description: Id of the task to be deleted
+          required: true
+          schema:
+            type: string
+            example: 638a357683d9bcda990a92a5
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#components/schemas/Task" 
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: "#components/responseBodies/ErrorResponse"
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: "#components/responseBodies/ErrorResponse"
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: "#components/responseBodies/ErrorResponse"
+      security:
+        - bearerAuth: []
+  /subtask:
+    post:
+      tags:
+        - subtask
+      summary: Creates a subtask
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#components/requestBodies/CreateSubtask"
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#components/responseBodies/Created"
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: "#components/responseBodies/ErrorResponse"
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: "#components/responseBodies/ErrorResponse"
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: "#components/responseBodies/ErrorResponse"
+      security:
+        - bearerAuth: []
+    get:
+      tags:
+        - subtask
+      summary: Gets all subtask of the specified task
+      parameters:
+        - name: taskId
+          in: query
+          description: Id of the task
+          required: true
+          schema:
+            type: string
+            example: 638a357683d9bcda990a92a5
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#components/schemas/Subtask"
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: "#components/responseBodies/ErrorResponse"
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: "#components/responseBodies/ErrorResponse"
+      security:
+        - bearerAuth: []
+  /subtask/${subtaskId}:
+    patch:
+      tags:
+        - subtask
+      summary: Update a subtask
+      parameters:
+        - name: subtaskId
+          in: path
+          description: Id of the subtask
+          required: true
+          schema:
+            type: string
+            example: 638a357683d9bcda990a92a5
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#components/requestBodies/UpdateSubtask"
+      responses:
+        "204":
+          description: Success
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: "#components/responseBodies/ErrorResponse"
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: "#components/responseBodies/ErrorResponse"
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: "#components/responseBodies/ErrorResponse"
+      security:
+        - bearerAuth: []
+    delete:
+      tags:
+        - subtask
+      summary: Deletes a subtask
+      parameters:
+        - name: subtaskId
+          in: path
+          description: Id of the subtask
+          required: true
+          schema:
+            type: string
+            example: 638a357683d9bcda990a92a5
+      responses:
+        "204":
+          description: Success
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: "#components/responseBodies/ErrorResponse"
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: "#components/responseBodies/ErrorResponse"
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: "#components/responseBodies/ErrorResponse"
       security:
         - bearerAuth: []
 components:
@@ -346,7 +720,6 @@ components:
         - columnId
         - title
         - description
-        - status
       properties:
         boardId:
           type: string
@@ -372,7 +745,7 @@ components:
             - TODO
             - DOING
             - COMPLETED
-        additionalProperties: false
+      additionalProperties: false
     Subtask:
       type: object
       required:
@@ -407,9 +780,9 @@ components:
       type: object
       anyOf:
         - required:
-          - name
+            - name
         - required:
-          - color
+            - color
       properties:
         boardId:
           type: string
@@ -424,6 +797,97 @@ components:
           description: Column's tag color
           pattern: /^#[(a|b|c|d|e|f)|0-9]{6}$/
           example: #457b9d
+      additionalProperties: false
+    CreateTask:
+      type: object
+      required:
+        - columnId
+        - title
+        - description
+        - status
+      properties:
+        columnId:
+          type: string
+          description: id of the column which the task belongs
+          example: 638a357683d9bcda990a92a5
+        title:
+          type: string
+          description: Task's title
+          example: Install Node.js
+        description:
+          type: string
+          description: Task's description
+          example: We need to install the latest version of Node.js
+        status:
+          type: string
+          description: Task's current status
+          example: TODO
+          enum:
+            - TODO
+            - DOING
+            - COMPLETED
+        additionalProperties: false
+    UpdateTask:
+      type: object
+      anyOf:
+        - required:
+          - title
+        - required:
+          - description
+        - required:
+          - status
+      properties:
+        title:
+          type: string
+          description: Task's title
+          example: Install Node.js
+        description:
+          type: string
+          description: Task's description
+          example: We need to install the latest version of Node.js
+        status:
+          type: string
+          description: Task's current status
+          example: TODO
+          enum:
+            - TODO
+            - DOING
+            - COMPLETED
+        additionalProperties: false
+    CreateSubtask:
+      type: object
+      required:
+        - taskId
+        - description
+        - completed
+      properties:
+        taskId:
+          type: string
+          description: id of the task which the subtask belongs
+          example: 638a357683d9bcda990a92a5
+        description:
+          type: string
+          description: Subtask's description
+          example: Download the latest version of Node.js
+        completed:
+          type: boolean
+          description: Specifies if the subtask is completed or not
+      additionalProperties: false
+    UpdateSubtask:
+      type: object
+      anyOf:
+        - required:
+          - description
+        - required:
+          - completed
+      properties:
+        description:
+          type: string
+          description: Subtask's description
+          example: Download the latest version of Node.js
+        completed:
+          type: boolean
+          description: Specifies if the subtask is completed or not
       additionalProperties: false
   responseBodies:
     Authenticated:
@@ -466,4 +930,3 @@ components:
       bearerFormat: jwt
 security:
   - bearerAuth: []
-  

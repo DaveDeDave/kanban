@@ -41,5 +41,6 @@ const html = generateHtml(spec);
 if (!fs.existsSync(path.resolve(__dirname, "./dist"))) {
   fs.mkdirSync(path.resolve(__dirname, "./dist"));
 }
+fs.writeFileSync(path.resolve(__dirname, "./dist/spec.json"), JSON.stringify(spec));
 fs.writeFileSync(path.resolve(__dirname, "./dist/docs.html"), html);
 console.log(`Documentation generated at ${path.resolve(__dirname, "./dist/docs.html")}`);
