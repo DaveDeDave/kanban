@@ -1,0 +1,469 @@
+openapi: 3.0.3
+info:
+  title: Swagger Kanban - OpenAPI 3.0
+  description: |-
+    This is the documentation of the backend of project kanban.
+    
+    Some useful links:
+    - [The Pet Store repository](https://github.com/swagger-api/swagger-petstore)
+    - [The source API definition for the Pet Store](https://github.com/swagger-api/swagger-petstore/blob/master/src/main/resources/openapi.yaml)
+  # termsOfService: http://swagger.io/terms/
+  # contact:
+    # email: apiteam@swagger.io
+  # license:
+    # name: Apache 2.0
+    # url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0
+servers:
+  - url: http://localhost:8000/v1
+  - url: https://be.projectkanban.workers.dev/v1
+tags:
+  - name: auth
+    description: Authentication endpoints
+  - name: user
+    description: User endpoints
+  - name: board
+    description: Board endpoints
+  - name: column
+    description: Column endpoints
+  - name: task
+    description: Task endpoints
+  - name: subtask
+    description: Subtask endpoints
+  - name: general
+    description: General endpoints
+paths:
+  /auth/register:
+    post:
+      tags:
+        - auth
+      summary: Creates a user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#components/schemas/User'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#components/responseBodies/Authenticated'
+        '400':
+          content:
+            application/json:
+             schema:
+              $ref: '#components/responseBodies/ErrorResponse'
+        '500':
+          content:
+            application/json:
+             schema:
+              $ref: '#components/responseBodies/ErrorResponse'
+  /auth/login:
+    post:
+      tags:
+        - auth
+      summary: Authenticates a user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#components/schemas/User'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#components/responseBodies/Authenticated'
+        '400':
+          content:
+            application/json:
+             schema:
+              $ref: '#components/responseBodies/ErrorResponse'
+  /user:
+    delete:
+      tags:
+        - user
+      summary: Deletes the current user
+      responses:
+        '204':
+          description: Success
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#components/responseBodies/ErrorResponse'
+      security:
+        - bearerAuth: []
+  /board:
+    post:
+      tags:
+        - board
+      summary: Creates a board
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#components/schemas/Board'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: "#components/responseBodies/Created"
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#components/responseBodies/ErrorResponse'
+      security:
+        - bearerAuth: []
+    get:
+      tags:
+        - board
+      summary: Gets all the boards of the current user 
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#components/schemas/Board'
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#components/responseBodies/ErrorResponse'
+      security:
+        - bearerAuth: []
+  /board/{boardId}:
+    patch:
+      tags:
+        - board
+      summary: Updates a board
+      parameters:
+        - name: boardId
+          in: path
+          description: Id of the board to update
+          required: true
+          schema:
+            type: string
+            example: 638a357683d9bcda990a92a5
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#components/schemas/Board'
+      responses:
+        '204':
+          description: Success
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#components/responseBodies/ErrorResponse'
+      security:
+        - bearerAuth: []
+    delete:
+      tags:
+        - board
+      summary: Deletes a board
+      parameters:
+        - name: boardId
+          in: path
+          description: Id of the board to delete
+          required: true
+          schema:
+            type: string
+            example: 638a357683d9bcda990a92a5
+      responses:
+        '204':
+          description: Success
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#components/responseBodies/ErrorResponse'
+      security:
+        - bearerAuth: []
+  /column:
+    post:
+      tags:
+        - column
+      summary: Creates a column
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#components/schemas/Column'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: "#components/responseBodies/Created"
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#components/responseBodies/ErrorResponse'
+      security:
+        - bearerAuth: []
+    get:
+      tags:
+        - column
+      summary: Gets all the columns of the specified board
+      parameters:
+        - name: boardId
+          in: query
+          description: Id of the board
+          required: true
+          schema:
+            type: string
+            example: 638a357683d9bcda990a92a5
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#components/schemas/Board'
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#components/responseBodies/ErrorResponse'
+      security:
+        - bearerAuth: []
+
+  /column/{columnId}:
+    patch:
+      tags:
+        - column
+      summary: Updates a column
+      parameters:
+        - name: columnId
+          in: path
+          description: Id of the column to delete
+          required: true
+          schema:
+            type: string
+            example: 638a357683d9bcda990a92a5
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#components/requestBodies/UpdateColumn'
+      responses:
+        '204':
+          description: Success
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#components/responseBodies/ErrorResponse'
+      security:
+        - bearerAuth: []
+    delete:
+      tags:
+        - column
+      summary: Deletes a column
+      parameters:
+        - name: columnId
+          in: path
+          description: Id of the column to delete
+          required: true
+          schema:
+            type: string
+            example: 638a357683d9bcda990a92a5
+      responses:
+        '204':
+          description: Success
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#components/responseBodies/ErrorResponse'
+      security:
+        - bearerAuth: []
+components:
+  schemas:
+    User:
+      type: object
+      required:
+        - email
+        - password
+      properties:
+        email:
+          type: string
+          description: User's email
+          format: email
+          example: user@test.com
+        password:
+          type: string
+          description: User's password
+          pattern: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+          example: Password12.
+      additionalProperties: false
+    Board:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          description: Board's name
+          example: QA Team
+      additionalProperties: false
+    Column:
+      type: object
+      required:
+        - boardId
+        - name
+      properties:
+        boardId:
+          type: string
+          description: id of the board which the column belongs
+          example: 638a357683d9bcda990a92a5
+        name:
+          type: string
+          description: Column's name
+          example: Next week
+        color:
+          type: string
+          description: Column's tag color
+          pattern: /^#[(a|b|c|d|e|f)|0-9]{6}$/
+          example: #457b9d
+      additionalProperties: false
+    Task:
+      type: object
+      required:
+        - boardId
+        - columnId
+        - title
+        - description
+        - status
+      properties:
+        boardId:
+          type: string
+          description: id of the board which the task belongs
+          example: 638a357683d9bcda990a92a5
+        columnId:
+          type: string
+          description: id of the column which the task belongs
+          example: 638a357683d9bcda990a92a5
+        title:
+          type: string
+          description: Task's title
+          example: Install Node.js
+        description:
+          type: string
+          description: Task's description
+          example: We need to install the latest version of Node.js
+        status:
+          type: string
+          description: Task's current status
+          example: TODO
+          enum:
+            - TODO
+            - DOING
+            - COMPLETED
+        additionalProperties: false
+    Subtask:
+      type: object
+      required:
+        - boardId
+        - columnId
+        - taskId
+        - description
+        - completed
+      properties:
+        boardId:
+          type: string
+          description: id of the board which the subtask belongs
+          example: 638a357683d9bcda990a92a5
+        columnId:
+          type: string
+          description: id of the column which the subtask belongs
+          example: 638a357683d9bcda990a92a5
+        taskId:
+          type: string
+          description: id of the task which the subtask belongs
+          example: 638a357683d9bcda990a92a5
+        description:
+          type: string
+          description: Subtask's description
+          example: Download the latest version of Node.js
+        completed:
+          type: boolean
+          description: Specifies if the subtask is completed or not
+      additionalProperties: false
+  requestBodies:
+    UpdateColumn:
+      type: object
+      anyOf:
+        - required:
+          - name
+        - required:
+          - color
+      properties:
+        boardId:
+          type: string
+          description: id of the board which the column belongs
+          example: 638a357683d9bcda990a92a5
+        name:
+          type: string
+          description: Column's name
+          example: Next week
+        color:
+          type: string
+          description: Column's tag color
+          pattern: /^#[(a|b|c|d|e|f)|0-9]{6}$/
+          example: #457b9d
+      additionalProperties: false
+  responseBodies:
+    Authenticated:
+      type: object
+      required:
+        - token
+      properties:
+        token:
+          type: string
+          description: JWT token
+      additionalProperties: false
+    Created:
+      type: object
+      required:
+        - insertedId
+      properties:
+        insertedId:
+          type: string
+          description: Id of the created item
+          example: 638a357683d9bcda990a92a5
+    ErrorResponse:
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: string
+          description: Code that identifies the error
+          example: error.something
+        message:
+          type: string
+          description: Detailed description of the error
+          example: some error occurred
+      additionalProperties: false
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: jwt
+security:
+  - bearerAuth: []
+  
