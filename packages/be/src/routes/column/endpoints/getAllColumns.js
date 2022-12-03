@@ -10,13 +10,13 @@ export default async ({ mongo, query, user }) => {
 };
 
 const validate = (query) => {
-  if (!query)
+  if (query === undefined)
     throw new HTTPError({
       code: "error.missing_query",
       status: 400,
       message: "query is missing"
     });
-  if (!query.boardId)
+  if (query.boardId === undefined)
     throw new HTTPError({
       code: "error.missing_boardId",
       status: 400,

@@ -21,23 +21,29 @@ export default async ({ mongo, content }) => {
 };
 
 const validate = (content) => {
-  if (!content)
+  if (content === undefined)
     throw new HTTPError({
       code: "error.missing_body",
       status: 400,
       message: "body is missing"
     });
-  if (!content.email)
+  if (content.email === undefined)
     throw new HTTPError({
       code: "error.missing_email",
       status: 400,
       message: "email field missing"
     });
-  if (!content.password)
+  if (content.password === undefined)
     throw new HTTPError({
       code: "error.missing_password",
       status: 400,
       message: "password field missing"
+    });
+  if (typeof content.password !== "string")
+    throw new HTTPError({
+      code: "error.wrong_format_password",
+      status: 400,
+      message: "password field must be a string"
     });
   if (!regex.email.test(content.email))
     throw new HTTPError({

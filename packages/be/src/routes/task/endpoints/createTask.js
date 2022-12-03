@@ -18,35 +18,53 @@ export default async ({ mongo, content, user }) => {
 };
 
 const validate = (content) => {
-  if (!content)
+  if (content === undefined)
     throw new HTTPError({
       code: "error.missing_body",
       status: 400,
       message: "body is missing"
     });
-  if (!content.columnId)
+  if (content.columnId === undefined)
     throw new HTTPError({
       code: "error.missing_columnId",
       status: 400,
       message: "columnId field missing"
     });
-  if (!content.title)
+  if (content.title === undefined)
     throw new HTTPError({
       code: "error.missing_title",
       status: 400,
       message: "title field missing"
     });
-  if (!content.description)
+  if (content.description === undefined)
     throw new HTTPError({
       code: "error.missing_description",
       status: 400,
       message: "description field missing"
     });
-  if (!content.status)
+  if (content.status === undefined)
     throw new HTTPError({
       code: "error.missing_status",
       status: 400,
       message: "status field missing"
+    });
+  if (typeof content.columnId !== "string")
+    throw new HTTPError({
+      code: "error.wrong_format_columnId",
+      status: 400,
+      message: "columnId must be a string"
+    });
+  if (typeof content.title !== "string")
+    throw new HTTPError({
+      code: "error.wrong_format_title",
+      status: 400,
+      message: "title must be a string"
+    });
+  if (typeof content.description !== "string")
+    throw new HTTPError({
+      code: "error.wrong_format_description",
+      status: 400,
+      message: "description must be a string"
     });
   if (Task.statuses.indexOf(content.status) == -1)
     throw new HTTPError({

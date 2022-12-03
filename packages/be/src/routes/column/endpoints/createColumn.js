@@ -17,25 +17,37 @@ export default async ({ mongo, content, user }) => {
 };
 
 const validate = (content) => {
-  if (!content)
+  if (content === undefined)
     throw new HTTPError({
       code: "error.missing_body",
       status: 400,
       message: "body is missing"
     });
-  if (!content.boardId)
+  if (content.boardId === undefined)
     throw new HTTPError({
       code: "error.missing_boardId",
       status: 400,
       message: "boardId field missing"
     });
-  if (!content.name)
+  if (content.name === undefined)
     throw new HTTPError({
       code: "error.missing_name",
       status: 400,
       message: "name field missing"
     });
-  if (content.color && !regex.color.test(content.color))
+  if (typeof content.boardId !== "string")
+    throw new HTTPError({
+      code: "error.wrong_format_boardId",
+      status: 400,
+      message: "boardId field must be a string"
+    });
+  if (typeof content.boardId !== "string")
+    throw new HTTPError({
+      code: "error.wrong_format_name",
+      status: 400,
+      message: "name field must be a string"
+    });
+  if (content.color !== undefined && !regex.color.test(content.color))
     throw new HTTPError({
       code: "error.wrong_format_color",
       status: 400,

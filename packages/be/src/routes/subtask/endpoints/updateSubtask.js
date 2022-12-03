@@ -9,17 +9,29 @@ export default async ({ mongo, content, params, user }) => {
 };
 
 const validate = (content) => {
-  if (!content)
+  if (content === undefined)
     throw new HTTPError({
       code: "error.missing_body",
       status: 400,
       message: "body is missing"
     });
-  if (!content.description && !content.completed)
+  if (content.description === undefined && content.completed === undefined)
     throw new HTTPError({
       code: "error.missing_update_fields",
       status: 400,
       message: "specify at least one update field amoung these: [description, completed]"
+    });
+  if (content.description !== undefined && typeof content.description !== "string")
+    throw new HTTPError({
+      code: "error.wrong_format_description",
+      status: 400,
+      message: "description field must be a string"
+    });
+  if (content.completed !== undefined && typeof content.completed !== "boolean")
+    throw new HTTPError({
+      code: "error.wrong_format_completed",
+      status: 400,
+      message: "completed field must be a boolean"
     });
   const update = { $set: {} };
   if (content.description) update.$set.description = content.description;

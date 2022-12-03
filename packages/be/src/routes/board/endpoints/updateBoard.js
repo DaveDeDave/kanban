@@ -9,17 +9,23 @@ export default async ({ mongo, content, params, user }) => {
 };
 
 const validate = (content) => {
-  if (!content)
+  if (content === undefined)
     throw new HTTPError({
       code: "error.missing_body",
       status: 400,
       message: "body is missing"
     });
-  if (!content.name)
+  if (content.name === undefined)
     throw new HTTPError({
       code: "error.missing_update_fields",
       status: 400,
       message: "specify at least one update field amoung these: [name]"
+    });
+  if (typeof content.name !== "string")
+    throw new HTTPError({
+      code: "error.wrong_format_name",
+      status: 400,
+      message: "name field must be a string"
     });
   return { $set: { name: content.name } };
 };

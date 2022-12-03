@@ -78,7 +78,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#components/schemas/User"
+              $ref: "#components/requestBodies/LoginUser"
         required: true
       responses:
         "200":
@@ -776,6 +776,22 @@ components:
           description: Specifies if the subtask is completed or not
       additionalProperties: false
   requestBodies:
+    LoginUser:
+      type: object
+      required:
+        - email
+        - password
+      properties:
+        email:
+          type: string
+          description: User's email
+          format: email
+          example: user@test.com
+        password:
+          type: string
+          description: User's password
+          example: Password12.
+      additionalProperties: false
     UpdateColumn:
       type: object
       anyOf:

@@ -10,28 +10,44 @@ export default async ({ mongo, content, params, user }) => {
 };
 
 const validate = (content) => {
-  if (!content)
+  if (content === undefined)
     throw new HTTPError({
       code: "error.missing_body",
       status: 400,
       message: "body is missing"
     });
-  if (!content.title && !content.description && !content.status)
+  if (
+    content.title === undefined &&
+    content.description === undefined &&
+    content.status === undefined
+  )
     throw new HTTPError({
       code: "error.missing_update_fields",
       status: 400,
       message: "specify at least one update field amoung these: [title, description, status]"
     });
-  if (content.status && Task.statuses.indexOf(content.status) == -1)
+  if (content.title !== undefined && typeof content.title !== "string")
+    throw new HTTPError({
+      code: "error.wrong_format_title",
+      status: 400,
+      message: "title must be a string"
+    });
+  if (content.description !== undefined && typeof content.description !== "string")
+    throw new HTTPError({
+      code: "error.wrong_format_description",
+      status: 400,
+      message: "description must be a string"
+    });
+  if (content.status !== undefined && Task.statuses.indexOf(content.status) == -1)
     throw new HTTPError({
       code: "error.wrong_format_status",
       status: 400,
       message: `status must be one amoung these: [${Task.statuses.join(", ")}]`
     });
   const update = { $set: {} };
-  if (content.title) update.$set.title = content.title;
-  if (content.description) update.$set.description = content.description;
-  if (content.status) update.$set.status = content.status;
+  if (content.title !== undefined) update.$set.title = content.title;
+  if (content.description !== undefined) update.$set.description = content.description;
+  if (content.status !== undefined) update.$set.status = content.status;
   return update;
 };
 
