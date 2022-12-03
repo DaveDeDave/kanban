@@ -37,4 +37,13 @@ const autheticated = async (request) => {
   request.user = payload;
 };
 
-export { errorHandler, autheticated };
+const validate =
+  (schema) =>
+  async ({ content, params, query }) => {
+    const { content: contentSchema, params: paramsSchema, query: querySchema } = schema;
+    if (contentSchema) await validateSchema(contentSchema, content);
+    if (paramsSchema) await validateSchema(contentSchema, params);
+    if (querySchema) await validateSchema(contentSchema, query);
+  };
+
+export { errorHandler, autheticated, validate };

@@ -4,3 +4,14 @@ export default class Board {
     this.name = name;
   }
 }
+
+Board.schema = {
+  type: "object",
+  required: ["name"],
+  properties: {
+    name: {
+      type: "string"
+    }
+  },
+  additionalProperties: false
+};

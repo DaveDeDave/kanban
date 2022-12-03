@@ -2,8 +2,7 @@ import { HTTPError } from "@kanban/lib/src/error";
 import { Subtask } from "@kanban/models";
 import { json } from "itty-router-extras";
 
-export default async ({ mongo, content, user }) => {
-  validate(content);
+const controller = async ({ mongo, content, user }) => {
   const ids = await checkIds(mongo, user._id, { taskId: content.taskId });
   const subtask = new Subtask({
     description: content.description,
@@ -17,49 +16,8 @@ export default async ({ mongo, content, user }) => {
   return json({ insertedId: result.insertedId });
 };
 
-const validate = (content) => {
-  if (content === undefined)
-    throw new HTTPError({
-      code: "error.missing_body",
-      status: 400,
-      message: "body is missing"
-    });
-  if (content.taskId === undefined)
-    throw new HTTPError({
-      code: "error.missing_taskId",
-      status: 400,
-      message: "taskId field missing"
-    });
-  if (content.description === undefined)
-    throw new HTTPError({
-      code: "error.missing_description",
-      status: 400,
-      message: "description field missing"
-    });
-  if (content.completed === undefined)
-    throw new HTTPError({
-      code: "error.missing_completed",
-      status: 400,
-      message: "completed field missing"
-    });
-  if (typeof content.taskId !== "string")
-    throw new HTTPError({
-      code: "error.wrong_format_taskId",
-      status: 400,
-      message: "taskId field must be a string"
-    });
-  if (typeof content.description !== "string")
-    throw new HTTPError({
-      code: "error.wrong_format_description",
-      status: 400,
-      message: "description field must be a string"
-    });
-  if (typeof content.completed !== "boolean")
-    throw new HTTPError({
-      code: "error.wrong_format_completed",
-      status: 400,
-      message: "completed field must be a boolean"
-    });
+const schema = {
+  content: Subtask.createSchema
 };
 
 const checkIds = async (mongo, userId, ids) => {
@@ -84,3 +42,5 @@ const checkIds = async (mongo, userId, ids) => {
     } else throw e;
   }
 };
+
+export { schema, controller };

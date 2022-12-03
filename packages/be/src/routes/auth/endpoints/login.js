@@ -1,10 +1,10 @@
-import { jwt, regex } from "@kanban/lib";
+import { jwt } from "@kanban/lib";
 import { compare } from "@kanban/lib/src/bcryptWrapper";
 import { HTTPError } from "@kanban/lib/src/error";
+import { User } from "@kanban/models";
 import { json } from "itty-router-extras";
 
-export default async ({ mongo, content }) => {
-  validate(content);
+const controller = async ({ mongo, content }) => {
   const user = await mongo.collection("user").findOne({ email: content.email });
   if (!user)
     throw new HTTPError({
@@ -20,35 +20,12 @@ export default async ({ mongo, content }) => {
   return json({ token });
 };
 
-const validate = (content) => {
-  if (content === undefined)
-    throw new HTTPError({
-      code: "error.missing_body",
-      status: 400,
-      message: "body is missing"
-    });
-  if (content.email === undefined)
-    throw new HTTPError({
-      code: "error.missing_email",
-      status: 400,
-      message: "email field missing"
-    });
-  if (content.password === undefined)
-    throw new HTTPError({
-      code: "error.missing_password",
-      status: 400,
-      message: "password field missing"
-    });
-  if (typeof content.password !== "string")
-    throw new HTTPError({
-      code: "error.wrong_format_password",
-      status: 400,
-      message: "password field must be a string"
-    });
-  if (!regex.email.test(content.email))
-    throw new HTTPError({
-      code: "error.wrong_format_email",
-      status: 400,
-      message: "email field must be email format"
-    });
+const loginSchema = User.schema;
+delete loginSchema.properties.password.pattern;
+delete loginSchema.properties.password.errorPattern;
+
+const schema = {
+  content: loginSchema
 };
+
+export { schema, controller };

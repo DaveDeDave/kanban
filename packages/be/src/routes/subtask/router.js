@@ -1,4 +1,4 @@
-import { autheticated } from "@kanban/lib/src/middleware";
+import { autheticated, validate } from "@kanban/lib/src/middleware";
 import { Router } from "itty-router";
 import { withContent } from "itty-router-extras";
 import createSubtask from "./endpoints/createSubtask";
@@ -7,9 +7,21 @@ import deleteSubtask from "./endpoints/deleteSubtask";
 import getAllSubtasks from "./endpoints/getAllSubtasks";
 
 const subtaskRouter = Router({ base: "/v1/subtask" });
-subtaskRouter.post("/", withContent, autheticated, createSubtask);
-subtaskRouter.patch("/:id", withContent, autheticated, updateSubtask);
-subtaskRouter.delete("/:id", autheticated, deleteSubtask);
-subtaskRouter.get("/", autheticated, getAllSubtasks);
+subtaskRouter.post(
+  "/",
+  withContent,
+  autheticated,
+  validate(createSubtask.schema),
+  createSubtask.controller
+);
+subtaskRouter.patch(
+  "/:id",
+  withContent,
+  autheticated,
+  validate(updateSubtask.schema),
+  updateSubtask.controller
+);
+subtaskRouter.delete("/:id", autheticated, deleteSubtask.contrller);
+subtaskRouter.get("/", autheticated, validate(getAllSubtasks.schema), getAllSubtasks.controller);
 
 export default subtaskRouter;

@@ -1,7 +1,7 @@
 import { HTTPError } from "@kanban/lib/src/error";
 import { json } from "itty-router-extras";
 
-export default async ({ mongo, params, user }) => {
+const controller = async ({ mongo, params, user }) => {
   try {
     const task = await mongo
       .collection("task")
@@ -23,3 +23,5 @@ export default async ({ mongo, params, user }) => {
     } else throw e;
   }
 };
+
+export { controller };

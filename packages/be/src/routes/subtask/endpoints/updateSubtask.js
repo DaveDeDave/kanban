@@ -1,38 +1,19 @@
 import { HTTPError } from "@kanban/lib/src/error";
+import { Subtask } from "@kanban/models";
 import { status } from "itty-router-extras";
 
-export default async ({ mongo, content, params, user }) => {
-  const update = validate(content);
+const controller = async ({ mongo, content, params, user }) => {
   await checkIds(mongo, user._id, { subtaskId: params.id });
+  const update = getUpdate(content);
   await mongo.collection("subtask").updateOne({ _id: mongo.ObjectID(params.id) }, update);
   return status(204);
 };
 
-const validate = (content) => {
-  if (content === undefined)
-    throw new HTTPError({
-      code: "error.missing_body",
-      status: 400,
-      message: "body is missing"
-    });
-  if (content.description === undefined && content.completed === undefined)
-    throw new HTTPError({
-      code: "error.missing_update_fields",
-      status: 400,
-      message: "specify at least one update field amoung these: [description, completed]"
-    });
-  if (content.description !== undefined && typeof content.description !== "string")
-    throw new HTTPError({
-      code: "error.wrong_format_description",
-      status: 400,
-      message: "description field must be a string"
-    });
-  if (content.completed !== undefined && typeof content.completed !== "boolean")
-    throw new HTTPError({
-      code: "error.wrong_format_completed",
-      status: 400,
-      message: "completed field must be a boolean"
-    });
+const schema = {
+  content: Subtask.updateSchema
+};
+
+const getUpdate = (content) => {
   const update = { $set: {} };
   if (content.description) update.$set.description = content.description;
   if (content.completed) update.$set.completed = content.completed;
@@ -60,3 +41,5 @@ const checkIds = async (mongo, userId, ids) => {
     } else throw e;
   }
 };
+
+export { schema, controller };

@@ -1,25 +1,24 @@
-import { HTTPError } from "@kanban/lib/src/error";
 import { json } from "itty-router-extras";
 
-export default async ({ mongo, query, user }) => {
+const controller = async ({ mongo, query, user }) => {
   validate(query);
   const tasks = await mongo
     .collection("task")
-    .find({ ownerId: user._id, columnId: query.columnId });
+    .find({ ownerId: user._id, columnId: query.columnId }, { projection: { ownerId: 0 } });
   return json(tasks);
 };
 
-const validate = (query) => {
-  if (query === undefined)
-    throw new HTTPError({
-      code: "error.missing_query",
-      status: 400,
-      message: "query is missing"
-    });
-  if (query.columnId === undefined)
-    throw new HTTPError({
-      code: "error.missing_columnId",
-      status: 400,
-      message: "columnId query is missing"
-    });
+const schema = {
+  query: {
+    type: "object",
+    required: ["columnId"],
+    properties: {
+      columnId: {
+        type: "string"
+      }
+    },
+    additionalProperties: false
+  }
 };
+
+export { schema, controller };

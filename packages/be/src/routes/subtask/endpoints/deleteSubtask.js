@@ -1,7 +1,7 @@
 import { HTTPError } from "@kanban/lib/src/error";
 import { status } from "itty-router-extras";
 
-export default async ({ mongo, params, user }) => {
+const controller = async ({ mongo, params, user }) => {
   await checkIds(mongo, user._id, { subtaskId: params.id });
   await mongo.collection("subtask").deleteOne({ _id: mongo.ObjectID(params.id) });
   return status(204);
@@ -28,3 +28,5 @@ const checkIds = async (mongo, userId, ids) => {
     } else throw e;
   }
 };
+
+export { controller };

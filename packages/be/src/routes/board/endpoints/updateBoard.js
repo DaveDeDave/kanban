@@ -1,33 +1,16 @@
 import { HTTPError } from "@kanban/lib/src/error";
+import { Board } from "@kanban/models";
 import { status } from "itty-router-extras";
 
-export default async ({ mongo, content, params, user }) => {
-  const update = validate(content);
+const controller = async ({ mongo, content, params, user }) => {
   await checkIds(mongo, user._id, { boardId: params.id });
+  const update = { $set: { name: content.name } };
   await mongo.collection("board").updateOne({ _id: mongo.ObjectID(params.id) }, update);
   return status(204);
 };
 
-const validate = (content) => {
-  if (content === undefined)
-    throw new HTTPError({
-      code: "error.missing_body",
-      status: 400,
-      message: "body is missing"
-    });
-  if (content.name === undefined)
-    throw new HTTPError({
-      code: "error.missing_update_fields",
-      status: 400,
-      message: "specify at least one update field amoung these: [name]"
-    });
-  if (typeof content.name !== "string")
-    throw new HTTPError({
-      code: "error.wrong_format_name",
-      status: 400,
-      message: "name field must be a string"
-    });
-  return { $set: { name: content.name } };
+const schema = {
+  content: Board.schema
 };
 
 const checkIds = async (mongo, userId, ids) => {
@@ -51,3 +34,5 @@ const checkIds = async (mongo, userId, ids) => {
     } else throw e;
   }
 };
+
+export { schema, controller };
