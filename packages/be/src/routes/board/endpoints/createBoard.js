@@ -11,4 +11,4 @@ const schema = {
   content: Board.schema
 };
 
-export { schema, controller };
+export default { schema, controller };

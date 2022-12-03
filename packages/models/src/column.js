@@ -28,6 +28,7 @@ Column.schema = {
   additionalProperties: false
 };
 
-Column.updateSchema = Object.assign({}, Column.schema);
+Column.updateSchema = JSON.parse(JSON.stringify(Column.schema));
 delete Column.updateSchema.required;
+Column.updateSchema.properties.color.pattern = regex.color;
 Column.updateSchema.anyOf = [{ required: ["boardId"] }, { required: ["name"] }];

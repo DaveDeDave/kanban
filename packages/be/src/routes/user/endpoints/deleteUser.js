@@ -9,4 +9,4 @@ const controller = async ({ mongo, user }) => {
   return status(204);
 };
 
-export { controller };
+export default { controller };

@@ -20,12 +20,8 @@ const controller = async ({ mongo, content }) => {
   return json({ token });
 };
 
-const loginSchema = User.schema;
-delete loginSchema.properties.password.pattern;
-delete loginSchema.properties.password.errorPattern;
-
 const schema = {
-  content: loginSchema
+  content: User.authSchema
 };
 
-export { schema, controller };
+export default { schema, controller };

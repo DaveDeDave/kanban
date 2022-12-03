@@ -20,4 +20,4 @@ const schema = {
   }
 };
 
-export { schema, controller };
+export default { schema, controller };

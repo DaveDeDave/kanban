@@ -89,7 +89,7 @@ const validateSchemaPrimitive = (schema, value, key) => {
     throw new HTTPError({
       code: `error.wrong_format_${key}`,
       status: 400,
-      message: schema.properties[key].errorPattern
+      message: schema.errorPattern
     });
   }
 };

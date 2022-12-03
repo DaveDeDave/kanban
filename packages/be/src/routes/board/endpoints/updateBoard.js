@@ -35,4 +35,4 @@ const checkIds = async (mongo, userId, ids) => {
   }
 };
 
-export { schema, controller };
+export default { schema, controller };

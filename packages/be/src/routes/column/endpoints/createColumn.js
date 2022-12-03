@@ -3,7 +3,6 @@ import { Column } from "@kanban/models";
 import { json } from "itty-router-extras";
 
 const controller = async ({ mongo, content, user }) => {
-  validate(content);
   await checkIds(mongo, user._id, { boardId: content.boardId });
   const column = new Column({
     name: content.name,
@@ -41,4 +40,4 @@ const checkIds = async (mongo, userId, ids) => {
   }
 };
 
-export { schema, controller };
+export default { schema, controller };

@@ -24,4 +24,4 @@ const controller = async ({ mongo, params, user }) => {
   }
 };
 
-export { controller };
+export default { controller };

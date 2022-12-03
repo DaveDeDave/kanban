@@ -25,3 +25,8 @@ User.schema = {
   },
   additionalProperties: false
 };
+
+User.authSchema = JSON.parse(JSON.stringify(User.schema));
+User.authSchema.properties.email.pattern = regex.email;
+delete User.authSchema.properties.password.pattern;
+delete User.authSchema.properties.password.errorPattern;

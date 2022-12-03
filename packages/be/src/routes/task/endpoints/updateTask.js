@@ -2,7 +2,7 @@ import { HTTPError } from "@kanban/lib/src/error";
 import { Task } from "@kanban/models";
 import { status } from "itty-router-extras";
 
-export default async ({ mongo, content, params, user }) => {
+const controller = async ({ mongo, content, params, user }) => {
   await checkIds(mongo, user._id, { taskId: params.id });
   const update = getUpdate(content);
   await mongo.collection("task").updateOne({ _id: mongo.ObjectID(params.id) }, update);
@@ -43,4 +43,4 @@ const checkIds = async (mongo, userId, ids) => {
   }
 };
 
-export { schema, controller };
+export default { schema, controller };

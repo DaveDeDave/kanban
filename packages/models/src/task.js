@@ -31,8 +31,9 @@ Task.createSchema = {
   additionalProperties: false
 };
 
-Task.updateSchema = Object.assign({}, Task.createSchema);
+Task.updateSchema = JSON.parse(JSON.stringify(Task.createSchema));
 delete Task.updateSchema.required;
+Task.updateSchema.properties.status.pattern = /^(TODO|DOING|COMPLETED)$/;
 Task.updateSchema.anyOf = [
   { required: ["title"] },
   { required: ["description"] },

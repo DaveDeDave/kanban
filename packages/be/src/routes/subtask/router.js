@@ -21,7 +21,7 @@ subtaskRouter.patch(
   validate(updateSubtask.schema),
   updateSubtask.controller
 );
-subtaskRouter.delete("/:id", autheticated, deleteSubtask.contrller);
+subtaskRouter.delete("/:id", autheticated, deleteSubtask.controller);
 subtaskRouter.get("/", autheticated, validate(getAllSubtasks.schema), getAllSubtasks.controller);
 
 export default subtaskRouter;

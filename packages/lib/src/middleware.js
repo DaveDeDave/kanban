@@ -1,5 +1,6 @@
 import { verify } from "./jwt";
 import { HTTPError } from "./error";
+import { validateSchema } from "./jsonschema";
 
 const errorHandler = (error) => {
   if (error.name == "HTTPError") {
@@ -42,8 +43,8 @@ const validate =
   async ({ content, params, query }) => {
     const { content: contentSchema, params: paramsSchema, query: querySchema } = schema;
     if (contentSchema) await validateSchema(contentSchema, content);
-    if (paramsSchema) await validateSchema(contentSchema, params);
-    if (querySchema) await validateSchema(contentSchema, query);
+    if (paramsSchema) await validateSchema(paramsSchema, params);
+    if (querySchema) await validateSchema(querySchema, query);
   };
 
 export { errorHandler, autheticated, validate };

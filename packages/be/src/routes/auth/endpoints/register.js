@@ -1,4 +1,4 @@
-import { bcryptWrapper, jwt } from "@kanban/lib";
+import { bcryptWrapper, jwt, regex } from "@kanban/lib";
 import { json } from "itty-router-extras";
 import { User } from "@kanban/models";
 import { HTTPError } from "@kanban/lib/src/error";
@@ -27,4 +27,4 @@ const schema = {
   content: User.schema
 };
 
-export { schema, controller };
+export default { schema, controller };

@@ -26,6 +26,6 @@ Subtask.createSchema = {
   additionalProperties: false
 };
 
-Subtask.updateSchema = Object.assign({}, Subtask.createSchema);
-delete Task.updateSchema.required;
+Subtask.updateSchema = JSON.parse(JSON.stringify(Subtask.createSchema));
+delete Subtask.updateSchema.required;
 Subtask.updateSchema.anyOf = [{ required: ["description"] }, { required: ["completed"] }];

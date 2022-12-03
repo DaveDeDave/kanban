@@ -7,4 +7,4 @@ const controller = async ({ mongo, user }) => {
   return json(boards);
 };
 
-export { controller };
+export default { controller };

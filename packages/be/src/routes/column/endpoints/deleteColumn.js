@@ -31,4 +31,4 @@ const checkIds = async (mongo, userId, ids) => {
   }
 };
 
-export { controller };
+export default { controller };
