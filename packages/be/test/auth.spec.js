@@ -23,7 +23,9 @@ after.always(async (t) => {
   await db.collection("user").deleteMany({});
 });
 
-test("Should create a user succesfully", async (t) => {
+// POST /auth/register
+
+test("Should create a user", async (t) => {
   const { mf, db } = t.context;
   const response = await mf.dispatchFetch("http://localhost:8000/v1/auth/register", {
     method: "POST",
@@ -92,6 +94,8 @@ test("Should not create a user (password too weak)", async (t) => {
   const data = await response.json();
   t.is(data.code, "error.wrong_format_password");
 });
+
+// POST /auth/login
 
 test("Should authenticate the user", async (t) => {
   const { mf } = t.context;

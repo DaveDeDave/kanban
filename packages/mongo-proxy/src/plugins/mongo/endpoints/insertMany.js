@@ -2,6 +2,12 @@ const handler = async function (req, res) {
   const {
     body: { db, collection, documents }
   } = req;
+  const mongo = this.mongo;
+  await Promise.all(
+    documents.map(async (document) => {
+      if (document._id) document._id = mongo.ObjectId(document._id);
+    })
+  );
   const result = await this.mongo.client.db(db).collection(collection).insertMany(documents);
   return result;
 };

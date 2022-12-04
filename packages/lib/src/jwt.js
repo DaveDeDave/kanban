@@ -30,7 +30,7 @@ const verify = async (input) => {
     throw new HTTPError({ code: "error.invalid_token", status: 401, message: "Invalid token" });
   }
   const payload = JSON.parse(result.payload.toString());
-  if (payload.exp <= Date.now())
+  if (payload.exp !== undefined && payload.exp <= Date.now())
     throw new HTTPError({ code: "error.expired_token", status: 401, message: "Expired token" });
   return payload;
 };
