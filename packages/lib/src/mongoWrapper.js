@@ -1,5 +1,5 @@
 import * as Realm from "realm-web";
-import Database from "./util/Database";
+import Database from "./util/Database.js";
 
 const loginApiKey = async () => {
   const app = new Realm.App({ id: MONGO_APP_NAME });

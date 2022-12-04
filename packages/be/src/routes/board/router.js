@@ -1,10 +1,10 @@
-import { autheticated, validate } from "@kanban/lib/src/middleware";
+import { autheticated, validate } from "@kanban/lib/src/middleware.js";
 import { Router } from "itty-router";
 import { withContent } from "itty-router-extras";
-import createBoard from "./endpoints/createBoard";
-import updateBoard from "./endpoints/updateBoard";
-import deleteBoard from "./endpoints/deleteBoard";
-import getAllBoards from "./endpoints/getAllBoards";
+import createBoard from "./endpoints/createBoard.js";
+import updateBoard from "./endpoints/updateBoard.js";
+import deleteBoard from "./endpoints/deleteBoard.js";
+import getAllBoards from "./endpoints/getAllBoards.js";
 
 const boardRouter = Router({ base: "/v1/board" });
 boardRouter.post(

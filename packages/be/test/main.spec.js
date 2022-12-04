@@ -5,7 +5,8 @@ test.before((t) => {
   const mf = new Miniflare({
     scriptPath: "./dist/index.js",
     wranglerConfigPath: "./local.toml",
-    wranglerConfigEnv: "testing"
+    wranglerConfigEnv: "testing",
+    buildCommand: ""
   });
   t.context = { mf };
 });

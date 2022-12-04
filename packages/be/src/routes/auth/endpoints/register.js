@@ -1,7 +1,7 @@
-import { bcryptWrapper, jwt, regex } from "@kanban/lib";
+import { bcryptWrapper, jwt } from "@kanban/lib";
 import { json } from "itty-router-extras";
 import { User } from "@kanban/models";
-import { HTTPError } from "@kanban/lib/src/error";
+import { HTTPError } from "@kanban/lib/src/error.js";
 
 const controller = async ({ mongo, content }) => {
   const password = await bcryptWrapper.hash(content.password, 10);

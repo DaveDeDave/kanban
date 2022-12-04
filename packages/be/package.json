@@ -12,7 +12,12 @@
     "tail": "wrangler tail",
     "docs": "node docs/generate.js",
     "build": "esbuild --bundle --sourcemap --outdir=dist ./src/index.js",
-    "test": "yarn build && ava --verbose test/*.spec.js"
+    "test": "yarn build && ava"
+  },
+  "ava": {
+    "files": ["test/*.spec.js"],
+    "verbose": true,
+    "serial": true
   },
   "dependencies": {
     "@kanban/lib": "1.0.0",

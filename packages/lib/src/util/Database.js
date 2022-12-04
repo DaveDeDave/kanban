@@ -20,7 +20,7 @@ class Collection {
       collection: this.collectionName,
       ...data
     };
-    const response = await fetch(`http://kanban-mongo-proxy:7000/${operation}`, {
+    const response = await fetch(`${MONGO_PROXY_BASE_URL}/${operation}`, {
       method: "POST",
       body: JSON.stringify(payload),
       headers: {

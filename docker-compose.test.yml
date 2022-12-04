@@ -20,6 +20,8 @@ services:
     build:
       context: .
       dockerfile: docker/mongo-proxy/Dockerfile.dev
+    ports:
+      - "7000:7000"
     volumes:
       - ./packages/mongo-proxy:/app/packages/mongo-proxy
     networks:

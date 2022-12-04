@@ -1,10 +1,10 @@
-import { autheticated, validate } from "@kanban/lib/src/middleware";
+import { autheticated, validate } from "@kanban/lib/src/middleware.js";
 import { Router } from "itty-router";
 import { withContent } from "itty-router-extras";
-import createColumn from "./endpoints/createColumn";
-import updateColumn from "./endpoints/updateColumn";
-import deleteColumn from "./endpoints/deleteColumn";
-import getAllColumns from "./endpoints/getAllColumns";
+import createColumn from "./endpoints/createColumn.js";
+import updateColumn from "./endpoints/updateColumn.js";
+import deleteColumn from "./endpoints/deleteColumn.js";
+import getAllColumns from "./endpoints/getAllColumns.js";
 
 const columnRouter = Router({ base: "/v1/column" });
 columnRouter.post(

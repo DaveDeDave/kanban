@@ -65,7 +65,7 @@ db.createCollection("task", {
 db.createCollection("subtask", {
   validator: {
     $jsonSchema: {
-      required: ["_id", "ownerId", "boardId", "columnId", "taskId", "description"],
+      required: ["_id", "ownerId", "boardId", "columnId", "taskId", "description", "completed"],
       properties: {
         _id: { bsonType: "objectId" },
         ownerId: { bsonType: "string" },

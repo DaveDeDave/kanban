@@ -1,5 +1,5 @@
 import jose from "node-jose";
-import { HTTPError } from "./error";
+import { HTTPError } from "./error.js";
 
 let keystore;
 let key;

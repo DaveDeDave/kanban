@@ -1,6 +1,6 @@
-import { verify } from "./jwt";
-import { HTTPError } from "./error";
-import { validateSchema } from "./jsonschema";
+import { verify } from "./jwt.js";
+import { HTTPError } from "./error.js";
+import { validateSchema } from "./jsonschema.js";
 
 const errorHandler = (error) => {
   if (error.name == "HTTPError") {

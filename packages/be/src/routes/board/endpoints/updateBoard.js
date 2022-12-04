@@ -1,4 +1,4 @@
-import { HTTPError } from "@kanban/lib/src/error";
+import { HTTPError } from "@kanban/lib/src/error.js";
 import { Board } from "@kanban/models";
 import { status } from "itty-router-extras";
 

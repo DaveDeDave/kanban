@@ -2,12 +2,12 @@ import { Router } from "itty-router";
 import { json, missing } from "itty-router-extras";
 import { createCors } from "itty-cors";
 import { mongoWrapper } from "@kanban/lib";
-import authRouter from "./routes/auth/router";
-import userRouter from "./routes/user/router";
-import boardRouter from "./routes/board/router";
-import columnRouter from "./routes/column/router";
-import taskRouter from "./routes/task/router";
-import subtaskRouter from "./routes/subtask/router";
+import authRouter from "./routes/auth/router.js";
+import userRouter from "./routes/user/router.js";
+import boardRouter from "./routes/board/router.js";
+import columnRouter from "./routes/column/router.js";
+import taskRouter from "./routes/task/router.js";
+import subtaskRouter from "./routes/subtask/router.js";
 
 const { preflight, corsify } = createCors({
   methods: ["GET", "POST", "DELETE"],

@@ -1,6 +1,6 @@
 import { jwt } from "@kanban/lib";
-import { compare } from "@kanban/lib/src/bcryptWrapper";
-import { HTTPError } from "@kanban/lib/src/error";
+import { compare } from "@kanban/lib/src/bcryptWrapper.js";
+import { HTTPError } from "@kanban/lib/src/error.js";
 import { User } from "@kanban/models";
 import { json } from "itty-router-extras";
 
@@ -14,7 +14,7 @@ const controller = async ({ mongo, content }) => {
     });
   const valid = await compare(content.password, user.password);
   if (!valid)
-    throw HTTPError({ code: "error.wrong_password", status: 400, message: "wrong password" });
+    throw new HTTPError({ code: "error.wrong_password", status: 400, message: "wrong password" });
   delete user.password;
   const token = await jwt.sign(user);
   return json({ token });
