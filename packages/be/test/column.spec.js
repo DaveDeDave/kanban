@@ -9,7 +9,7 @@ const { before, after, serial: test } = ava;
 globalThis.ENVIRONMENT = "Testing";
 globalThis.MONGO_PROXY_BASE_URL = "http://localhost:7000";
 
-let boardId;
+let columnId;
 
 before(async (t) => {
   const mf = new Miniflare({
@@ -28,14 +28,15 @@ after.always(async (t) => {
   await truncate(db);
 });
 
-// POST /board
+// POST /column
 
-test("Should create a board", async (t) => {
+test("Should create a column", async (t) => {
   const { mf, db } = t.context;
-  const response = await mf.dispatchFetch("http://localhost:8000/v1/board", {
+  const response = await mf.dispatchFetch("http://localhost:8000/v1/column", {
     method: "POST",
     body: JSON.stringify({
-      name: "Another board"
+      boardId: inputData.board[0]._id,
+      name: "Another column"
     }),
     headers: {
       "Content-Type": "application/json",
@@ -45,19 +46,19 @@ test("Should create a board", async (t) => {
   t.is(response.status, 200);
   const data = await response.json();
   t.true(data.hasOwnProperty("insertedId"));
-  const board = await db.collection("board").findOne({ _id: db.ObjectID(data.insertedId) });
-  t.true(board !== null);
-  boardId = data.insertedId;
+  const column = await db.collection("column").findOne({ _id: db.ObjectID(data.insertedId) });
+  t.true(column !== null);
+  columnId = data.insertedId;
 });
 
-// PATCH /board/:id
+// PATCH /column/:id
 
-test("Should update the board", async (t) => {
+test("Should update the column", async (t) => {
   const { mf, db } = t.context;
-  const response = await mf.dispatchFetch(`http://localhost:8000/v1/board/${boardId}`, {
+  const response = await mf.dispatchFetch(`http://localhost:8000/v1/column/${columnId}`, {
     method: "PATCH",
     body: JSON.stringify({
-      name: "Renamed board"
+      name: "Renamed column"
     }),
     headers: {
       "Content-Type": "application/json",
@@ -65,19 +66,19 @@ test("Should update the board", async (t) => {
     }
   });
   t.is(response.status, 204);
-  const board = await db.collection("board").findOne({ _id: db.ObjectID(boardId) });
-  t.true(board !== null);
-  t.is(board.name, "Renamed board");
+  const column = await db.collection("column").findOne({ _id: db.ObjectID(columnId) });
+  t.true(column !== null);
+  t.is(column.name, "Renamed column");
 });
 
-test("Should not update the board (not owned)", async (t) => {
+test("Should not update the column (not owned)", async (t) => {
   const { mf } = t.context;
   const response = await mf.dispatchFetch(
-    `http://localhost:8000/v1/board/${inputData.board[2]._id}`,
+    `http://localhost:8000/v1/column/${inputData.column[2]._id}`,
     {
       method: "PATCH",
       body: JSON.stringify({
-        name: "Renamed board"
+        name: "Renamed column"
       }),
       headers: {
         "Content-Type": "application/json",
@@ -87,14 +88,14 @@ test("Should not update the board (not owned)", async (t) => {
   );
   t.is(response.status, 404);
   const data = await response.json();
-  t.is(data.code, "error.doesnt_exist_board");
+  t.is(data.code, "error.doesnt_exist_column");
 });
 
-// DELETE /board/:id
+// DELETE /column/:id
 
-test("Should delete the board", async (t) => {
+test("Should delete the column", async (t) => {
   const { mf, db } = t.context;
-  const response = await mf.dispatchFetch(`http://localhost:8000/v1/board/${boardId}`, {
+  const response = await mf.dispatchFetch(`http://localhost:8000/v1/column/${columnId}`, {
     method: "DELETE",
     headers: {
       "Content-Type": "application/json",
@@ -102,14 +103,14 @@ test("Should delete the board", async (t) => {
     }
   });
   t.is(response.status, 204);
-  const board = await db.collection("board").findOne({ _id: db.ObjectID(boardId) });
-  t.true(board === null);
+  const column = await db.collection("column").findOne({ _id: db.ObjectID(columnId) });
+  t.true(column === null);
 });
 
-test("Should not delete the board (not owned)", async (t) => {
+test("Should not delete the column (not owned)", async (t) => {
   const { mf } = t.context;
   const response = await mf.dispatchFetch(
-    `http://localhost:8000/v1/board/${inputData.board[2]._id}`,
+    `http://localhost:8000/v1/column/${inputData.column[2]._id}`,
     {
       method: "DELETE",
       headers: {
@@ -120,20 +121,23 @@ test("Should not delete the board (not owned)", async (t) => {
   );
   t.is(response.status, 404);
   const data = await response.json();
-  t.is(data.code, "error.doesnt_exist_board");
+  t.is(data.code, "error.doesnt_exist_column");
 });
 
-// GET /board
+// GET /column
 
-test("Should get all the boards", async (t) => {
+test("Should get all the columns", async (t) => {
   const { mf } = t.context;
-  const response = await mf.dispatchFetch(`http://localhost:8000/v1/board`, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-      authorization: `Bearer ${token}`
+  const response = await mf.dispatchFetch(
+    `http://localhost:8000/v1/column?boardId=${inputData.board[0]._id}`,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        authorization: `Bearer ${token}`
+      }
     }
-  });
+  );
   t.is(response.status, 200);
   const data = await response.json();
   t.is(data.length, 2);

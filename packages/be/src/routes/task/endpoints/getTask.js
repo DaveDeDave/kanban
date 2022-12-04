@@ -5,7 +5,10 @@ const controller = async ({ mongo, params, user }) => {
   try {
     const task = await mongo
       .collection("task")
-      .findOne({ _id: mongo.ObjectID(params.id), ownerId: user._id });
+      .findOne(
+        { _id: mongo.ObjectID(params.id), ownerId: user._id },
+        { projection: { ownerId: 0 } }
+      );
     if (!task)
       throw new HTTPError({
         code: "error.doesnt_exist_task",

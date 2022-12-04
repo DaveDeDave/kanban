@@ -1,8 +1,8 @@
 import { mongoWrapper } from "@kanban/lib";
 import ava from "ava";
 import { Miniflare } from "miniflare";
-import loadInput from "./inputs/loadInput.js";
-import { data, token } from "./inputs/user.test.data.js";
+import { load, truncate } from "./inputs/setup.js";
+import { data, token } from "./inputs/test.data.js";
 
 const { before, after, serial: test } = ava;
 
@@ -17,13 +17,13 @@ before(async (t) => {
     buildCommand: ""
   });
   const db = await mongoWrapper.getInstance();
-  await loadInput(db, data);
+  await load(db, data);
   t.context = { mf, db };
 });
 
 after.always(async (t) => {
   const { db } = t.context;
-  await db.collection("user").deleteMany({});
+  await truncate(db);
 });
 
 // DELETE /user

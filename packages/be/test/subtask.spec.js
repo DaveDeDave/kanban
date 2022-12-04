@@ -9,7 +9,7 @@ const { before, after, serial: test } = ava;
 globalThis.ENVIRONMENT = "Testing";
 globalThis.MONGO_PROXY_BASE_URL = "http://localhost:7000";
 
-let boardId;
+let subtaskId;
 
 before(async (t) => {
   const mf = new Miniflare({
@@ -28,14 +28,16 @@ after.always(async (t) => {
   await truncate(db);
 });
 
-// POST /board
+// POST /subtask
 
-test("Should create a board", async (t) => {
+test("Should create a subtask", async (t) => {
   const { mf, db } = t.context;
-  const response = await mf.dispatchFetch("http://localhost:8000/v1/board", {
+  const response = await mf.dispatchFetch("http://localhost:8000/v1/subtask", {
     method: "POST",
     body: JSON.stringify({
-      name: "Another board"
+      taskId: inputData.task[0]._id,
+      description: "Another subtask description",
+      completed: false
     }),
     headers: {
       "Content-Type": "application/json",
@@ -45,19 +47,19 @@ test("Should create a board", async (t) => {
   t.is(response.status, 200);
   const data = await response.json();
   t.true(data.hasOwnProperty("insertedId"));
-  const board = await db.collection("board").findOne({ _id: db.ObjectID(data.insertedId) });
-  t.true(board !== null);
-  boardId = data.insertedId;
+  const subtask = await db.collection("subtask").findOne({ _id: db.ObjectID(data.insertedId) });
+  t.true(subtask !== null);
+  subtaskId = data.insertedId;
 });
 
-// PATCH /board/:id
+// PATCH /subtask/:id
 
-test("Should update the board", async (t) => {
+test("Should update the subtask", async (t) => {
   const { mf, db } = t.context;
-  const response = await mf.dispatchFetch(`http://localhost:8000/v1/board/${boardId}`, {
+  const response = await mf.dispatchFetch(`http://localhost:8000/v1/subtask/${subtaskId}`, {
     method: "PATCH",
     body: JSON.stringify({
-      name: "Renamed board"
+      description: "Modified subtask description"
     }),
     headers: {
       "Content-Type": "application/json",
@@ -65,19 +67,20 @@ test("Should update the board", async (t) => {
     }
   });
   t.is(response.status, 204);
-  const board = await db.collection("board").findOne({ _id: db.ObjectID(boardId) });
-  t.true(board !== null);
-  t.is(board.name, "Renamed board");
+  const subtask = await db.collection("subtask").findOne({ _id: db.ObjectID(subtaskId) });
+  t.true(subtask !== null);
+  t.is(subtask.description, "Modified subtask description");
+  t.is(subtask.completed, false);
 });
 
-test("Should not update the board (not owned)", async (t) => {
+test("Should not update the subtask (not owned)", async (t) => {
   const { mf } = t.context;
   const response = await mf.dispatchFetch(
-    `http://localhost:8000/v1/board/${inputData.board[2]._id}`,
+    `http://localhost:8000/v1/subtask/${inputData.subtask[2]._id}`,
     {
       method: "PATCH",
       body: JSON.stringify({
-        name: "Renamed board"
+        description: "Modified subtask description"
       }),
       headers: {
         "Content-Type": "application/json",
@@ -87,14 +90,14 @@ test("Should not update the board (not owned)", async (t) => {
   );
   t.is(response.status, 404);
   const data = await response.json();
-  t.is(data.code, "error.doesnt_exist_board");
+  t.is(data.code, "error.doesnt_exist_subtask");
 });
 
-// DELETE /board/:id
+// DELETE /subtask/:id
 
-test("Should delete the board", async (t) => {
+test("Should delete the subtask", async (t) => {
   const { mf, db } = t.context;
-  const response = await mf.dispatchFetch(`http://localhost:8000/v1/board/${boardId}`, {
+  const response = await mf.dispatchFetch(`http://localhost:8000/v1/subtask/${subtaskId}`, {
     method: "DELETE",
     headers: {
       "Content-Type": "application/json",
@@ -102,14 +105,14 @@ test("Should delete the board", async (t) => {
     }
   });
   t.is(response.status, 204);
-  const board = await db.collection("board").findOne({ _id: db.ObjectID(boardId) });
-  t.true(board === null);
+  const subtask = await db.collection("subtask").findOne({ _id: db.ObjectID(subtaskId) });
+  t.true(subtask === null);
 });
 
-test("Should not delete the board (not owned)", async (t) => {
+test("Should not delete the subtask (not owned)", async (t) => {
   const { mf } = t.context;
   const response = await mf.dispatchFetch(
-    `http://localhost:8000/v1/board/${inputData.board[2]._id}`,
+    `http://localhost:8000/v1/subtask/${inputData.subtask[2]._id}`,
     {
       method: "DELETE",
       headers: {
@@ -120,20 +123,23 @@ test("Should not delete the board (not owned)", async (t) => {
   );
   t.is(response.status, 404);
   const data = await response.json();
-  t.is(data.code, "error.doesnt_exist_board");
+  t.is(data.code, "error.doesnt_exist_subtask");
 });
 
-// GET /board
+// GET /task
 
-test("Should get all the boards", async (t) => {
+test("Should get all the subtasks", async (t) => {
   const { mf } = t.context;
-  const response = await mf.dispatchFetch(`http://localhost:8000/v1/board`, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-      authorization: `Bearer ${token}`
+  const response = await mf.dispatchFetch(
+    `http://localhost:8000/v1/subtask?taskId=${inputData.task[0]._id}`,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        authorization: `Bearer ${token}`
+      }
     }
-  });
+  );
   t.is(response.status, 200);
   const data = await response.json();
   t.is(data.length, 2);
