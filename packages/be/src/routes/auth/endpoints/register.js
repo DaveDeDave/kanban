@@ -5,6 +5,7 @@ import { HTTPError } from "@kanban/lib/src/error.js";
 
 const controller = async ({ mongo, content }) => {
   const password = await bcryptWrapper.hash(content.password, 10);
+  content.email = content.email.toLowerCase();
   const user = new User({ email: content.email, password });
   try {
     const result = await mongo.collection("user").insertOne(user);

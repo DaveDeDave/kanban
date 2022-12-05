@@ -44,6 +44,23 @@ test("Should create a user", async (t) => {
   t.true(user !== null);
 });
 
+test("Should not create a user (email already exists - case sensitive)", async (t) => {
+  const { mf } = t.context;
+  const response = await mf.dispatchFetch("http://localhost:8000/v1/auth/register", {
+    method: "POST",
+    body: JSON.stringify({
+      email: "tesT@test.it",
+      password: "Password12."
+    }),
+    headers: {
+      "Content-Type": "application/json"
+    }
+  });
+  t.is(response.status, 400);
+  const data = await response.json();
+  t.is(data.code, "error.already_exists_email");
+});
+
 test("Should not create a user (email already exists)", async (t) => {
   const { mf } = t.context;
   const response = await mf.dispatchFetch("http://localhost:8000/v1/auth/register", {
@@ -103,6 +120,23 @@ test("Should authenticate the user", async (t) => {
     method: "POST",
     body: JSON.stringify({
       email: "test@test.it",
+      password: "Password12."
+    }),
+    headers: {
+      "Content-Type": "application/json"
+    }
+  });
+  t.is(response.status, 200);
+  const data = await response.json();
+  t.true(data.hasOwnProperty("token"));
+});
+
+test("Should authenticate the user (case sensitive)", async (t) => {
+  const { mf } = t.context;
+  const response = await mf.dispatchFetch("http://localhost:8000/v1/auth/login", {
+    method: "POST",
+    body: JSON.stringify({
+      email: "tESt@test.it",
       password: "Password12."
     }),
     headers: {

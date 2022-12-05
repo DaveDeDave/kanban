@@ -5,6 +5,7 @@ import { User } from "@kanban/models";
 import { json } from "itty-router-extras";
 
 const controller = async ({ mongo, content }) => {
+  content.email = content.email.toLowerCase();
   const user = await mongo.collection("user").findOne({ email: content.email });
   if (!user)
     throw new HTTPError({
