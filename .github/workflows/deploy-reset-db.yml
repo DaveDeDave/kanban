@@ -3,7 +3,7 @@ on:
   push:
     branches: [prod]
     paths:
-      - "packages/be/**"
+      - "packages/reset-db/**"
 
 jobs:
   publish-reset-db:
