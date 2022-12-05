@@ -11,7 +11,7 @@ const controller = async ({ mongo, content }) => {
     const result = await mongo.collection("user").insertOne(user);
     user._id = result.insertedId;
   } catch (e) {
-    if (e.name == "MongoServerError" && e.code == "11000")
+    if (e.message.toLowerCase().includes("duplicate key error"))
       throw new HTTPError({
         code: "error.already_exists_email",
         status: 400,
