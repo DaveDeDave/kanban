@@ -1,0 +1,20 @@
+{
+  "name": "@kanban/reset-db",
+  "version": "1.0.0",
+  "type": "module",
+  "repository": "https://github.com/DaveDeDave/kanban",
+  "author": "Davide Ceci",
+  "license": "MIT",
+  "scripts": {
+    "publish": "wrangler publish",
+    "tail": "wrangler tail",
+    "build": "esbuild --bundle --sourcemap --outdir=dist ./src/index.js"
+  },
+  "dependencies": {
+    "@kanban/lib": "1.0.0"
+  },
+  "devDependencies": {
+    "esbuild": "^0.15.16",
+    "wrangler": "^2.4.2"
+  }
+}

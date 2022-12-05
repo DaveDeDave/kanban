@@ -1469,6 +1469,16 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@kanban/reset-db@workspace:packages/reset-db":
+  version: 0.0.0-use.local
+  resolution: "@kanban/reset-db@workspace:packages/reset-db"
+  dependencies:
+    "@kanban/lib": 1.0.0
+    esbuild: ^0.15.16
+    wrangler: ^2.4.2
+  languageName: unknown
+  linkType: soft
+
 "@miniflare/cache@npm:2.10.0":
   version: 2.10.0
   resolution: "@miniflare/cache@npm:2.10.0"

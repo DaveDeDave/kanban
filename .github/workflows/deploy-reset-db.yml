@@ -1,0 +1,27 @@
+name: Publish reset-db cron trigger to Cloudflare Workers
+on:
+  push:
+    branches: [prod]
+    paths:
+      - "packages/be/**"
+
+jobs:
+  publish-reset-db:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      deployments: write
+    name: Publish to Cloudflare Workers
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Install Node.js 18
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - name: Install wrangler-cli
+        run: npm install -g wrangler
+      - name: Build
+        run: yarn workspaces focus @kanban/reset-db && yarn workspace @kanban/reset-db build
+      - name: Deploy
+        run: cd packages/reset-db/dist && CLOUDFLARE_API_TOKEN=${{ secrets.CLOUDFLARE_API_TOKEN }} wrangler publish index.js --triggers "0 4 * * sun" --compatibility-date 2022-11-22 --node-compat --name reset-db
