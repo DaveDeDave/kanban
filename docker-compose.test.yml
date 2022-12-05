@@ -19,11 +19,9 @@ services:
     tty: true
     build:
       context: .
-      dockerfile: docker/mongo-proxy/Dockerfile.dev
+      dockerfile: docker/mongo-proxy/Dockerfile
     ports:
       - "7000:7000"
-    volumes:
-      - ./packages/mongo-proxy:/app/packages/mongo-proxy
     networks:
       - kanban-network
 networks:
