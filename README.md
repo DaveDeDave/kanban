@@ -6,6 +6,14 @@ The development of the backend of this web app has been completed and there is a
 
 The frontend hasn't been developed yet.
 
+### Generate and open backend documentation (Swagger)
+
+```
+$ yarn workspaces focus @kanban/be
+$ yarn workspace @kanban/be docs
+$ .\packages\be\docs\dist\docs.html
+```
+
 ## Other "nice to know" information
 Don't use the online demo to store important information since a preconfigured service truncates all tables every week.
 
