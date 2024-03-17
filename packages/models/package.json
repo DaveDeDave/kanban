@@ -1,9 +1,0 @@
-{
-  "name": "@kanban/models",
-  "version": "1.0.0",
-  "type": "module",
-  "main": "index.js",
-  "repository": "https://github.com/DaveDeDave/kanban",
-  "author": "Davide Ceci",
-  "license": "MIT"
-}

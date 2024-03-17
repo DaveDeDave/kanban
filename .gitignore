@@ -17,6 +17,11 @@ node_modules
 !.yarn/versions
 
 .vscode
-wrangler.toml
-dist
-coverage
+**/wrangler.toml
+**/dist
+**/coverage
+
+**/tsconfig.tsbuildinfo
+**/.eslintcache
+
+**/.wrangler

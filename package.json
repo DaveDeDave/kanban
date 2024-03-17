@@ -9,7 +9,9 @@
   "packageManager": "yarn@3.3.0",
   "workspaces": {
     "packages": [
-      "./packages/*"
+      "./packages/backend/workers/*",
+      "./packages/backend/libs/*",
+      "./packages/frontend"
     ]
   },
   "scripts": {
@@ -19,6 +21,11 @@
     "docker:stop:test": "docker-compose -f docker-compose.test.yml down"
   },
   "devDependencies": {
-    "prettier": "^2.7.1"
+    "@typescript-eslint/eslint-plugin": "latest",
+    "@typescript-eslint/parser": "latest",
+    "eslint": "latest",
+    "prettier": "^2.7.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.3.3"
   }
 }

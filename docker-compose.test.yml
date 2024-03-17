@@ -1,27 +1,14 @@
 version: "3.9"
 services:
-  kanban-mongo:
-    container_name: kanban-mongo
-    image: mongo
+  kanban-postgres:
+    container_name: kanban-postgres
+    image: postgres:16
     restart: always
     environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: 1234
+      POSTGRES_USER: pguser
+      POSTGRES_PASSWORD: pgpassword
     ports:
-      - "27017:27017"
-    volumes:
-      - ./docker/mongo/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
-    networks:
-      - kanban-network
-  kanban-mongo-proxy:
-    container_name: kanban-mongo-proxy
-    restart: always
-    tty: true
-    build:
-      context: .
-      dockerfile: docker/mongo-proxy/Dockerfile
-    ports:
-      - "7000:7000"
+      - "5432:5432"
     networks:
       - kanban-network
 networks:

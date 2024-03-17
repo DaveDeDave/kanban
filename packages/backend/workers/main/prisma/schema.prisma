@@ -1,0 +1,50 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["driverAdapters"]
+}
+
+model User {
+  id              Int     @id @default(autoincrement())
+  email           String  @unique
+  hashedPassword  String
+  boards          Board[]
+}
+
+model Board {
+  id              Int      @id @default(autoincrement())
+  name            String
+  columns         Column[]
+  owner           User    @relation(fields: [ownerId], references: [id])
+  ownerId         Int
+}
+
+model Column {
+  id              Int      @id @default(autoincrement())
+  name            String
+  color           String
+  tasks           Task[]
+  board           Board    @relation(fields: [boardId], references: [id])
+  boardId         Int
+}
+
+model Task {
+  id              Int      @id @default(autoincrement())
+  title           String
+  description     String
+  subtasks        Subtask[]
+  column          Column    @relation(fields: [columnId], references: [id])
+  columnId        Int
+}
+
+model Subtask {
+  id              Int      @id @default(autoincrement())
+  description     String
+  completed       Boolean @default(false)
+  task            Task    @relation(fields: [taskId], references: [id])
+  taskId          Int
+}
