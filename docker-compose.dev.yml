@@ -1,59 +1,17 @@
 version: "3.9"
 services:
-  kanban-mongo:
-    container_name: kanban-mongo
-    image: mongo
+  kanban-postgres:
+    container_name: kanban-postgres
+    image: postgres:16
     restart: always
     environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: 1234
+      POSTGRES_USER: pguser
+      POSTGRES_PASSWORD: pgpassword
     ports:
-      - "27017:27017"
-    volumes:
-      - ./docker/mongo/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+      - "5432:5432"
     networks:
       - kanban-network
-  kanban-mongo-proxy:
-    container_name: kanban-mongo-proxy
-    restart: always
-    tty: true
-    build:
-      context: .
-      dockerfile: docker/mongo-proxy/Dockerfile.dev
-    volumes:
-      - ./packages/mongo-proxy:/app/packages/mongo-proxy
-    depends_on:
-      - kanban-mongo
-    networks:
-      - kanban-network
-  kanban-be:
-    container_name: kanban-be
-    restart: always
-    tty: true
-    ports:
-      - "8000:8000"
-    build:
-      context: .
-      dockerfile: docker/be/Dockerfile.dev
-    volumes:
-      - ./packages/be:/app/packages/be
-      - ./packages/lib:/app/packages/lib
-      - ./packages/models:/app/packages/models
-    networks:
-      - kanban-network
-  kanban-fe:
-    container_name: kanban-fe
-    restart: always
-    tty: true
-    ports:
-      - "5173:5173"
-    build:
-      context: .
-      dockerfile: docker/fe/Dockerfile.dev
-    volumes:
-      - ./packages/fe:/app/packages/fe
-    networks:
-      - kanban-network
+  
 networks:
   kanban-network:
     driver: bridge

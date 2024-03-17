@@ -1,0 +1,7 @@
+name = "reset-db"
+main = "src/index.ts"
+compatibility_date = "2022-11-22"
+node_compat = true
+
+[triggers]
+crons = ["0 4 * * sun"]
