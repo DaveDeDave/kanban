@@ -5,7 +5,7 @@ import { z } from "zod";
 export default authProcedure
   .input(
     z.object({
-      columnId: z.number(),
+      columnId: z.string(),
       name: z.string().optional(),
       color: z.string().optional()
     })

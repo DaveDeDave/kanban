@@ -9,42 +9,42 @@ generator client {
 }
 
 model User {
-  id              Int     @id @default(autoincrement())
+  id              String     @id @default(uuid())
   email           String  @unique
   hashedPassword  String
   boards          Board[]
 }
 
 model Board {
-  id              Int      @id @default(autoincrement())
+  id              String     @id @default(uuid())
   name            String
   columns         Column[]
-  owner           User    @relation(fields: [ownerId], references: [id])
-  ownerId         Int
+  owner           User    @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  ownerId         String
 }
 
 model Column {
-  id              Int      @id @default(autoincrement())
+  id              String     @id @default(uuid())
   name            String
   color           String
   tasks           Task[]
-  board           Board    @relation(fields: [boardId], references: [id])
-  boardId         Int
+  board           Board    @relation(fields: [boardId], references: [id], onDelete: Cascade)
+  boardId         String
 }
 
 model Task {
-  id              Int      @id @default(autoincrement())
+  id              String     @id @default(uuid())
   title           String
   description     String
   subtasks        Subtask[]
-  column          Column    @relation(fields: [columnId], references: [id])
-  columnId        Int
+  column          Column    @relation(fields: [columnId], references: [id], onDelete: Cascade)
+  columnId        String
 }
 
 model Subtask {
-  id              Int      @id @default(autoincrement())
+  id              String     @id @default(uuid())
   description     String
   completed       Boolean @default(false)
-  task            Task    @relation(fields: [taskId], references: [id])
-  taskId          Int
+  task            Task    @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  taskId          String
 }

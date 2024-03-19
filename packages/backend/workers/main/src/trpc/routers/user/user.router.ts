@@ -1,6 +1,6 @@
 import { router } from "@/trpc/init";
-import deleteUserRoute from "./routes/deleteUser.route";
+import deleteUser from "./routes/deleteUser";
 
 export default router({
-  deleteUser: deleteUserRoute
+  deleteUser
 });

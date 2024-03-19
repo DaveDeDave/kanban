@@ -5,7 +5,7 @@ export default authProcedure
   .output(
     z.object({
       deletedUser: z.object({
-        id: z.number(),
+        id: z.string(),
         email: z.string().email()
       })
     })

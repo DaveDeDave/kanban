@@ -5,7 +5,7 @@ import { z } from "zod";
 export default authProcedure
   .input(
     z.object({
-      taskId: z.number(),
+      taskId: z.string(),
       title: z.string().optional(),
       description: z.string().optional()
     })

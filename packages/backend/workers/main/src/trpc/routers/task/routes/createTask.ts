@@ -7,7 +7,7 @@ export default authProcedure
     z.object({
       title: z.string(),
       description: z.string(),
-      columnId: z.number()
+      columnId: z.string()
     })
   )
   .output(

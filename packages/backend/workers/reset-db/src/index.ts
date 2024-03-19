@@ -1,18 +1,18 @@
-import { getInstance } from "@kanban/base-lib";
+import { Client } from "pg";
 
-interface Environment {}
+interface Environment {
+  DATABASE_URL: string;
+}
 
 export default {
   async scheduled(event: ScheduledEvent, env: Environment, ctx: ExecutionContext) {
-    ctx.waitUntil(handleScheduled());
+    console.log("env", env);
+    ctx.waitUntil(handleScheduled(env));
   }
 };
 
-const handleScheduled = async () => {
-  const mongo = await getInstance();
-  await mongo.collection("user").deleteMany({});
-  await mongo.collection("board").deleteMany({});
-  await mongo.collection("column").deleteMany({});
-  await mongo.collection("task").deleteMany({});
-  await mongo.collection("subtask").deleteMany({});
+const handleScheduled = async (env: Environment) => {
+  const client = new Client(env.DATABASE_URL);
+  await client.connect();
+  await client.query('DELETE FROM "User"');
 };

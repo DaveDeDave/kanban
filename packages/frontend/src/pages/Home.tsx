@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import styled from "styled-components";
+import { trpc } from "../config/trpc.config";
 
 const TempWrapper = styled.div`
   display: flex;
@@ -34,28 +34,19 @@ const TempSpan = styled.span`
 
 export default function Home() {
   const { i18n, t } = useTranslation();
-  const [loading, setLoading] = useState(true);
-  const [healthcheck, setHealthcheck] = useState("");
 
-  const changeLocale = (locale) => {
+  const changeLocale = (locale: string) => {
     i18n.changeLanguage(locale);
   };
 
-  useEffect(() => {
-    (async () => {
-      const response = await fetch(`${import.meta.env.VITE_BE_ENDPOINT}/healthcheck`);
-      const content = await response.json();
-      setHealthcheck(content.hello);
-      setLoading(false);
-    })();
-  }, [loading]);
+  const { data, isLoading } = trpc.healthcheck.useQuery();
 
   return (
     <div>
-      {!loading && (
+      {!isLoading && (
         <>
           <TempH1>Kanban</TempH1>
-          <p>Hello {healthcheck}</p>
+          <p>API Status: {data?.status}</p>
           <TempWrapper>
             <TempSpan
               onClick={() => {

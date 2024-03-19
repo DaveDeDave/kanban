@@ -7,7 +7,7 @@ export default authProcedure
     z.object({
       description: z.string().optional(),
       completed: z.boolean().optional(),
-      subtaskId: z.number()
+      subtaskId: z.string()
     })
   )
   .output(

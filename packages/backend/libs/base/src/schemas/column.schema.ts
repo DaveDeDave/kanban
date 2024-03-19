@@ -2,16 +2,16 @@ import { z } from "zod";
 import { taskSchema } from "./task.schema";
 
 export const columnSchema = z.object({
-  id: z.number(),
+  id: z.string(),
   name: z.string(),
   color: z.string(),
-  boardId: z.number()
+  boardId: z.string()
 });
 
 export const populatedColumnSchema = z.object({
-  id: z.number(),
+  id: z.string(),
   name: z.string(),
   color: z.string(),
-  boardId: z.number(),
+  boardId: z.string(),
   tasks: z.array(taskSchema)
 });
