@@ -3,7 +3,7 @@ on:
   push:
     branches: [prod]
     paths:
-      - "packages/fe/**"
+      - "packages/frontend/**"
 
 jobs:
   publish-fe:
@@ -21,13 +21,13 @@ jobs:
       - name: test
         run: node --version
       - name: Build
-        run: yarn workspaces focus @kanban/fe && yarn workspace @kanban/fe build
+        run: yarn workspaces focus @kanban/frontend && yarn workspace @kanban/frontend build
       - name: Publish to Cloudflare Pages
         uses: cloudflare/pages-action@1.1.0
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           projectName: kanban
-          directory: packages/fe/dist
+          directory: packages/frontend/dist
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
           branch: main

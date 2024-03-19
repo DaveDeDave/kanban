@@ -7,7 +7,7 @@ export default authProcedure
     z.object({
       name: z.string(),
       color: z.string(),
-      boardId: z.number()
+      boardId: z.string()
     })
   )
   .output(

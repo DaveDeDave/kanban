@@ -5,7 +5,7 @@ import { z } from "zod";
 export default authProcedure
   .input(
     z.object({
-      subtaskId: z.number()
+      subtaskId: z.string()
     })
   )
   .output(

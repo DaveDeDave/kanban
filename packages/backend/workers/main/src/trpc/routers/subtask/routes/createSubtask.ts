@@ -6,7 +6,7 @@ export default authProcedure
   .input(
     z.object({
       description: z.string(),
-      taskId: z.number()
+      taskId: z.string()
     })
   )
   .output(

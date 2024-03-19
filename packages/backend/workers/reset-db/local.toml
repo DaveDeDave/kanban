@@ -5,3 +5,6 @@ node_compat = true
 
 [triggers]
 crons = ["0 4 * * sun"]
+
+[env.development.vars]
+DATABASE_URL = "postgresql://pguser:pgpassword@localhost:5432/kanban"

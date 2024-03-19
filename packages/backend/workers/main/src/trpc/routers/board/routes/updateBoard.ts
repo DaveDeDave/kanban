@@ -5,7 +5,7 @@ import { z } from "zod";
 export default authProcedure
   .input(
     z.object({
-      boardId: z.number(),
+      boardId: z.string(),
       name: z.string()
     })
   )
