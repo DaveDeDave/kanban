@@ -20,6 +20,6 @@ describe("Root routes test", () => {
 
   test("Should pass healthcheck", async () => {
     const response = await caller.healthcheck();
-    expect(response).toEqual({ status: "online" });
+    expect(response).toEqual({ "worker-name": "main", status: "online" });
   });
 });
