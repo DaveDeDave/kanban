@@ -6,15 +6,15 @@
   "type": "module",
   "license": "MIT",
   "scripts": {
-    "deploy": "wrangler deploy --minify",
+    "deploy": "wrangler deploy src/index.ts --minify --compatibility-date 2022-11-22 --node-compat --name main",
     "dev": "wrangler dev --config local.toml --env development",
-    "tail": "wrangler tail",
+    "tail": "wrangler tail --name main",
     "lint": "eslint --cache --ext \".js,.ts,.tsx\" src",
     "build": "tsc -b",
     "prisma:generate": "prisma generate",
     "prisma:migrate:dev": "prisma migrate dev",
     "prisma:migrate:deploy": "prisma migrate deploy",
-    "test:integration": "jest test/integration"
+    "test:integration": "yarn node --experimental-vm-modules $(yarn bin jest) test/integration --runInBand"
   },
   "dependencies": {
     "@kanban/base-lib": "1.0.0",
@@ -29,6 +29,7 @@
     "@cloudflare/workers-types": "^4.20240222.0",
     "@types/jest": "^29.5.12",
     "@types/pg": "^8.11.2",
+    "dotenv": "^16.4.5",
     "eslint": "^8.57.0",
     "jest": "^29.7.0",
     "ts-jest": "^29.1.2",

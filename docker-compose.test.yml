@@ -11,6 +11,7 @@ services:
       - "5432:5432"
     networks:
       - kanban-network
+
 networks:
   kanban-network:
     driver: bridge

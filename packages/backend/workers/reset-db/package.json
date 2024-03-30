@@ -6,9 +6,9 @@
   "type": "module",
   "license": "MIT",
   "scripts": {
-    "deploy": "wrangler deploy",
+    "deploy": "wrangler deploy src/index.ts --triggers \"0 4 * * sun\" --compatibility-date 2022-11-22 --node-compat --name reset-db",
     "dev": "wrangler dev --test-scheduled --config local.toml --env development",
-    "tail": "wrangler tail",
+    "tail": "wrangler tail --name reset-db",
     "lint": "eslint --cache --ext \".js,.ts,.tsx\" src"
   },
   "dependencies": {

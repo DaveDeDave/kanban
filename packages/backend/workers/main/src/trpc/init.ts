@@ -11,7 +11,9 @@ import { PrismaPg } from "@prisma/adapter-pg";
 import { PrismaClient, User } from "@prisma/client";
 import { initTRPC } from "@trpc/server";
 import { FetchCreateContextFnOptions } from "@trpc/server/adapters/fetch";
-import { Pool } from "pg";
+import pg from "pg";
+
+const { Pool } = pg;
 
 const createContext = async ({ req, env }: FetchCreateContextFnOptions & { env: Env }) => {
   const pool = new Pool({ connectionString: env.DATABASE_URL });
@@ -115,7 +117,6 @@ const authenticate = t.middleware(async ({ ctx, next }) => {
   const token = authorizationHeader.replace("Bearer ", "");
   let payload: User | undefined;
 
-  console.log("the token", token);
   try {
     payload = (await ctx.helpers.jwt.verify(token)) as User;
   } catch (e) {
@@ -149,6 +150,6 @@ const authenticate = t.middleware(async ({ ctx, next }) => {
 
 const publicProcedure = t.procedure;
 const authProcedure = publicProcedure.use(authenticate);
-const { router } = t;
+const { router, createCallerFactory } = t;
 
-export { createContext, router, publicProcedure, authProcedure };
+export { createContext, router, publicProcedure, authProcedure, createCallerFactory };
