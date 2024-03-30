@@ -10,7 +10,7 @@ generator client {
 
 model User {
   id              String     @id @default(uuid())
-  email           String  @unique
+  email           String     @unique
   hashedPassword  String
   boards          Board[]
 }
@@ -19,7 +19,7 @@ model Board {
   id              String     @id @default(uuid())
   name            String
   columns         Column[]
-  owner           User    @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  owner           User       @relation(fields: [ownerId], references: [id], onDelete: Cascade)
   ownerId         String
 }
 
@@ -28,7 +28,7 @@ model Column {
   name            String
   color           String
   tasks           Task[]
-  board           Board    @relation(fields: [boardId], references: [id], onDelete: Cascade)
+  board           Board      @relation(fields: [boardId], references: [id], onDelete: Cascade)
   boardId         String
 }
 
@@ -37,14 +37,14 @@ model Task {
   title           String
   description     String
   subtasks        Subtask[]
-  column          Column    @relation(fields: [columnId], references: [id], onDelete: Cascade)
+  column          Column     @relation(fields: [columnId], references: [id], onDelete: Cascade)
   columnId        String
 }
 
 model Subtask {
   id              String     @id @default(uuid())
   description     String
-  completed       Boolean @default(false)
-  task            Task    @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  completed       Boolean    @default(false)
+  task            Task       @relation(fields: [taskId], references: [id], onDelete: Cascade)
   taskId          String
 }
