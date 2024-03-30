@@ -19,6 +19,8 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 20
+      - name: Copy production env
+        run: cp packages/frontend/.env.prod packages/frontend/.env
       - name: Build
         run: yarn && yarn workspace @kanban/main-worker prisma:generate && yarn workspace @kanban/frontend build
       - name: Publish to Cloudflare Pages

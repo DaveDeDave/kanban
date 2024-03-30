@@ -6,7 +6,6 @@ interface Environment {
 
 export default {
   async scheduled(event: ScheduledEvent, env: Environment, ctx: ExecutionContext) {
-    console.log("env", env);
     ctx.waitUntil(handleScheduled(env));
   }
 };

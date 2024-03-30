@@ -24,4 +24,4 @@ jobs:
       - name: Install dependencies
         run: yarn workspaces focus @kanban/reset-db-worker
       - name: Deploy
-        run: CLOUDFLARE_API_TOKEN=${{ secrets.CLOUDFLARE_API_TOKEN }} yarn workspace @kanban/main-worker deploy
+        run: CLOUDFLARE_API_TOKEN=${{ secrets.CLOUDFLARE_API_TOKEN }} yarn workspace @kanban/reset-db-worker deploy
