@@ -9,6 +9,7 @@ export default publicProcedure
   )
   .query(async () => {
     return {
+      "worker-name": "main",
       status: "online"
     };
   });
