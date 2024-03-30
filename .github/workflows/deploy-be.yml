@@ -23,7 +23,7 @@ jobs:
       - name: Install wrangler-cli
         run: npm install -g wrangler
       - name: Launch test container
-        run: yarn && yarn docker:start:test
+        run: yarn && sudo yarn docker:start:test
       - name: Wait 10 seconds
         run: sleep 10
       - name: Build
