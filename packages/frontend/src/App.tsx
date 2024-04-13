@@ -1,8 +1,9 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import Router from "./Router";
 import { trpc } from "./config/trpc.config";
 import { httpBatchLink } from "@trpc/client";
 import envConfig from "./config/env.config";
+import { RouterProvider } from "react-router-dom";
+import { router } from "./config/router.config";
 
 const queryClient = new QueryClient();
 const trpcClient = trpc.createClient({
@@ -23,7 +24,7 @@ export default function App() {
   return (
     <trpc.Provider client={trpcClient} queryClient={queryClient}>
       <QueryClientProvider client={queryClient}>
-        <Router />
+        <RouterProvider router={router} />
       </QueryClientProvider>
     </trpc.Provider>
   );

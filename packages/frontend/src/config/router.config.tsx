@@ -1,11 +1,19 @@
-import { Routes, Route } from "react-router-dom";
+import { PublicStructure } from "@/templates/public-structure";
+import { createBrowserRouter } from "react-router-dom";
 
-import Home from "../pages/Home";
-
-export default function Router() {
-  return (
-    <Routes>
-      <Route path="/" element={<Home />}></Route>
-    </Routes>
-  );
-}
+export const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <PublicStructure />,
+    children: [
+      {
+        index: true,
+        lazy: () => import("@/pages/home")
+      },
+      {
+        path: "/about",
+        lazy: () => import("@/pages/about")
+      }
+    ]
+  }
+]);

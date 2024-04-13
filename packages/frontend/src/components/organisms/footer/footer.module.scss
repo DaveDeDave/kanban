@@ -1,0 +1,10 @@
+@import "src/components/theme/index.scss";
+
+.footer {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  background-color: $color-dark;
+  color: $color-light;
+  padding: px-to-rem(32);
+}

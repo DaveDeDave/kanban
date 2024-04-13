@@ -1,0 +1,55 @@
+@import "src/components/theme/index.scss";
+
+.button {
+  .leftIcon {
+    margin-inline-end: px-to-rem(8);
+  }
+
+  .rightIcon {
+    margin-inline-start: px-to-rem(8);
+  }
+
+  display: flex;
+  align-items: center;
+  border: 0;
+  padding: px-to-rem(6) px-to-rem(12);
+  border-radius: px-to-rem(4);
+  font-size: $font-lg;
+
+  transition: all $transition-short;
+
+  &:hover {
+    cursor: pointer
+  }
+
+  &.primary {
+    background-color: $color-primary;
+    color: $color-light;
+
+    &:hover {
+      background-color: $color-primary-hover;
+    }
+
+    &:active {
+      background-color: $color-primary-pressed;
+    }
+  }
+
+  &.secondary {
+    outline: px-to-rem(2) solid $color-primary;
+    color: $color-primary;
+    background-color: white;
+
+    &:hover {
+      background-color: $color-primary;
+      outline-color: $color-primary;
+      color: $color-light;
+    }
+
+    &:active {
+      background-color: $color-primary-pressed;
+      outline-color: $color-primary-pressed;
+      color: $color-light;
+    }
+  }
+}
