@@ -19,5 +19,5 @@ The online demo uses only free-tier cloud services that have a maximum request l
 - Cloudflare Workers for hosting backend services
 - Prisma with postgres as database
 - tRPC for typesafe APIs
-- React & styled components for frontend
+- React for frontend
 - Docker and other technologies for local development
