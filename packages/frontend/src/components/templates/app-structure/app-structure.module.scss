@@ -1,0 +1,11 @@
+@import "src/components/theme/index.scss";
+
+.appStructure {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  .main {
+    display: flex;
+    flex-grow: 1;
+  }
+}
