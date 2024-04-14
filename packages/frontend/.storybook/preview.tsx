@@ -1,5 +1,6 @@
 import type { Preview } from "@storybook/react";
 import { MemoryRouter } from "react-router-dom";
+import "../src/index.scss";
 
 const preview: Preview = {
   parameters: {

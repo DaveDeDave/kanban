@@ -2747,6 +2747,7 @@ __metadata:
   resolution: "@kanban/frontend@workspace:packages/frontend"
   dependencies:
     "@chromatic-com/storybook": ^1.3.2
+    "@remixicon/react": ^4.2.0
     "@storybook/addon-essentials": ^8.0.8
     "@storybook/addon-interactions": ^8.0.8
     "@storybook/addon-links": ^8.0.8
@@ -2771,6 +2772,7 @@ __metadata:
     eslint-plugin-react-refresh: ^0.4.5
     eslint-plugin-storybook: ^0.8.0
     i18next: ^23.10.1
+    modern-normalize: ^2.0.0
     react: ^18.2.0
     react-dom: ^18.2.0
     react-i18next: ^14.1.0
@@ -3026,6 +3028,15 @@ __metadata:
   version: 1.15.3
   resolution: "@remix-run/router@npm:1.15.3"
   checksum: 9e70bd334d99fdf9285f0885c10353d7e25f66369080f551d997e3ce204e1af3a12d6f12b091f94a2dc9a54c80598bbe3c5194b57cbae17b7b40ab815dcd49a0
+  languageName: node
+  linkType: hard
+
+"@remixicon/react@npm:^4.2.0":
+  version: 4.2.0
+  resolution: "@remixicon/react@npm:4.2.0"
+  peerDependencies:
+    react: ">=18.2.0"
+  checksum: 17aa7e2a54a62fb5331e64b594424cd078f28b14707302988adb6da4ea7f61df305379b48d4354c66f5b10cacf2ffa979751a6907dd07e8cb00dcb419a4636f2
   languageName: node
   linkType: hard
 
@@ -10235,6 +10246,13 @@ __metadata:
   bin:
     mkdirp: bin/cmd.js
   checksum: a96865108c6c3b1b8e1d5e9f11843de1e077e57737602de1b82030815f311be11f96f09cce59bd5b903d0b29834733e5313f9301e3ed6d6f6fba2eae0df4298f
+  languageName: node
+  linkType: hard
+
+"modern-normalize@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "modern-normalize@npm:2.0.0"
+  checksum: 866690696e1989c57416e7d9c589910bbd02221fb1b2bac0ea735e5a22e0525e9bec67269571c3eaa0de879938d5447c88dc0749675b349c61d6753038730330
   languageName: node
   linkType: hard
 
