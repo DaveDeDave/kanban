@@ -1,16 +1,16 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { RiAddCircleLine, RiSettings4Line } from "@remixicon/react";
-import { ColumnHead } from "./column-head";
+import { KanbanColumnHead } from "./kanban-column-head";
 
-const meta: Meta<typeof ColumnHead> = {
-  title: "Molecules/ColumnHead",
-  component: ColumnHead,
+const meta: Meta<typeof KanbanColumnHead> = {
+  title: "Molecules/KanbanColumnHead",
+  component: KanbanColumnHead,
   tags: ["autodocs"],
   args: {}
 };
 
 export default meta;
-type Story = StoryObj<typeof ColumnHead>;
+type Story = StoryObj<typeof KanbanColumnHead>;
 
 export const Normal: Story = {
   args: {

@@ -1,14 +1,6 @@
 @import "src/components/theme/index.scss";
 
 .button {
-  .leftIcon {
-    margin-inline-end: px-to-rem(8);
-  }
-
-  .rightIcon {
-    margin-inline-start: px-to-rem(8);
-  }
-
   display: flex;
   align-items: center;
   border: 0;
@@ -50,5 +42,23 @@
       outline-color: $color-primary-pressed;
       color: $color-light;
     }
+  }
+
+  .icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    svg {
+      width: 18px;
+      height: 18px;
+    }
+  } 
+
+  .leftIcon {
+    margin-inline-end: px-to-rem(4);
+  }
+
+  .rightIcon {
+    margin-inline-start: px-to-rem(4);
   }
 }
