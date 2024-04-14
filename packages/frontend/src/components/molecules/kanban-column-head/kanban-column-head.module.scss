@@ -1,21 +1,21 @@
 @import "src/components/theme/index";
 
-.columnHead {
+.kanbanColumnHead {
   display: flex;
   flex-direction: row;
   align-items: center;
   flex-grow: 1;
   gap: px-to-rem(12);
   height: px-to-rem(45);
-  padding: px-to-rem(6) px-to-rem(12);
-  border-radius: px-to-rem(8);
+  padding: $padding-md;
+  border-radius: $border-radius-md;
   background-color: $color-primary;
   color: $color-light;
   
   .numberOfTasks {
     background-color: #{$color-dark}33;
     padding: px-to-rem(4) px-to-rem(10);
-    border-radius: 999px;
+    border-radius: $border-radius-rounded;
   }
   
   .title {
@@ -32,11 +32,12 @@
       align-items: center;
       background-color: #{$color-dark}33;
       padding: px-to-rem(6) px-to-rem(6);
-      border-radius: 999px;
+      border-radius: $border-radius-rounded;
 
       transition: all $transition-short;
 
       &:hover {
+        cursor: pointer;
         background-color: #{$color-dark}44;
       }
 

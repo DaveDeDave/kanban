@@ -1,17 +1,22 @@
 import { FC, ReactNode } from "react";
-import styles from "./column-head.module.scss";
+import styles from "./kanban-column-head.module.scss";
 
-interface ColumnHeadProps {
+export interface KanbanColumnHeadProps {
   title: string;
   color?: string;
   numberOfTasks: number;
   actions?: { onClick: () => void; icon: ReactNode }[];
 }
 
-export const ColumnHead: FC<ColumnHeadProps> = ({ title, color, numberOfTasks, actions }) => {
+export const KanbanColumnHead: FC<KanbanColumnHeadProps> = ({
+  title,
+  color,
+  numberOfTasks,
+  actions
+}) => {
   return (
     <div
-      className={styles.columnHead}
+      className={styles.kanbanColumnHead}
       style={{
         backgroundColor: color
       }}

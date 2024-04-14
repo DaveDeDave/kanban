@@ -15,10 +15,12 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   ({ label, variant, leftIcon, icon, rightIcon, ...props }, ref) => {
     return (
       <button ref={ref} className={classNames(styles.button, styles[variant])} {...props}>
-        {leftIcon && <span className={styles.leftIcon}>{leftIcon}</span>}
+        {leftIcon && <span className={classNames(styles.icon, styles.leftIcon)}>{leftIcon}</span>}
         {icon && <span className={styles.icon}>{icon}</span>}
         {label && <span className={styles.label}>{label}</span>}
-        {rightIcon && <span className={styles.rightIcon}>{rightIcon}</span>}
+        {rightIcon && (
+          <span className={classNames(styles.icon, styles.rightIcon)}>{rightIcon}</span>
+        )}
       </button>
     );
   }

@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { fn } from "@storybook/test";
-
+import { RiAddBoxLine } from "@remixicon/react";
 import { Button } from "./button";
 
 const meta: Meta<typeof Button> = {
@@ -34,6 +34,6 @@ export const LeftIcon: Story = {
   args: {
     variant: "primary",
     label: "Button",
-    leftIcon: "x"
+    leftIcon: <RiAddBoxLine />
   }
 };

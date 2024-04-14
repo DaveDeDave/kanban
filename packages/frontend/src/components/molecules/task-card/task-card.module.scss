@@ -1,0 +1,55 @@
+@import "src/components/theme/index";
+
+.taskCard {
+  display: flex;
+  flex-direction: column;
+  gap: px-to-rem(4);
+  border-radius: $border-radius-md;
+  padding: $padding-md;
+  border: 1px solid $color-light;
+  background-color: white;
+
+  .head {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    .title {
+      flex-grow: 1;
+      span {
+        font-weight: 600;
+      }
+    }
+    .actions {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: px-to-rem(6) px-to-rem(6);
+      border-radius: $border-radius-rounded;
+
+      transition: all $transition-short;
+
+      &:hover {
+        cursor: pointer;
+        background-color: #{$color-light}99;
+        padding: px-to-rem(6) px-to-rem(6);
+        border-radius: $border-radius-rounded;
+      }
+
+      svg {
+        height: 20px;
+        width: 20px;
+      }
+    }
+  }
+
+  .body {
+    display: flex;
+    flex-direction: column;
+    .description {
+      font-size: $font-sm;
+      span {
+        color: $color-dark;
+      }
+    }
+  }
+}
