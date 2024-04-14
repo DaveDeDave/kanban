@@ -1,4 +1,4 @@
-import { authProcedure } from "@/trpc/init";
+import { authProcedure } from "@/trpc/procedures";
 import { z } from "zod";
 
 export default authProcedure

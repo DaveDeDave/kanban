@@ -2790,15 +2790,15 @@ __metadata:
   dependencies:
     "@cloudflare/workers-types": ^4.20240222.0
     "@kanban/base-lib": 1.0.0
-    "@prisma/adapter-pg": ^5.11.0
+    "@prisma/adapter-pg-worker": ^5.12.1
     "@prisma/client": 5.11.0
+    "@prisma/pg-worker": ^5.12.1
     "@trpc/server": ^10.45.2
     "@types/jest": ^29.5.12
     "@types/pg": ^8.11.2
     dotenv: ^16.4.5
     eslint: ^8.57.0
     jest: ^29.7.0
-    pg: ^8.11.3
     prisma: ^5.11.0
     ts-jest: ^29.1.2
     ts-node: ^10.9.2
@@ -2898,15 +2898,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@prisma/adapter-pg@npm:^5.11.0":
-  version: 5.11.0
-  resolution: "@prisma/adapter-pg@npm:5.11.0"
+"@prisma/adapter-pg-worker@npm:^5.12.1":
+  version: 5.12.1
+  resolution: "@prisma/adapter-pg-worker@npm:5.12.1"
   dependencies:
-    "@prisma/driver-adapter-utils": 5.11.0
+    "@prisma/driver-adapter-utils": 5.12.1
     postgres-array: 3.0.2
   peerDependencies:
-    pg: ^8.11.3
-  checksum: 888f986d72d23abfe461422d37589787de77eb0b91fc27f06e2e89ee64a94eafe72fa3568234d30e3a8af40c23acf8ca6f89a6c49d138b182a1c556d1f0ef61d
+    "@prisma/pg-worker": ^5.11.0
+  checksum: bce1aa21dd43b8d956b9f2f5872ce0819080b84ae29bfdad97b55bab60cad39bf9a3f650229eded24a933b7b7176bfca4caef6fb0307aa1a74ad34b6ac91f0ef
   languageName: node
   linkType: hard
 
@@ -2929,12 +2929,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@prisma/driver-adapter-utils@npm:5.11.0":
-  version: 5.11.0
-  resolution: "@prisma/driver-adapter-utils@npm:5.11.0"
+"@prisma/debug@npm:5.12.1":
+  version: 5.12.1
+  resolution: "@prisma/debug@npm:5.12.1"
+  checksum: f61e1fafc810959d0ec0f332519cff7937955bba54301f6cf780d4cccfb32e43e7e4bc85b669749a4378fffd20d1ec71780e75b9030fc6b8230948194bfacfd3
+  languageName: node
+  linkType: hard
+
+"@prisma/driver-adapter-utils@npm:5.12.1":
+  version: 5.12.1
+  resolution: "@prisma/driver-adapter-utils@npm:5.12.1"
   dependencies:
-    "@prisma/debug": 5.11.0
-  checksum: f8f630ab2c59e2938ced18935a28186f5b46d46ae66f4dc9b5a718a6327c772c705e5b6e15dd8b4a1dfc9a2126c7ac7b0000f967856ecd3fbafe483076e4a731
+    "@prisma/debug": 5.12.1
+  checksum: f05ed7106b683e9dff66048d916a1664f90b468fb639f287b9cd8c50d4081800e081354268cbb68eb30c51ef83992892d58de0ccd7b825b5adf1688e69f23b46
   languageName: node
   linkType: hard
 
@@ -2974,6 +2981,15 @@ __metadata:
   dependencies:
     "@prisma/debug": 5.11.0
   checksum: c3712ca6d56bc47f420280960aca167bf44a47a23eb63d310ae1c144f27c938b9a658a6c3dc4555b53f2de16083e371775216a3d282524459143b9fe3c7b84db
+  languageName: node
+  linkType: hard
+
+"@prisma/pg-worker@npm:^5.12.1":
+  version: 5.12.1
+  resolution: "@prisma/pg-worker@npm:5.12.1"
+  dependencies:
+    "@types/pg": 8.11.4
+  checksum: 54ff58523bece601a7437634d6c0846a0951dac4d8d35b0d3e8a433c1fe89c317b0201932a178157c20cfa0c71d0ecda76eeec9e92af94883e7890eaf694bdc2
   languageName: node
   linkType: hard
 
@@ -4389,6 +4405,17 @@ __metadata:
   version: 2.4.4
   resolution: "@types/normalize-package-data@npm:2.4.4"
   checksum: 65dff72b543997b7be8b0265eca7ace0e34b75c3e5fee31de11179d08fa7124a7a5587265d53d0409532ecb7f7fba662c2012807963e1f9b059653ec2c83ee05
+  languageName: node
+  linkType: hard
+
+"@types/pg@npm:8.11.4":
+  version: 8.11.4
+  resolution: "@types/pg@npm:8.11.4"
+  dependencies:
+    "@types/node": "*"
+    pg-protocol: "*"
+    pg-types: ^4.0.1
+  checksum: c30713a570a674dbf9b13e8c9cd1ba41ee8d1c2f0bb9ba45410084332a29df3937b57bebf3f5c34b59ea7d5267bf038dac9661780bb6fa276261f82044db0f86
   languageName: node
   linkType: hard
 

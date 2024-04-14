@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { publicProcedure } from "../init";
+import { publicProcedure } from "../procedures";
 
 export default publicProcedure
   .output(

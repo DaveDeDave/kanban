@@ -27,7 +27,9 @@ jobs:
       - name: Wait 10 seconds
         run: sleep 10
       - name: Build
-        run: yarn workspace @kanban/main-worker prisma:generate && yarn workspace @kanban/main-worker build
+        run: |
+          yarn workspace @kanban/main-worker prisma:generate && \
+          yarn workspace @kanban/main-worker build
       - name: Apply prisma migration to test database
         run: DATABASE_URL=${{ secrets.TEST_DATABASE_URL }} yarn workspace @kanban/main-worker prisma:migrate:deploy
       - name: Run tests
