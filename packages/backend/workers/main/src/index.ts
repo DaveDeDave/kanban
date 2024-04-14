@@ -1,6 +1,6 @@
 import { FetchCreateContextFnOptions, fetchRequestHandler } from "@trpc/server/adapters/fetch";
-import { appRouter } from "./trpc/router";
-import { createContext } from "./trpc/init";
+import { appRouter } from "./trpc/appRouter";
+import { createContext } from "./config/trpc.config";
 import { Env, envSchema } from "./config/env.config";
 import { addCORSHeadersToRequest, handleCORSPreflight } from "@kanban/base-lib";
 

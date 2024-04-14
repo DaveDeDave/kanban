@@ -11,6 +11,7 @@
     "tail": "wrangler tail --name main",
     "lint": "eslint --cache --ext \".js,.ts,.tsx\" src",
     "build": "tsc -b",
+    "build:clean": "tsc -b --clean",
     "prisma:generate": "prisma generate",
     "prisma:migrate:dev": "prisma migrate dev",
     "prisma:migrate:deploy": "prisma migrate deploy",
@@ -18,10 +19,10 @@
   },
   "dependencies": {
     "@kanban/base-lib": "1.0.0",
-    "@prisma/adapter-pg": "^5.11.0",
+    "@prisma/adapter-pg-worker": "^5.12.1",
     "@prisma/client": "5.11.0",
+    "@prisma/pg-worker": "^5.12.1",
     "@trpc/server": "^10.45.2",
-    "pg": "^8.11.3",
     "prisma": "^5.11.0",
     "zod": "^3.22.4"
   },

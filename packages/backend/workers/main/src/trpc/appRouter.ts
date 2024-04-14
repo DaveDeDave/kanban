@@ -1,4 +1,4 @@
-import { router } from "./init";
+import { router } from "@/config/trpc.config";
 import authenticationRouter from "./routers/authentication/authentication.router";
 import boardRouter from "./routers/board/board.router";
 import columnRouter from "./routers/column/column.router";

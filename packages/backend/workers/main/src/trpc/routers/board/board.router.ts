@@ -1,4 +1,4 @@
-import { router } from "@/trpc/init";
+import { router } from "@/config/trpc.config";
 import createBoard from "./routes/createBoard";
 import deleteBoard from "./routes/deleteBoard";
 import getBoards from "./routes/getBoards";

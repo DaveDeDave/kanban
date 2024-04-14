@@ -1,4 +1,4 @@
-import { router } from "@/trpc/init";
+import { router } from "@/config/trpc.config";
 import createTask from "./routes/createTask";
 import deleteTask from "./routes/deleteTask";
 import getTasksByColumn from "./routes/getTasksByColumn";

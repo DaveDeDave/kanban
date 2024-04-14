@@ -1,4 +1,4 @@
-import { publicProcedure } from "@/trpc/init";
+import { publicProcedure } from "@/trpc/procedures";
 import { EmailAlreadyExistsException, hash, passwordRegex } from "@kanban/base-lib";
 import { z } from "zod";
 

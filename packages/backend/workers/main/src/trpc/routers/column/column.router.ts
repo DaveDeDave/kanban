@@ -1,4 +1,4 @@
-import { router } from "@/trpc/init";
+import { router } from "@/config/trpc.config";
 import createColumn from "./routes/createColumn";
 import deleteColumn from "./routes/deleteColumn";
 import getColumnsByBoard from "./routes/getColumnsByBoard";

@@ -22,7 +22,11 @@ jobs:
       - name: Copy production env
         run: cp packages/frontend/.env.prod packages/frontend/.env
       - name: Build
-        run: yarn && yarn workspace @kanban/main-worker prisma:generate && yarn workspace @kanban/main-worker build && yarn workspace @kanban/frontend build
+        run: |
+          yarn && \
+          yarn workspace @kanban/main-worker prisma:generate && \
+          yarn workspace @kanban/main-worker build && \
+          yarn workspace @kanban/frontend build
       - name: Publish to Cloudflare Pages
         uses: cloudflare/pages-action@1.1.0
         with:

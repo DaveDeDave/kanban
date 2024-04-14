@@ -1,4 +1,4 @@
-import { router } from "@/trpc/init";
+import { router } from "@/config/trpc.config";
 import createSubtask from "./routes/createSubtask";
 import deleteSubtask from "./routes/deleteSubtask";
 import getSubtasks from "./routes/getSubtasksByTask";

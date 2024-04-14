@@ -1,4 +1,4 @@
-import { authProcedure } from "@/trpc/init";
+import { authProcedure } from "@/trpc/procedures";
 import { BoardNotFoundException, boardSchema } from "@kanban/base-lib";
 import { z } from "zod";
 
