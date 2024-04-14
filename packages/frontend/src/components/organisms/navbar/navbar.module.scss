@@ -15,6 +15,7 @@
   }
 
   .leftSection, .rightSection {
+    display: flex;
     min-width: px-to-rem(200);
   }
 

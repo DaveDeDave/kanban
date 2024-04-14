@@ -1,3 +1,7 @@
-$font-sm: .75rem;   // 12px
-$font-md: .875rem;  // 14px
-$font-lg: 1rem;     // 16px
+@import "src/components/theme/utilities.scss";
+
+$font-xs: px-to-rem(12);
+$font-sm: px-to-rem(14);
+$font-md: px-to-rem(16);
+$font-lg: px-to-rem(18);
+$font-xl: px-to-rem(20);

@@ -1,0 +1,54 @@
+@import "src/components/theme/index";
+
+.columnHead {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  flex-grow: 1;
+  gap: px-to-rem(12);
+  height: px-to-rem(45);
+  padding: px-to-rem(6) px-to-rem(12);
+  border-radius: px-to-rem(8);
+  background-color: $color-primary;
+  color: $color-light;
+  
+  .numberOfTasks {
+    background-color: #{$color-dark}33;
+    padding: px-to-rem(4) px-to-rem(10);
+    border-radius: 999px;
+  }
+  
+  .title {
+    flex-grow: 1;
+  }
+
+  .actions {
+    display: flex;
+    flex-direction: columns;
+    gap: px-to-rem(4);
+    .action {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #{$color-dark}33;
+      padding: px-to-rem(6) px-to-rem(6);
+      border-radius: 999px;
+
+      transition: all $transition-short;
+
+      &:hover {
+        background-color: #{$color-dark}44;
+      }
+
+      &:active {
+        background-color: #{$color-dark}55;
+      }
+
+      svg {
+        z-index: 1;
+        width: 18px;
+        height: 18px;
+      }
+    }
+  }
+}
