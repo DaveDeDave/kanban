@@ -16,9 +16,15 @@
     background-color: #{$color-dark}33;
     padding: px-to-rem(4) px-to-rem(10);
     border-radius: $border-radius-rounded;
+    span {
+      font-weight: 700;
+    }
   }
   
   .title {
+    span {
+      font-weight: 700;
+    }
     flex-grow: 1;
   }
 
