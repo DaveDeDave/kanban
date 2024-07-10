@@ -1,0 +1,35 @@
+@import "src/components/theme/index.scss";
+
+.sidebarNavLink {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: px-to-rem(60);
+  width: px-to-rem(60);
+  border-radius: px-to-rem(6);
+  transition: all $transition-short;
+
+  .link {
+    text-decoration: none;
+    color: $color-primary;
+  
+    &:hover {
+      color: $color-primary-hover;
+    }
+  
+    &:active {
+      color: $color-primary-pressed;
+    }
+  }
+
+  &:hover {
+    background-color: darken($color-light, 10%);
+  }
+
+  &.active {
+    background-color: darken($color-light, 10%);
+    .link {
+      font-weight: 600;
+    }
+  }
+}

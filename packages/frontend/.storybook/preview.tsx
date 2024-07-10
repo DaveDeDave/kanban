@@ -1,6 +1,23 @@
 import type { Preview } from "@storybook/react";
-import { MemoryRouter } from "react-router-dom";
+import {
+  createMemoryHistory,
+  createRootRoute,
+  createRoute,
+  createRouter,
+  RouterProvider
+} from "@tanstack/react-router";
 import "../src/index.scss";
+
+const rootRoute = createRootRoute();
+const indexRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/"
+});
+const routeTree = rootRoute.addChildren([indexRoute]);
+const memoryHistory = createMemoryHistory({
+  initialEntries: ["/"]
+});
+const router = createRouter({ routeTree, history: memoryHistory });
 
 const preview: Preview = {
   parameters: {
@@ -12,11 +29,7 @@ const preview: Preview = {
     }
   },
   decorators: [
-    (Story) => (
-      <MemoryRouter initialEntries={["/"]}>
-        <Story />
-      </MemoryRouter>
-    )
+    (Story) => <RouterProvider router={router} defaultComponent={() => <Story />}></RouterProvider>
   ]
 };
 

@@ -1,6 +1,8 @@
 {
-  "translation": {
-    "italian": "Italiano",
-    "english": "Inglese"
+  "general": {
+    "languages": {
+      "italian": "Italiano",
+      "english": "Inglese"
+    }
   }
 }

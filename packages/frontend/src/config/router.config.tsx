@@ -1,19 +1,10 @@
-import { PublicStructure } from "@/templates/public-structure";
-import { createBrowserRouter } from "react-router-dom";
+import { createRouter } from "@tanstack/react-router";
+import { routeTree } from "../routeTree.gen";
 
-export const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <PublicStructure />,
-    children: [
-      {
-        index: true,
-        lazy: () => import("@/pages/home")
-      },
-      {
-        path: "/about",
-        lazy: () => import("@/pages/about")
-      }
-    ]
+export const router = createRouter({ routeTree });
+
+declare module "@tanstack/react-router" {
+  interface Register {
+    router: typeof router;
   }
-]);
+}

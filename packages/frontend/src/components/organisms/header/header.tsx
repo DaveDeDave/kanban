@@ -1,18 +1,19 @@
 import { forwardRef } from "react";
 import classNames from "classnames";
-import { NavLink, NavLinkProps } from "@/atoms/nav-link";
+import { HeaderNavLink } from "@/atoms/nav-links/header-nav-link";
 import ReactLogo from "@/assets/react.svg";
-import styles from "./navbar.module.scss";
+import styles from "./header.module.scss";
 import { Button } from "@/atoms/button";
+import { NavLinkProps } from "@/atoms/nav-links/navlink.types";
 
-export interface NavbarProps {
+export interface HeaderProps {
   navLinks: NavLinkProps[];
   sticky?: boolean;
 }
 
-export const Navbar = forwardRef<HTMLElement, NavbarProps>(({ navLinks, sticky }, ref) => {
+export const Header = forwardRef<HTMLElement, HeaderProps>(({ navLinks, sticky }, ref) => {
   return (
-    <nav ref={ref} className={classNames(styles.navbar, sticky && styles.sticky)}>
+    <nav ref={ref} className={classNames(styles.header, sticky && styles.sticky)}>
       <div className={styles.leftSection}>
         <img width="35" src={ReactLogo} />
       </div>
@@ -20,7 +21,7 @@ export const Navbar = forwardRef<HTMLElement, NavbarProps>(({ navLinks, sticky }
         <ul className={styles.linksList}>
           {navLinks.map(({ label, path }, key) => (
             <li key={key}>
-              <NavLink label={label} path={path} />
+              <HeaderNavLink label={label} path={path} />
             </li>
           ))}
         </ul>

@@ -1,13 +1,13 @@
 import { FC } from "react";
 import { AppStructure } from "../app-structure";
-import { Header } from "@/organisms/header";
-import { Footer } from "@/organisms/footer";
+import { Sidebar } from "@/organisms/sidebar/sidebar";
 
-export const PublicStructure: FC = () => {
+export const AuthStructure: FC = () => {
   return (
     <AppStructure
-      header={
-        <Header
+      orientation="horizontal"
+      navbar={
+        <Sidebar
           navLinks={[
             {
               label: "Home",
@@ -20,7 +20,6 @@ export const PublicStructure: FC = () => {
           ]}
         />
       }
-      footer={<Footer />}
     />
   );
 };

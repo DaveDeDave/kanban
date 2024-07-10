@@ -1,15 +1,22 @@
 import type { Meta, StoryObj } from "@storybook/react";
 
-import { Navbar } from "./navbar";
+import { Sidebar } from "./sidebar";
 
-const meta: Meta<typeof Navbar> = {
-  title: "Organisms/Navbar",
-  component: Navbar,
+const meta: Meta<typeof Sidebar> = {
+  title: "Organisms/Sidebar",
+  component: Sidebar,
+  decorators: [
+    (Story) => (
+      <div style={{ height: "90vh", display: "flex" }}>
+        <Story />
+      </div>
+    )
+  ],
   tags: ["autodocs"]
 };
 
 export default meta;
-type Story = StoryObj<typeof Navbar>;
+type Story = StoryObj<typeof Sidebar>;
 
 export const Normal: Story = {
   args: {

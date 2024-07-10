@@ -1,0 +1,31 @@
+@import "src/components/theme/index.scss";
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: px-to-rem(60);
+  border-right: px-to-rem(1) solid $color-dark;
+  padding: px-to-rem(32) px-to-rem(16);
+  background-color: $color-light;
+
+  .topSection {}
+
+  .middleSection {
+    flex-grow: 1;
+    .linksList {
+      display: flex;
+      flex-direction: column;
+      gap: px-to-rem(16);
+      list-style-type: none;
+      padding: 0;
+      margin: 0;
+      .linkItem {
+        padding: 0;
+        margin: 0;
+      }
+    }
+  }
+
+  .bottomSection {}
+}

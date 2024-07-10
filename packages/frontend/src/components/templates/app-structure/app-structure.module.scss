@@ -3,7 +3,12 @@
 .appStructure {
   height: 100%;
   display: flex;
-  flex-direction: column;
+  &.horizontal {
+    flex-direction: row;
+  }
+  &.vertical {
+    flex-direction: column;
+  }
   .main {
     display: flex;
     flex-grow: 1;

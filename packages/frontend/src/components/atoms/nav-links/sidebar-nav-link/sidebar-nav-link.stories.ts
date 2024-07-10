@@ -1,10 +1,10 @@
 import type { Meta, StoryObj } from "@storybook/react";
 
-import { NavLink } from "./nav-link";
+import { SidebarNavLink } from "./sidebar-nav-link";
 
-const meta: Meta<typeof NavLink> = {
-  title: "Atoms/NavLink",
-  component: NavLink,
+const meta: Meta<typeof SidebarNavLink> = {
+  title: "Atoms/SidebarNavLink",
+  component: SidebarNavLink,
   parameters: {
     layout: "centered"
   },
@@ -12,7 +12,7 @@ const meta: Meta<typeof NavLink> = {
 };
 
 export default meta;
-type Story = StoryObj<typeof NavLink>;
+type Story = StoryObj<typeof SidebarNavLink>;
 
 export const Normal: Story = {
   args: {
