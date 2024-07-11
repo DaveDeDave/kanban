@@ -1,0 +1,52 @@
+@import "./src/index.scss";
+
+.text {
+  font-family: "Roboto", sans-serif;
+  color: $color-dark;
+
+  &.paragraph {
+    &.text {
+      &-size-lg {
+        font-size: px-to-rem(18);
+        line-height: px-to-rem(24);
+      }
+    
+      &-size-md {
+        font-size: px-to-rem(16);
+        line-height: px-to-rem(24);
+      }
+    
+      &-size-sm {
+        font-size: px-to-rem(14);
+        line-height: px-to-rem(16);
+      }
+    }
+  }
+
+  &.label {
+    &.text {
+      &-size-lg {
+        font-size: px-to-rem(18);
+        line-height: px-to-rem(24);
+      }
+    
+      &-size-md {
+        font-size: px-to-rem(16);
+        line-height: px-to-rem(24);
+      }
+    
+      &-size-sm {
+        font-size: px-to-rem(14);
+        line-height: px-to-rem(16);
+      }
+    }
+  }
+
+  &-weight-400 {
+    font-weight: 400;
+  }
+
+  &-weight-600 {
+    font-weight: 600;
+  }
+}
