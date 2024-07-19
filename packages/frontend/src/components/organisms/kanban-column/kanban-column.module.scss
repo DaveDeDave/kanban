@@ -3,8 +3,8 @@
 .kanbanColumn {
   display: flex;
   flex-direction: column;
-  gap: px-to-rem(12);
+  gap: $gap-md;
   background-color: lighten($color-light, 2%);
-  padding: px-to-rem(8);
+  padding: $padding-box-lg;
   border-radius: $border-radius-md;
 }

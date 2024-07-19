@@ -7,12 +7,14 @@ interface TextProps extends PropsWithChildren {
   type?: keyof typeof textType;
   size?: "lg" | "md" | "sm";
   weight?: 400 | 600;
+  withoutMargins?: boolean;
 }
 
 export const Text: FC<TextProps> = ({
   type = "paragraph",
   size = "md",
   weight = 400,
+  withoutMargins,
   children
 }) => {
   const T = textType[type] as keyof JSX.IntrinsicElements;
@@ -23,7 +25,8 @@ export const Text: FC<TextProps> = ({
         styles.text,
         styles[type],
         styles[`text-size-${size}`],
-        styles[`text-weight-${weight}`]
+        styles[`text-weight-${weight}`],
+        withoutMargins && styles.withoutMargins
       )}
     >
       {children}

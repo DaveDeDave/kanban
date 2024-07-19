@@ -1,6 +1,13 @@
 import type { Meta, StoryObj } from "@storybook/react";
 
 import { Sidebar } from "./sidebar";
+import {
+  RiHomeFill,
+  RiHomeLine,
+  RiLogoutBoxLine,
+  RiSettingsFill,
+  RiSettingsLine
+} from "@remixicon/react";
 
 const meta: Meta<typeof Sidebar> = {
   title: "Organisms/Sidebar",
@@ -22,12 +29,24 @@ export const Normal: Story = {
   args: {
     navLinks: [
       {
+        type: "anchor",
         path: "/",
-        label: "Home"
+        label: "Home",
+        icon: (isActive) => (isActive ? <RiHomeFill /> : <RiHomeLine />)
       },
       {
+        type: "anchor",
         path: "/about",
-        label: "About"
+        label: "About",
+        icon: (isActive) => (isActive ? <RiSettingsFill /> : <RiSettingsLine />)
+      }
+    ],
+    actionLinks: [
+      {
+        type: "action",
+        label: "About",
+        onClick: () => {},
+        icon: () => <RiLogoutBoxLine />
       }
     ]
   }

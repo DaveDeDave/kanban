@@ -2,22 +2,39 @@ import { Link as RouterNavLink, useLocation } from "@tanstack/react-router";
 import { forwardRef, ReactNode, useMemo } from "react";
 import classNames from "classnames";
 import styles from "./sidebar-nav-link.module.scss";
-import { NavLinkProps } from "../navlink.types";
+import { NavLinkActionProps, NavLinkAnchorProps, NavLinkProps } from "../navlink.types";
 
-interface SidebarNavLinkProps extends NavLinkProps {
+export type SidebarNavLinkProps = NavLinkProps & {
   icon: (isActive: boolean) => ReactNode;
-}
+};
+
+export type SidebarNavLinkActionProps = NavLinkActionProps & {
+  icon: (isActive: boolean) => ReactNode;
+};
 
 export const SidebarNavLink = forwardRef<HTMLAnchorElement, SidebarNavLinkProps>(
-  ({ icon, path }, ref) => {
+  ({ icon, ...props }, ref) => {
     const location = useLocation();
 
-    const isActive = useMemo(() => location.pathname === path, [location.pathname, path]);
+    const isAnchorLink = useMemo(() => props.type === "anchor", [props.type]);
+
+    const isActive = useMemo(
+      () => isAnchorLink && location.pathname === (props as NavLinkAnchorProps).path,
+      [location.pathname, isAnchorLink, props]
+    );
 
     return (
       <RouterNavLink
         ref={ref}
-        to={path}
+        to={isAnchorLink ? (props as NavLinkAnchorProps).path : undefined}
+        onClick={
+          !isAnchorLink
+            ? (e) => {
+                e.preventDefault();
+                (props as NavLinkActionProps).onClick();
+              }
+            : undefined
+        }
         className={classNames(styles.sidebarNavLink, isActive && styles.active)}
       >
         {icon(isActive)}

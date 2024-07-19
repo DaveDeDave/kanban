@@ -4,10 +4,10 @@ import { HeaderNavLink } from "@/atoms/nav-links/header-nav-link";
 import ReactLogo from "@/assets/react.svg";
 import styles from "./header.module.scss";
 import { Button } from "@/atoms/button";
-import { NavLinkProps } from "@/atoms/nav-links/navlink.types";
+import { NavLinkAnchorProps } from "@/atoms/nav-links/navlink.types";
 
 export interface HeaderProps {
-  navLinks: NavLinkProps[];
+  navLinks: NavLinkAnchorProps[];
   sticky?: boolean;
 }
 
@@ -21,7 +21,7 @@ export const Header = forwardRef<HTMLElement, HeaderProps>(({ navLinks, sticky }
         <ul className={styles.linksList}>
           {navLinks.map(({ label, path }, key) => (
             <li key={key}>
-              <HeaderNavLink label={label} path={path} />
+              <HeaderNavLink type="anchor" label={label} path={path} />
             </li>
           ))}
         </ul>

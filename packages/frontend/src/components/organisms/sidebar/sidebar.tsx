@@ -2,14 +2,18 @@ import { forwardRef } from "react";
 import classNames from "classnames";
 import ReactLogo from "@/assets/react.svg";
 import styles from "./sidebar.module.scss";
-import { NavLinkProps } from "@/atoms/nav-links/navlink.types";
-import { SidebarNavLink } from "@/atoms/nav-links/sidebar-nav-link";
+import {
+  SidebarNavLink,
+  SidebarNavLinkActionProps,
+  SidebarNavLinkProps
+} from "@/atoms/nav-links/sidebar-nav-link";
 
 export interface SidebarProps {
-  navLinks: NavLinkProps[];
+  navLinks: SidebarNavLinkProps[];
+  actionLinks: SidebarNavLinkActionProps[];
 }
 
-export const Sidebar = forwardRef<HTMLElement, SidebarProps>(({ navLinks }, ref) => {
+export const Sidebar = forwardRef<HTMLElement, SidebarProps>(({ navLinks, actionLinks }, ref) => {
   return (
     <nav ref={ref} className={classNames(styles.sidebar)}>
       <div className={styles.topSection}>
@@ -17,15 +21,21 @@ export const Sidebar = forwardRef<HTMLElement, SidebarProps>(({ navLinks }, ref)
       </div>
       <div className={styles.middleSection}>
         <ul className={styles.linksList}>
-          {navLinks.map(({ label, path }, key) => (
+          {navLinks.map(({ label, icon, ...props }, key) => (
             <li key={key}>
-              <SidebarNavLink label={label} path={path} />
+              <SidebarNavLink icon={icon} label={label} {...props} />
             </li>
           ))}
         </ul>
       </div>
       <div className={styles.bottomSection}>
-        <SidebarNavLink label={"Logout"} path={"/app"} />
+        <ul className={styles.linksList}>
+          {actionLinks.map(({ label, icon, ...props }, key) => (
+            <li key={key}>
+              <SidebarNavLink icon={icon} label={label} {...props} />
+            </li>
+          ))}
+        </ul>
       </div>
     </nav>
   );

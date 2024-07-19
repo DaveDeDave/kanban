@@ -15,10 +15,12 @@ export const Normal: Story = {
   args: {
     navLinks: [
       {
+        type: "anchor",
         path: "/",
         label: "Home"
       },
       {
+        type: "anchor",
         path: "/about",
         label: "About"
       }

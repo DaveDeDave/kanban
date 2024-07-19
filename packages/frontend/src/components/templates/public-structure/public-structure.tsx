@@ -10,10 +10,12 @@ export const PublicStructure: FC = () => {
         <Header
           navLinks={[
             {
+              type: "anchor",
               label: "Home",
               path: "/"
             },
             {
+              type: "anchor",
               label: "About",
               path: "/about"
             }

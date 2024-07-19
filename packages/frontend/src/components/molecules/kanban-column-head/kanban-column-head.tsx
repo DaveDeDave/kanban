@@ -1,5 +1,6 @@
 import { FC, ReactNode } from "react";
 import styles from "./kanban-column-head.module.scss";
+import { Heading } from "@/atoms/typography/heading";
 
 export interface KanbanColumnHeadProps {
   title: string;
@@ -25,7 +26,9 @@ export const KanbanColumnHead: FC<KanbanColumnHeadProps> = ({
         <span>{numberOfTasks}</span>
       </div>
       <div className={styles.title}>
-        <span>{title}</span>
+        <Heading size={6} weight={600} withoutMargins>
+          {title}
+        </Heading>
       </div>
       {actions && (
         <div className={styles.actions}>

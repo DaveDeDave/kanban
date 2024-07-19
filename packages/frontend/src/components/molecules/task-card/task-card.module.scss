@@ -3,10 +3,10 @@
 .taskCard {
   display: flex;
   flex-direction: column;
-  gap: px-to-rem(4);
+  gap: $gap-sm;
   border-radius: $border-radius-md;
   padding: $padding-container-md;
-  border: 1px solid $color-light;
+  border: $border-size-sm solid $color-light;
   background-color: white;
 
   .head {
@@ -15,15 +15,12 @@
     align-items: center;
     .title {
       flex-grow: 1;
-      span {
-        font-weight: 600;
-      }
     }
     .actions {
       display: flex;
       justify-content: center;
       align-items: center;
-      padding: px-to-rem(6) px-to-rem(6);
+      padding: $padding-box-md;
       border-radius: $border-radius-rounded;
 
       transition: all $transition-short;
@@ -31,13 +28,13 @@
       &:hover {
         cursor: pointer;
         background-color: #{$color-light}99;
-        padding: px-to-rem(6) px-to-rem(6);
+        padding: $padding-box-md;
         border-radius: $border-radius-rounded;
       }
 
       svg {
-        height: 20px;
-        width: 20px;
+        height: $icon-size-xs;
+        width: $icon-size-xs;
       }
     }
   }
@@ -45,11 +42,5 @@
   .body {
     display: flex;
     flex-direction: column;
-    .description {
-      font-size: $font-sm;
-      span {
-        color: $color-dark;
-      }
-    }
   }
 }

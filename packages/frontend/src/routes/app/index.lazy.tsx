@@ -1,5 +1,6 @@
 import { createLazyFileRoute } from "@tanstack/react-router";
 
 export const Route = createLazyFileRoute("/app/")({
-  component: () => <div>Hello /app/!</div>
+  // TODO: empty state dashboard
+  component: () => <div>Select an option from the sidebar</div>
 });
