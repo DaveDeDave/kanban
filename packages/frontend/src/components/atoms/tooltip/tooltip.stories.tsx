@@ -35,6 +35,6 @@ export const Open: Story = {
     variant: "primary",
     children: <p>Move your mouse here to show the tooltip!</p>,
     content: "This is a tooltip!",
-    open: true
+    defaultOpen: true
   }
 };
