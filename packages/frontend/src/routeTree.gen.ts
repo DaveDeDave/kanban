@@ -16,6 +16,8 @@ import { Route as rootRoute } from './routes/__root'
 import { Route as AuthImport } from './routes/auth'
 import { Route as AppImport } from './routes/app'
 import { Route as PublicImport } from './routes/_public'
+import { Route as AppBoardsImport } from './routes/app/boards'
+import { Route as AppBoardsBoardIdImport } from './routes/app/boards/$boardId'
 
 // Create Virtual Routes
 
@@ -63,6 +65,11 @@ const PublicAboutLazyRoute = PublicAboutLazyImport.update({
   getParentRoute: () => PublicRoute,
 } as any).lazy(() => import('./routes/_public/about.lazy').then((d) => d.Route))
 
+const AppBoardsRoute = AppBoardsImport.update({
+  path: '/boards',
+  getParentRoute: () => AppRoute,
+} as any)
+
 const AppProfileIndexLazyRoute = AppProfileIndexLazyImport.update({
   path: '/profile/',
   getParentRoute: () => AppRoute,
@@ -71,11 +78,16 @@ const AppProfileIndexLazyRoute = AppProfileIndexLazyImport.update({
 )
 
 const AppBoardsIndexLazyRoute = AppBoardsIndexLazyImport.update({
-  path: '/boards/',
-  getParentRoute: () => AppRoute,
+  path: '/',
+  getParentRoute: () => AppBoardsRoute,
 } as any).lazy(() =>
   import('./routes/app/boards/index.lazy').then((d) => d.Route),
 )
+
+const AppBoardsBoardIdRoute = AppBoardsBoardIdImport.update({
+  path: '/$boardId',
+  getParentRoute: () => AppBoardsRoute,
+} as any)
 
 // Populate the FileRoutesByPath interface
 
@@ -101,6 +113,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/auth'
       preLoaderRoute: typeof AuthImport
       parentRoute: typeof rootRoute
+    }
+    '/app/boards': {
+      id: '/app/boards'
+      path: '/boards'
+      fullPath: '/app/boards'
+      preLoaderRoute: typeof AppBoardsImport
+      parentRoute: typeof AppImport
     }
     '/_public/about': {
       id: '/_public/about'
@@ -130,12 +149,19 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthIndexLazyImport
       parentRoute: typeof AuthImport
     }
+    '/app/boards/$boardId': {
+      id: '/app/boards/$boardId'
+      path: '/$boardId'
+      fullPath: '/app/boards/$boardId'
+      preLoaderRoute: typeof AppBoardsBoardIdImport
+      parentRoute: typeof AppBoardsImport
+    }
     '/app/boards/': {
       id: '/app/boards/'
-      path: '/boards'
-      fullPath: '/app/boards'
+      path: '/'
+      fullPath: '/app/boards/'
       preLoaderRoute: typeof AppBoardsIndexLazyImport
-      parentRoute: typeof AppImport
+      parentRoute: typeof AppBoardsImport
     }
     '/app/profile/': {
       id: '/app/profile/'
@@ -155,8 +181,11 @@ export const routeTree = rootRoute.addChildren({
     PublicIndexLazyRoute,
   }),
   AppRoute: AppRoute.addChildren({
+    AppBoardsRoute: AppBoardsRoute.addChildren({
+      AppBoardsBoardIdRoute,
+      AppBoardsIndexLazyRoute,
+    }),
     AppIndexLazyRoute,
-    AppBoardsIndexLazyRoute,
     AppProfileIndexLazyRoute,
   }),
   AuthRoute: AuthRoute.addChildren({ AuthIndexLazyRoute }),
@@ -185,8 +214,8 @@ export const routeTree = rootRoute.addChildren({
     "/app": {
       "filePath": "app.tsx",
       "children": [
+        "/app/boards",
         "/app/",
-        "/app/boards/",
         "/app/profile/"
       ]
     },
@@ -194,6 +223,14 @@ export const routeTree = rootRoute.addChildren({
       "filePath": "auth.tsx",
       "children": [
         "/auth/"
+      ]
+    },
+    "/app/boards": {
+      "filePath": "app/boards.tsx",
+      "parent": "/app",
+      "children": [
+        "/app/boards/$boardId",
+        "/app/boards/"
       ]
     },
     "/_public/about": {
@@ -212,9 +249,13 @@ export const routeTree = rootRoute.addChildren({
       "filePath": "auth/index.lazy.tsx",
       "parent": "/auth"
     },
+    "/app/boards/$boardId": {
+      "filePath": "app/boards/$boardId.tsx",
+      "parent": "/app/boards"
+    },
     "/app/boards/": {
       "filePath": "app/boards/index.lazy.tsx",
-      "parent": "/app"
+      "parent": "/app/boards"
     },
     "/app/profile/": {
       "filePath": "app/profile/index.lazy.tsx",

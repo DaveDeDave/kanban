@@ -25,8 +25,7 @@ export const Normal: Story = {
   args: {
     head: {
       title: "To do",
-      color: "#A22C29",
-      numberOfTasks: mockTasks.length
+      color: "#A22C29"
     },
     tasks: mockTasks
   }

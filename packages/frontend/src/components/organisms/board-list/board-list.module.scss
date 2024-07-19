@@ -1,0 +1,24 @@
+@import "src/components/theme/index.scss";
+
+.boardListWrapper {
+  padding: $padding-container-lg;
+  background-color: $color-light;
+  border-right: $border-size-sm solid $color-dark;
+
+  .boardList {
+    display: flex;
+    flex-direction: column;
+    gap: $gap-sm;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    .boardItem {
+      padding: 0;
+      margin: 0;
+      a {
+        text-decoration: none;
+        color: $color-dark;
+      }
+    }
+  }
+}

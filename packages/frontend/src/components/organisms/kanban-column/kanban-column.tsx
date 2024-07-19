@@ -5,7 +5,7 @@ import { RiAddCircleLine, RiSettings4Line } from "@remixicon/react";
 import { TaskCard, TaskCardProps } from "@/molecules/task-card";
 
 export interface KanbanColumnProps {
-  head: Omit<KanbanColumnHeadProps, "actions">;
+  head: Omit<KanbanColumnHeadProps, "actions" | "numberOfTasks">;
   tasks: TaskCardProps[];
   onEditClick: () => void;
   onAddClick: () => void;
@@ -17,7 +17,7 @@ export const KanbanColumn: FC<KanbanColumnProps> = ({ head, tasks, onAddClick, o
       <KanbanColumnHead
         title={head.title}
         color={head.color}
-        numberOfTasks={head.numberOfTasks}
+        numberOfTasks={tasks.length}
         actions={[
           {
             onClick: onEditClick,

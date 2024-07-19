@@ -4,15 +4,15 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: px-to-rem(60);
-  border-right: px-to-rem(1) solid $color-dark;
-  padding: px-to-rem(32) px-to-rem(16);
+  gap: $gap-xxl;
+  border-right: $border-size-sm solid $color-dark;
+  padding: $padding-container-lg;
   background-color: $color-light;
 
   .linksList {
     display: flex;
     flex-direction: column;
-    gap: px-to-rem(16);
+    gap: $gap-lg;
     list-style-type: none;
     padding: 0;
     margin: 0;

@@ -5,7 +5,7 @@
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  border-bottom: px-to-rem(1) solid $color-dark;
+  border-bottom: $border-size-sm solid $color-dark;
   padding: px-to-rem(16);
   background-color: $color-light;
 

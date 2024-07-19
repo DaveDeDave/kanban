@@ -19,7 +19,7 @@ export const SidebarNavLink = forwardRef<HTMLAnchorElement, SidebarNavLinkProps>
     const isAnchorLink = useMemo(() => props.type === "anchor", [props.type]);
 
     const isActive = useMemo(
-      () => isAnchorLink && location.pathname === (props as NavLinkAnchorProps).path,
+      () => isAnchorLink && location.pathname.startsWith((props as NavLinkAnchorProps).path!),
       [location.pathname, isAnchorLink, props]
     );
 
