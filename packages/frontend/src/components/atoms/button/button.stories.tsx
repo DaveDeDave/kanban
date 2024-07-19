@@ -37,3 +37,11 @@ export const LeftIcon: Story = {
     leftIcon: <RiAddBoxLine />
   }
 };
+
+export const RightIcon: Story = {
+  args: {
+    variant: "primary",
+    label: "Button",
+    rightIcon: <RiAddBoxLine />
+  }
+};

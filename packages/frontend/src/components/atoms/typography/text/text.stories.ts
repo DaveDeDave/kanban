@@ -13,7 +13,7 @@ const meta: Meta<typeof Text> = {
 export default meta;
 type Story = StoryObj<typeof Text>;
 
-export const ParagraphMedium: Story = {
+export const Paragraph: Story = {
   args: {
     type: "paragraph",
     size: "md",
@@ -22,25 +22,7 @@ export const ParagraphMedium: Story = {
   }
 };
 
-export const ParagraphLarge: Story = {
-  args: {
-    type: "paragraph",
-    size: "lg",
-    weight: 400,
-    children: "text"
-  }
-};
-
-export const ParagraphSmall: Story = {
-  args: {
-    type: "paragraph",
-    size: "sm",
-    weight: 400,
-    children: "text"
-  }
-};
-
-export const LabelhMedium: Story = {
+export const Label: Story = {
   args: {
     type: "label",
     size: "md",
@@ -49,19 +31,10 @@ export const LabelhMedium: Story = {
   }
 };
 
-export const LabelLarge: Story = {
+export const Link: Story = {
   args: {
-    type: "label",
-    size: "lg",
-    weight: 400,
-    children: "text"
-  }
-};
-
-export const LabelSmall: Story = {
-  args: {
-    type: "label",
-    size: "sm",
+    type: "link",
+    size: "md",
     weight: 400,
     children: "text"
   }

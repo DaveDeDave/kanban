@@ -1,0 +1,8 @@
+@import "src/components/theme/index.scss";
+
+.iconButton {
+  padding: $padding-box-md;
+  .icon {
+    margin-inline-end: 0;
+  }
+}

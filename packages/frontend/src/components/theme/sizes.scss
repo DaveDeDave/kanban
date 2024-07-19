@@ -1,0 +1,19 @@
+@import "src/components/theme/utilities.scss";
+
+// BORDER RADIUS
+
+$border-radius-sm: px-to-rem(4);
+$border-radius-md: px-to-rem(8);
+$border-radius-rounded: 999px;
+
+
+// FIXED SIZE
+
+$icon-size-sm: px-to-rem(22);
+$icon-size-lg: px-to-rem(30);
+$sidebar-nav-link-md: px-to-rem(60);
+
+// PADDING
+
+$padding-container-md: px-to-rem(6) px-to-rem(12);
+$padding-box-md: px-to-rem(6) px-to-rem(6);

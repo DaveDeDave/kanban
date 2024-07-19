@@ -2,10 +2,9 @@
 
 .button {
   display: flex;
-  align-items: center;
   border: 0;
-  padding: px-to-rem(6) px-to-rem(12);
-  border-radius: px-to-rem(4);
+  padding: $padding-container-md;
+  border-radius: $border-radius-sm;
   
   transition: all $transition-short;
 
@@ -49,13 +48,13 @@
     justify-content: center;
     align-items: center;
     svg {
-      width: 18px;
-      height: 18px;
+      width: $icon-size-sm;
+      height: $icon-size-sm;
     }
-  } 
+  }
 
   .leftIcon {
-    margin-inline-end: px-to-rem(4);
+    margin-inline-end: px-to-rem(2);
   }
 
   .rightIcon {

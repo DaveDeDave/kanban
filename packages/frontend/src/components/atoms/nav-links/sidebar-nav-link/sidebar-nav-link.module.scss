@@ -4,22 +4,16 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  height: px-to-rem(60);
-  width: px-to-rem(60);
-  border-radius: px-to-rem(6);
+  height: $sidebar-nav-link-md;
+  width: $sidebar-nav-link-md;
+  border-radius: $border-radius-md;
   transition: all $transition-short;
+  text-decoration: none;
+  color: $color-primary;
 
-  .link {
-    text-decoration: none;
-    color: $color-primary;
-  
-    &:hover {
-      color: $color-primary-hover;
-    }
-  
-    &:active {
-      color: $color-primary-pressed;
-    }
+  svg {
+    width: $icon-size-lg;
+    height: $icon-size-lg;
   }
 
   &:hover {
@@ -28,8 +22,5 @@
 
   &.active {
     background-color: darken($color-light, 10%);
-    .link {
-      font-weight: 600;
-    }
   }
 }

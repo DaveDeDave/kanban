@@ -1,4 +1,5 @@
 export const textType = {
   paragraph: "p",
-  label: "span"
+  label: "span",
+  link: "a"
 };

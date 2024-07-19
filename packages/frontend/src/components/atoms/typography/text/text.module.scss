@@ -2,7 +2,6 @@
 
 .text {
   font-family: "Roboto", sans-serif;
-  color: $color-dark;
 
   &.paragraph {
     &.text {
@@ -39,6 +38,26 @@
         font-size: px-to-rem(14);
         line-height: px-to-rem(16);
       }
+    }
+  }
+
+  &.link {
+    text-decoration: none;
+    color: $color-primary;
+  
+    transition: all $transition-short;
+
+    &:hover {
+      cursor: pointer;
+      color: $color-primary-hover;
+    }
+  
+    &:active {
+      color: $color-primary-pressed;
+    }
+  
+    &.active {
+      text-decoration: underline;
     }
   }
 
