@@ -1,0 +1,26 @@
+@import "src/components/theme/index.scss";
+
+.tooltip {
+  border-radius: $border-radius-sm;
+  padding: $padding-container-md;
+
+  &.primary {
+    background-color: $color-light;
+    border: $border-size-sm solid $color-dark;
+    .arrow {
+      fill: $color-dark;
+    }
+  }
+
+  &.secondary {
+    background-color: darken($color-light, 10%);
+    color: $color-primary;
+    .arrow {
+      fill: darken($color-light, 10%);
+    }
+  }
+
+  // .arrow {
+  //   margin-bottom: 10px;
+  // }
+}
