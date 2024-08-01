@@ -1,0 +1,9 @@
+@import "src/components/theme/index.scss";
+
+.boardListPanelWrapper {
+  padding: $padding-container-lg;
+  padding-top: px-to-rem(70);
+  background-color: $color-light;
+  border-right: $border-size-sm solid darken($color-light, 10%);
+  min-width: px-to-rem(250);
+}

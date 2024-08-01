@@ -4,5 +4,12 @@
       "italian": "Italian",
       "english": "English"
     }
+  },
+  "components": {
+    "organisms": {
+      "boardListPanel": {
+        "myBoards": "My boards"
+      }
+    }
   }
 }

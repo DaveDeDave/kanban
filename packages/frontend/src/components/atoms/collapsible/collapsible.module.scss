@@ -1,0 +1,16 @@
+@import "src/components/theme/index.scss";
+
+.collapsible {
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: $gap-lg;
+    margin-bottom: $margin-sm;
+    .trigger {
+      &:hover {
+        cursor: pointer;
+      }
+    }
+  }
+}

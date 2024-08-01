@@ -6,7 +6,7 @@ import { textType } from "./text.const";
 interface TextProps extends PropsWithChildren {
   type?: keyof typeof textType;
   size?: "lg" | "md" | "sm";
-  weight?: 400 | 600;
+  weight?: 400 | 500 | 600;
   withoutMargins?: boolean;
 }
 

@@ -1,13 +1,25 @@
-import { BoardList } from "@/organisms/board-list";
-import { Outlet } from "@tanstack/react-router";
+import { BoardListPanel } from "@/organisms/board-list-panel";
+import { Outlet, useNavigate, useParams } from "@tanstack/react-router";
 import { FC } from "react";
 import styles from "./boards-structure.module.scss";
 
 export const BoardsStructure: FC = () => {
+  const navigate = useNavigate();
+
+  const params = useParams({
+    strict: false
+  });
+
   return (
     <div className={styles.boardsStructure}>
-      <BoardList
+      <BoardListPanel
         // TODO: remove boards mock
+        onChangeActiveBoard={(boardId) => {
+          navigate({
+            to: `/app/boards/${boardId}`
+          });
+        }}
+        activeBoardId={params.boardId ?? ""}
         boards={[
           {
             id: "1",

@@ -5,7 +5,7 @@
   flex-direction: column;
   align-items: center;
   gap: $gap-xxl;
-  border-right: $border-size-sm solid $color-dark;
+  border-right: $border-size-sm solid darken($color-light, 10%);
   padding: $padding-container-lg;
   background-color: $color-light;
 

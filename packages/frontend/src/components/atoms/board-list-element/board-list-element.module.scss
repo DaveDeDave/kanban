@@ -1,0 +1,16 @@
+@import "src/components/theme/index.scss";
+
+.boardListElement {
+  list-style-type: none;
+  padding: $padding-box-sm $padding-box-lg;
+  border-radius: $border-radius-md;
+  margin: 0;
+  transition: all $transition-short;
+  &:hover {
+    cursor: pointer;
+    background-color: darken($color-light, 2%);
+  }
+  &.isActive {
+    background-color: darken($color-light, 5%);
+  }
+}

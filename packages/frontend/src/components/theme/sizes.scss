@@ -20,8 +20,13 @@ $height-container-md: px-to-rem(45);
 
 $padding-container-md: px-to-rem(6) px-to-rem(12);
 $padding-container-lg: px-to-rem(32) px-to-rem(16);
+$padding-box-sm: px-to-rem(4);
 $padding-box-md: px-to-rem(6);
 $padding-box-lg: px-to-rem(8);
+
+// MARGIN
+
+$margin-sm: px-to-rem(6);
 
 // GAP
 
@@ -33,3 +38,4 @@ $gap-xxl: px-to-rem(60);
 // BORDER
 
 $border-size-sm: 1px;
+$border-size-md: 2px;
