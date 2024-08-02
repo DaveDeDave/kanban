@@ -1,0 +1,16 @@
+@import "src/components/theme/index.scss";
+
+.board {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  background-color: lighten($color-light, 3%);
+  .columns {
+    overflow-x: auto;
+    max-width: calc(100vw - 250px - 93px);
+    flex-grow: 1;
+    display: flex;
+    gap: $gap-lg;
+    padding: $padding-box-xl $padding-box-xxl;
+  }
+}

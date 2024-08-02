@@ -3,6 +3,9 @@
 .heading {
   font-family: "Roboto", sans-serif;
 
+  margin-top: 0;
+  margin-bottom: $margin-xxs;
+
   &-size-1 {
     font-size: px-to-rem(36);
     line-height: px-to-rem(48);

@@ -1,0 +1,15 @@
+@import "src/components/theme/index.scss";
+
+.boardHeader {
+  display: flex;
+  flex-direction: column;
+  gap: $gap-sm-2;
+  padding: $padding-box-xl $padding-box-xxl;
+  background-color: $color-light;
+  border-bottom: $border-size-sm solid darken($color-light, 10%);
+
+  .buttons {
+    display: flex;
+    gap: $gap-sm-2;
+  }
+}

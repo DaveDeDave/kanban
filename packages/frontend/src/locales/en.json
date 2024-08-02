@@ -9,6 +9,12 @@
     "organisms": {
       "boardListPanel": {
         "myBoards": "My boards"
+      },
+      "boardHeader": {
+        "buttons": {
+          "edit": "Edit",
+          "delete": "Delete"
+        }
       }
     }
   }

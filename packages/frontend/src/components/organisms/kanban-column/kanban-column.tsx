@@ -29,9 +29,11 @@ export const KanbanColumn: FC<KanbanColumnProps> = ({ head, tasks, onAddClick, o
           }
         ]}
       />
-      {tasks.map((task) => (
-        <TaskCard key={task.id} id={task.id} title={task.title} description={task.description} />
-      ))}
+      <div className={styles.tasks}>
+        {tasks.map((task) => (
+          <TaskCard key={task.id} id={task.id} title={task.title} description={task.description} />
+        ))}
+      </div>
     </div>
   );
 };

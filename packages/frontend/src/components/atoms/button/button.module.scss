@@ -2,8 +2,11 @@
 
 .button {
   display: flex;
-  border: 0;
-  padding: $padding-container-md;
+  justify-content: center;
+  align-items: center;
+  border-width: px-to-rem(2);
+  border-style: solid;
+  padding: $padding-container-md-with-borders;
   border-radius: $border-radius-sm;
   
   transition: all $transition-short;
@@ -14,31 +17,34 @@
 
   &.primary {
     background-color: $color-primary;
+    border-color: $color-primary;
     color: $color-light;
 
     &:hover {
       background-color: $color-primary-hover;
+      border-color: $color-primary-hover;
     }
 
     &:active {
       background-color: $color-primary-pressed;
+      border-color: $color-primary-pressed;
     }
   }
 
   &.secondary {
-    outline: px-to-rem(2) solid $color-primary;
-    color: $color-primary;
     background-color: white;
+    border-color: $color-primary;
+    color: $color-primary;
 
     &:hover {
       background-color: $color-primary;
-      outline-color: $color-primary;
+      border-color: $color-primary;
       color: $color-light;
     }
 
     &:active {
       background-color: $color-primary-pressed;
-      outline-color: $color-primary-pressed;
+      border-color: $color-primary-pressed;
       color: $color-light;
     }
   }
@@ -54,7 +60,7 @@
   }
 
   .leftIcon {
-    margin-inline-end: px-to-rem(2);
+    margin-inline-end: px-to-rem(4);
   }
 
   .rightIcon {

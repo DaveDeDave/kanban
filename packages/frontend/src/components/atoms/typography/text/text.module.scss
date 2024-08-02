@@ -4,6 +4,9 @@
   font-family: "Roboto", sans-serif;
 
   &.paragraph {
+    margin-top: 0;
+    margin-bottom: $margin-sm;
+
     &.text {
       &-size-lg {
         font-size: px-to-rem(18);
@@ -31,7 +34,7 @@
     
       &-size-md {
         font-size: px-to-rem(16);
-        line-height: px-to-rem(24);
+        line-height: px-to-rem(22);
       }
     
       &-size-sm {

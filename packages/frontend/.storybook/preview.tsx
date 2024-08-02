@@ -7,6 +7,8 @@ import {
   RouterProvider
 } from "@tanstack/react-router";
 import "../src/index.scss";
+// @ts-ignore
+import "../src/config/i18n.config";
 
 const rootRoute = createRootRoute();
 const indexRoute = createRoute({
