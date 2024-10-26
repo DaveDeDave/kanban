@@ -3,9 +3,9 @@
 .kanbanColumn {
   display: flex;
   flex-direction: column;
-  gap: $gap-md;
-  background-color: $color-light;
+  background-color: darken($color-light, 2%);
   padding: $padding-box-lg;
+  padding-bottom: 0;
   border-radius: $border-radius-md;
   min-width: px-to-rem(300);
   height: 100%;
@@ -15,5 +15,10 @@
     gap: $gap-md;
     height: 100%;
     overflow-y: auto;
+    padding-top: px-to-rem(12);
+    padding-bottom: px-to-rem(8);
+    &::-webkit-scrollbar {
+      display: none;
+    }
   }
 }
