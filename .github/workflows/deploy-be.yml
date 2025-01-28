@@ -5,6 +5,7 @@ on:
     paths:
       - "packages/backend/workers/main/**"
       - "packages/backend/libs/base/**"
+  workflow_dispatch:
 
 jobs:
   publish-be:
