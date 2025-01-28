@@ -4,5 +4,7 @@ export const subtaskSchema = z.object({
   id: z.string(),
   description: z.string(),
   completed: z.boolean(),
-  taskId: z.string()
+  taskId: z.string(),
+  createdAt: z.date(),
+  updatedAt: z.date()
 });

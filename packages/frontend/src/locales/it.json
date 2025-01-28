@@ -3,6 +3,68 @@
     "languages": {
       "italian": "Italiano",
       "english": "Inglese"
+    },
+    "form": {
+      "unexpectedError": "Qualcosa è andato storto. Riprova tra un momento.",
+      "fields": {
+        "email": {
+          "label": "Email",
+          "placeholder": "Inserisci la tua email",
+          "errors": {
+            "required": "Inserisci la tua email",
+            "invalid": "L'email inserita è invalida"
+          }
+        },
+        "password": {
+          "label": "Password",
+          "placeholder": "Inserisci la tua password",
+          "errors": {
+            "required": "Inserisci la tua password",
+            "weak": "La password non è abbastanza forte"
+          }
+        },
+        "repeatPassword": {
+          "label": "Ripeti password",
+          "placeholder": "Inserisci di nuovo la tua password",
+          "errors": {
+            "required": "Inserisci di nuovo la tua password",
+            "mismatch": "Le due password non combaciano" 
+          }
+        }
+      },
+      "submit": {
+        "login": "Accedi",
+        "register": "Registrati"
+      }
+    }
+  },
+  "components": {
+    "organisms": {
+      "boardListPanel": {
+        "myBoards": "Le mie board"
+      },
+      "boardHeader": {
+        "buttons": {
+          "edit": "Modifica",
+          "delete": "Elimina"
+        }
+      }
+    }
+  },
+  "pages": {
+    "login": {
+      "title": "Accedi",
+      "accountMissing": "Non hai un account? <2>Registrati</2>",
+      "errors": {
+        "wrongCredentials": "Le credenziali inserite sono errate"
+      }
+    },
+    "register": {
+      "title": "Registrati",
+      "accountAlreadyExists": "Hai già un account? <2>Accedi</2>",
+      "errors": {
+        "emailAlreadyExists": "L'email inserita risulta già registrata"
+      }
     }
   }
 }

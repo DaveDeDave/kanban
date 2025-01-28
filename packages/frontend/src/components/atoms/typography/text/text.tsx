@@ -8,6 +8,7 @@ interface TextProps extends PropsWithChildren {
   size?: "lg" | "md" | "sm";
   weight?: 400 | 500 | 600;
   withoutMargins?: boolean;
+  className?: string;
 }
 
 export const Text: FC<TextProps> = ({
@@ -15,6 +16,7 @@ export const Text: FC<TextProps> = ({
   size = "md",
   weight = 400,
   withoutMargins,
+  className,
   children
 }) => {
   const T = textType[type] as keyof JSX.IntrinsicElements;
@@ -26,7 +28,8 @@ export const Text: FC<TextProps> = ({
         styles[type],
         styles[`text-size-${size}`],
         styles[`text-weight-${weight}`],
-        withoutMargins && styles.withoutMargins
+        withoutMargins && styles.withoutMargins,
+        className
       )}
     >
       {children}

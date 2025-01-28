@@ -32,7 +32,8 @@ describe("Board router test", () => {
 
   test("Should create a board", async () => {
     const createBoardInput: RouterInputs["board"]["createBoard"] = {
-      name: "New test board"
+      name: "New test board",
+      description: "New board description"
     };
     const response = await caller.board.createBoard(createBoardInput);
     board = response.createdBoard;
@@ -112,6 +113,7 @@ describe("Board router test", () => {
     };
     const expectedBoard: RouterOutputs["board"]["getBoardById"]["board"] = {
       ...testData.boards[0],
+      // @ts-ignore createdAt and updatedAt are of type Date
       columns: testData.columns
         .filter((column) => column.boardId === testData.boards[0].id)
         .map((column) => ({

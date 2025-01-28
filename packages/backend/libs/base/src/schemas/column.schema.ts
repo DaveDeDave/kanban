@@ -5,13 +5,11 @@ export const columnSchema = z.object({
   id: z.string(),
   name: z.string(),
   color: z.string(),
-  boardId: z.string()
+  boardId: z.string(),
+  createdAt: z.date(),
+  updatedAt: z.date()
 });
 
-export const populatedColumnSchema = z.object({
-  id: z.string(),
-  name: z.string(),
-  color: z.string(),
-  boardId: z.string(),
+export const populatedColumnSchema = columnSchema.extend({
   tasks: z.array(taskSchema)
 });

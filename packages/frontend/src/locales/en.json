@@ -3,6 +3,39 @@
     "languages": {
       "italian": "Italian",
       "english": "English"
+    },
+    "form": {
+      "unexpectedError": "Something went wrong. Try again in a moment.",
+      "fields": {
+        "email": {
+          "label": "Email",
+          "placeholder": "Type your email",
+          "errors": {
+            "required": "Insert your email",
+            "invalid": "Insert a valid email"
+          }
+        },
+        "password": {
+          "label": "Password",
+          "placeholder": "Type your password",
+          "errors": {
+            "required": "Insert your password",
+            "weak": "The password is not enough strong"
+          }
+        },
+        "repeatPassword": {
+          "label": "Repeat password",
+          "placeholder": "Type again your password",
+          "errors": {
+            "required": "Insert again your password",
+            "mismatch": "The two password doesn't match" 
+          }
+        }
+      },
+      "submit": {
+        "login": "Login",
+        "register": "Register"
+      }
     }
   },
   "components": {
@@ -15,6 +48,22 @@
           "edit": "Edit",
           "delete": "Delete"
         }
+      }
+    }
+  },
+  "pages": {
+    "login": {
+      "title": "Login",
+      "accountMissing": "Don't have an account? <2>Register</2>",
+      "errors": {
+        "wrongCredentials": "The submitted credentials are wrong"
+      }
+    },
+    "register": {
+      "title": "Register",
+      "accountAlreadyExists": "Do you already have an account? <2>Login</2>",
+      "errors": {
+        "emailAlreadyExists": "The submitted email is already linked to an existing account"
       }
     }
   }

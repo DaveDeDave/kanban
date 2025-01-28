@@ -1,5 +1,6 @@
-import { createFileRoute, Outlet } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
+import { AuthenticationStructure } from "@/templates/authentication-structure";
 
 export const Route = createFileRoute("/auth")({
-  component: () => <Outlet />
+  component: () => <AuthenticationStructure />
 });

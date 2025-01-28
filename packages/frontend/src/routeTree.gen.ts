@@ -21,9 +21,10 @@ import { Route as AppBoardsBoardIdImport } from './routes/app/boards/$boardId'
 
 // Create Virtual Routes
 
-const AuthIndexLazyImport = createFileRoute('/auth/')()
 const AppIndexLazyImport = createFileRoute('/app/')()
 const PublicIndexLazyImport = createFileRoute('/_public/')()
+const AuthRegisterLazyImport = createFileRoute('/auth/register')()
+const AuthLoginLazyImport = createFileRoute('/auth/login')()
 const PublicAboutLazyImport = createFileRoute('/_public/about')()
 const AppProfileIndexLazyImport = createFileRoute('/app/profile/')()
 const AppBoardsIndexLazyImport = createFileRoute('/app/boards/')()
@@ -45,11 +46,6 @@ const PublicRoute = PublicImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const AuthIndexLazyRoute = AuthIndexLazyImport.update({
-  path: '/',
-  getParentRoute: () => AuthRoute,
-} as any).lazy(() => import('./routes/auth/index.lazy').then((d) => d.Route))
-
 const AppIndexLazyRoute = AppIndexLazyImport.update({
   path: '/',
   getParentRoute: () => AppRoute,
@@ -59,6 +55,16 @@ const PublicIndexLazyRoute = PublicIndexLazyImport.update({
   path: '/',
   getParentRoute: () => PublicRoute,
 } as any).lazy(() => import('./routes/_public/index.lazy').then((d) => d.Route))
+
+const AuthRegisterLazyRoute = AuthRegisterLazyImport.update({
+  path: '/register',
+  getParentRoute: () => AuthRoute,
+} as any).lazy(() => import('./routes/auth/register.lazy').then((d) => d.Route))
+
+const AuthLoginLazyRoute = AuthLoginLazyImport.update({
+  path: '/login',
+  getParentRoute: () => AuthRoute,
+} as any).lazy(() => import('./routes/auth/login.lazy').then((d) => d.Route))
 
 const PublicAboutLazyRoute = PublicAboutLazyImport.update({
   path: '/about',
@@ -128,6 +134,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PublicAboutLazyImport
       parentRoute: typeof PublicImport
     }
+    '/auth/login': {
+      id: '/auth/login'
+      path: '/login'
+      fullPath: '/auth/login'
+      preLoaderRoute: typeof AuthLoginLazyImport
+      parentRoute: typeof AuthImport
+    }
+    '/auth/register': {
+      id: '/auth/register'
+      path: '/register'
+      fullPath: '/auth/register'
+      preLoaderRoute: typeof AuthRegisterLazyImport
+      parentRoute: typeof AuthImport
+    }
     '/_public/': {
       id: '/_public/'
       path: '/'
@@ -141,13 +161,6 @@ declare module '@tanstack/react-router' {
       fullPath: '/app/'
       preLoaderRoute: typeof AppIndexLazyImport
       parentRoute: typeof AppImport
-    }
-    '/auth/': {
-      id: '/auth/'
-      path: '/'
-      fullPath: '/auth/'
-      preLoaderRoute: typeof AuthIndexLazyImport
-      parentRoute: typeof AuthImport
     }
     '/app/boards/$boardId': {
       id: '/app/boards/$boardId'
@@ -188,7 +201,10 @@ export const routeTree = rootRoute.addChildren({
     AppIndexLazyRoute,
     AppProfileIndexLazyRoute,
   }),
-  AuthRoute: AuthRoute.addChildren({ AuthIndexLazyRoute }),
+  AuthRoute: AuthRoute.addChildren({
+    AuthLoginLazyRoute,
+    AuthRegisterLazyRoute,
+  }),
 })
 
 /* prettier-ignore-end */
@@ -222,7 +238,8 @@ export const routeTree = rootRoute.addChildren({
     "/auth": {
       "filePath": "auth.tsx",
       "children": [
-        "/auth/"
+        "/auth/login",
+        "/auth/register"
       ]
     },
     "/app/boards": {
@@ -237,6 +254,14 @@ export const routeTree = rootRoute.addChildren({
       "filePath": "_public/about.lazy.tsx",
       "parent": "/_public"
     },
+    "/auth/login": {
+      "filePath": "auth/login.lazy.tsx",
+      "parent": "/auth"
+    },
+    "/auth/register": {
+      "filePath": "auth/register.lazy.tsx",
+      "parent": "/auth"
+    },
     "/_public/": {
       "filePath": "_public/index.lazy.tsx",
       "parent": "/_public"
@@ -244,10 +269,6 @@ export const routeTree = rootRoute.addChildren({
     "/app/": {
       "filePath": "app/index.lazy.tsx",
       "parent": "/app"
-    },
-    "/auth/": {
-      "filePath": "auth/index.lazy.tsx",
-      "parent": "/auth"
     },
     "/app/boards/$boardId": {
       "filePath": "app/boards/$boardId.tsx",

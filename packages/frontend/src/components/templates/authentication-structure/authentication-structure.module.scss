@@ -1,0 +1,38 @@
+@import "src/components/theme/index.scss";
+
+.authenticationStructure {
+  display: flex;
+  height: 100%;
+  .contentWrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: px-to-rem(20);
+    .content {
+      display: flex;
+      min-width: px-to-rem(600);
+      justify-content: center;
+      align-items: center;
+      margin-bottom: px-to-rem(380);
+    }
+  }
+  .bg {
+    width: 100%;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+}
+
+@media only screen and (max-width: $tablet) {
+  .authenticationStructure {
+    .contentWrapper {
+      width: 100%;
+      .content {
+        min-width: unset;
+      }
+    }
+    .bg {
+      display: none;
+    }
+  }
+}

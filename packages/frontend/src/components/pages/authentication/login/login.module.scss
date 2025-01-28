@@ -1,0 +1,17 @@
+@import "src/components/theme/index.scss";
+
+.login {
+  max-width: px-to-rem(450);
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: px-to-rem(20);
+  .form {
+    display: flex;
+    flex-direction: column;
+    gap: px-to-rem(20);
+    .errorLabel {
+      color: $color-error;
+    }
+  }
+}

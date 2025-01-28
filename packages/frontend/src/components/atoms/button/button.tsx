@@ -13,11 +13,17 @@ export interface ButtonProps
 }
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ label, variant, leftIcon, rightIcon, className, iconClassName, ...props }, ref) => {
+  ({ label, variant, leftIcon, rightIcon, className, iconClassName, disabled, ...props }, ref) => {
     return (
       <button
         ref={ref}
-        className={classNames(styles.button, styles[variant], className)}
+        className={classNames(
+          styles.button,
+          styles[variant],
+          disabled && styles.disabled,
+          className
+        )}
+        disabled={disabled}
         {...props}
       >
         {leftIcon && (

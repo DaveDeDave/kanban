@@ -1,9 +1,16 @@
-import { FC } from "react";
+import { FC, useContext } from "react";
 import { AppStructure } from "../app-structure";
 import { Header } from "@/organisms/header";
 import { Footer } from "@/organisms/footer";
+import { AppContext } from "@/contexts/app.context";
 
 export const PublicStructure: FC = () => {
+  const appContext = useContext(AppContext);
+
+  if (!appContext) {
+    return "";
+  }
+
   return (
     <AppStructure
       header={

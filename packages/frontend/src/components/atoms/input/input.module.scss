@@ -1,0 +1,95 @@
+@import "src/components/theme/index.scss";
+
+.inputWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: px-to-rem(8);
+
+  .inputField {
+    display: flex;
+    flex-direction: column;
+    gap: px-to-rem(4);
+
+    .label {
+      font-weight: 600;
+      font-size: px-to-rem(14);
+      line-height: px-to-rem(16);
+      color: $color-dark;
+      transition: all $transition-short;
+    }
+  
+    .input {
+      border: none;
+      border-bottom: 1px solid $color-dark;
+      background-color: darken($color-light, 1);
+      background-color: $color-light;
+      padding: $padding-container-md;
+      padding: 4px 12px;
+      color: $color-dark;
+      transition: all $transition-short;
+  
+      &:focus-visible {
+        outline: none;
+      }
+    }
+
+    &:focus-within, &:hover {
+      .label {
+        color: $color-primary;
+      }
+      .input {
+        border-color: $color-primary;
+      }
+    }
+  }
+
+  &.error {
+    .errorLabel {
+      color: $color-error;
+    }
+    .inputField {
+      .label {
+        color: $color-error;
+      }
+      .input {
+        border-color: $color-error;
+      }
+    }
+  }
+
+  &.disabled {
+    .inputField {
+      .label {
+        color: $color-disabled-text;
+      }
+
+      input {
+        background-color: darken($color-light, 2);
+        color: $color-disabled-text;
+        border-color: $color-disabled-bg;
+        &::placeholder {
+          color: $color-disabled-text;
+        }
+      }
+      
+      &:focus-within, &:hover {
+        .label {
+          color: $color-disabled-text;
+        }
+        .input {
+          border-color: $color-disabled-bg;
+        }
+      }
+
+      &:hover {
+        cursor: not-allowed;
+        .label {
+          cursor: not-allowed;
+        }
+        .input {
+          cursor: not-allowed;
+        }
+      }
+    }
+  }
+}

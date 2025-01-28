@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useContext } from "react";
 import { AppStructure } from "../app-structure";
 import { Sidebar } from "@/organisms/sidebar/sidebar";
 import {
@@ -8,10 +8,19 @@ import {
   RiSettingsFill,
   RiSettingsLine
 } from "@remixicon/react";
-import { useNavigate } from "@tanstack/react-router";
+import { Navigate } from "@tanstack/react-router";
+import { AppContext } from "@/contexts/app.context";
 
-export const AuthStructure: FC = () => {
-  const navigate = useNavigate();
+export const AuthenticatedAreaStructure: FC = () => {
+  const appContext = useContext(AppContext);
+
+  if (!appContext) {
+    return "";
+  }
+
+  if (!appContext.isUserLoggedIn) {
+    return <Navigate to="/auth/login" replace />;
+  }
 
   return (
     <AppStructure
@@ -37,10 +46,7 @@ export const AuthStructure: FC = () => {
               type: "action",
               label: "Logout",
               onClick: () => {
-                console.log("TODO: logout");
-                navigate({
-                  to: "/"
-                });
+                appContext.logout();
               },
               icon: () => <RiLogoutBoxLine />
             }

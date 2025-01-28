@@ -6,7 +6,7 @@ import { Collapsible } from "@/atoms/collapsible";
 import { t } from "i18next";
 
 interface BoardListPanelProps {
-  boards: RouterOutputs["board"]["getBoards"]["boards"];
+  boards: Pick<RouterOutputs["board"]["getBoards"]["boards"][number], "id" | "name" | "ownerId">[];
   activeBoardId: string;
   onChangeActiveBoard: (boardId: string) => void;
 }

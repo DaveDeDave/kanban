@@ -1,5 +1,7 @@
 import { PrismaClient } from "@prisma/client";
 
+const testDate = new Date();
+
 export const testData = {
   users: [
     {
@@ -7,31 +9,44 @@ export const testData = {
       email: "test@test.it",
       hashedPassword: "$2a$10$uy/s.pVavzI01Qm9HVZnvueTPXgQUBtuk8LRz5kMMGs.y5/IVdOQO",
       plainPassword: "Password12.",
-      jwt: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjEiLCJlbWFpbCI6InRlc3RAdGVzdC5pdCIsImlhdCI6MTcxMTc3NDc4OH0.G_BFallDwV3C6Z0PdHmOkfjoyMjpRA6Ynk4TbEAqtCY"
+      jwt: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjEiLCJlbWFpbCI6InRlc3RAdGVzdC5pdCIsImlhdCI6MTcxMTc3NDc4OH0.G_BFallDwV3C6Z0PdHmOkfjoyMjpRA6Ynk4TbEAqtCY",
+      createdAt: testDate,
+      updatedAt: testDate
     },
     {
       id: "2",
       email: "test2@test.it",
       hashedPassword: "$2a$10$uy/s.pVavzI01Qm9HVZnvueTPXgQUBtuk8LRz5kMMGs.y5/IVdOQO",
       plainPassword: "Password12.",
-      jwt: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjIiLCJlbWFpbCI6InRlc3QyQHRlc3QuaXQiLCJpYXQiOjE3MTE3NzQ3ODh9.2NzhJ8_yzUs6TGkznKyxRBBU7TG32oP1HMSXP1Y1hvU"
+      jwt: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjIiLCJlbWFpbCI6InRlc3QyQHRlc3QuaXQiLCJpYXQiOjE3MTE3NzQ3ODh9.2NzhJ8_yzUs6TGkznKyxRBBU7TG32oP1HMSXP1Y1hvU",
+      createdAt: testDate,
+      updatedAt: testDate
     }
   ],
   boards: [
     {
       id: "1",
       name: "Board 1",
-      ownerId: "1"
+      description: "description 1",
+      ownerId: "1",
+      createdAt: testDate,
+      updatedAt: testDate
     },
     {
       id: "2",
       name: "Board 2",
-      ownerId: "1"
+      description: "description 2",
+      ownerId: "1",
+      createdAt: testDate,
+      updatedAt: testDate
     },
     {
       id: "3",
       name: "Board 3",
-      ownerId: "2"
+      description: "description 3",
+      ownerId: "2",
+      createdAt: testDate,
+      updatedAt: testDate
     }
   ],
   columns: [
@@ -39,19 +54,25 @@ export const testData = {
       id: "1",
       name: "Column 1",
       color: "#ffffff",
-      boardId: "1"
+      boardId: "1",
+      createdAt: testDate,
+      updatedAt: testDate
     },
     {
       id: "2",
       name: "Column 2",
       color: "#ffffff",
-      boardId: "1"
+      boardId: "1",
+      createdAt: testDate,
+      updatedAt: testDate
     },
     {
       id: "3",
       name: "Column 3",
       color: "#ffffff",
-      boardId: "3"
+      boardId: "3",
+      createdAt: testDate,
+      updatedAt: testDate
     }
   ],
   tasks: [
@@ -59,36 +80,48 @@ export const testData = {
       id: "1",
       title: "Task 1",
       description: "Task 1 description",
-      columnId: "1"
+      columnId: "1",
+      createdAt: testDate,
+      updatedAt: testDate
     },
     {
       id: "2",
       title: "Task 2",
       description: "Task 2 description",
-      columnId: "1"
+      columnId: "1",
+      createdAt: testDate,
+      updatedAt: testDate
     },
     {
       id: "3",
       title: "Task 3",
       description: "Task 3 description",
-      columnId: "3"
+      columnId: "3",
+      createdAt: testDate,
+      updatedAt: testDate
     }
   ],
   subtasks: [
     {
       id: "1",
       description: "Subtask 1 description",
-      taskId: "1"
+      taskId: "1",
+      createdAt: testDate,
+      updatedAt: testDate
     },
     {
       id: "2",
       description: "Subtask 2 description",
-      taskId: "1"
+      taskId: "1",
+      createdAt: testDate,
+      updatedAt: testDate
     },
     {
       id: "3",
       description: "Subtask 3 description",
-      taskId: "3"
+      taskId: "3",
+      createdAt: testDate,
+      updatedAt: testDate
     }
   ]
 };
