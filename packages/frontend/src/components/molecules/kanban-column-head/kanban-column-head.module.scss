@@ -27,7 +27,6 @@
 
   .actions {
     display: flex;
-    flex-direction: columns;
     gap: $gap-sm;
     .action {
       display: flex;
@@ -49,7 +48,6 @@
       }
 
       svg {
-        z-index: 1;
         width: $icon-size-xs;
         height: $icon-size-xs;
       }
