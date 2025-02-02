@@ -8,6 +8,7 @@
   padding-bottom: 0;
   border-radius: $border-radius-md;
   min-width: px-to-rem(300);
+  width: px-to-rem(300);
   height: 100%;
   .tasks {
     display: flex;
