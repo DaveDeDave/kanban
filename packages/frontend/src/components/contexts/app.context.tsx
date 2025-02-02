@@ -1,7 +1,7 @@
 import { RouterOutputs } from "@/config/trpc.config";
-import { useLogin, useLogout } from "@/hooks/trpc/authentication/login.hooks";
-import { useRegister } from "@/hooks/trpc/authentication/register.hooks";
-import { userGetCurrentUserInfo } from "@/hooks/trpc/user/user.hooks";
+import { useLogin, useLogout } from "@/hooks/trpc/authentication/login.hook";
+import { useRegister } from "@/hooks/trpc/authentication/register.hook";
+import { useGetCurrentUserInfo } from "@/hooks/trpc/user/user.hook";
 import { createContext, FC, PropsWithChildren, useState } from "react";
 
 interface IAppContext {
@@ -17,7 +17,7 @@ export const AppContext = createContext<IAppContext | null>(null);
 export const AppContextProvider: FC<PropsWithChildren> = ({ children }) => {
   const [accessToken, setAccessToken] = useState(localStorage.getItem("accessToken"));
 
-  const { data: userData } = userGetCurrentUserInfo({
+  const { data: userData } = useGetCurrentUserInfo({
     enabled: Boolean(accessToken)
   });
 

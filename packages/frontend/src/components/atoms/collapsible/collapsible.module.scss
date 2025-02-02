@@ -7,9 +7,26 @@
     align-items: center;
     gap: $gap-lg;
     margin-bottom: $margin-sm;
-    .trigger {
-      &:hover {
-        cursor: pointer;
+    .actions {
+      display: flex;
+      align-items: center;
+      gap: $margin-xs;
+      .action {
+        display: inline-flex;
+        border-radius: $border-radius-sm;
+        transition: all $transition-short;
+        &:hover {
+          background-color: darken($color-light, 5%);
+          cursor: pointer;
+        }
+      }
+      .trigger {
+        border-radius: $border-radius-sm;
+        transition: all $transition-short;
+        &:hover {
+          background-color: darken($color-light, 5%);
+          cursor: pointer;
+        }
       }
     }
   }

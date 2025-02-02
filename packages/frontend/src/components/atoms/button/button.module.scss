@@ -29,15 +29,6 @@
       background-color: $color-primary-pressed;
       border-color: $color-primary-pressed;
     }
-    
-    &.disabled {
-      cursor: not-allowed;
-      filter: grayscale(0.2) opacity(0.5);
-      &:hover, &:active {
-        background-color: $color-primary;
-        border-color: $color-primary;
-      }
-    }
   }
 
   &.secondary {
@@ -74,5 +65,14 @@
 
   .rightIcon {
     margin-inline-start: px-to-rem(4);
+  }
+
+  &.disabled {
+    cursor: not-allowed;
+    filter: grayscale(0.2) opacity(0.5);
+    &:hover, &:active {
+      background-color: $color-primary;
+      border-color: $color-primary;
+    }
   }
 }

@@ -6,14 +6,26 @@ import { Text } from "../typography/text";
 export interface ButtonProps
   extends DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement> {
   label?: string;
-  variant: "primary" | "secondary";
+  variant?: "primary" | "secondary";
   leftIcon?: ReactNode | null;
   rightIcon?: ReactNode | null;
   iconClassName?: string;
 }
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ label, variant, leftIcon, rightIcon, className, iconClassName, disabled, ...props }, ref) => {
+  (
+    {
+      label,
+      variant = "primary",
+      leftIcon,
+      rightIcon,
+      className,
+      iconClassName,
+      disabled,
+      ...props
+    },
+    ref
+  ) => {
     return (
       <button
         ref={ref}

@@ -4,10 +4,24 @@ import { RiArrowDownSLine, RiArrowUpSLine } from "@remixicon/react";
 import styles from "./collapsible.module.scss";
 import { Text } from "../typography/text";
 import classNames from "classnames";
+import { ReactNode } from "@tanstack/react-router";
 
-interface CollapsibleProps extends RadixCollapsible.CollapsibleProps {}
+type Action = {
+  icon: ReactNode;
+  onClick: () => void;
+};
 
-export const Collapsible: FC<CollapsibleProps> = ({ title, defaultOpen, className, children }) => {
+interface CollapsibleProps extends RadixCollapsible.CollapsibleProps {
+  actions?: Action[];
+}
+
+export const Collapsible: FC<CollapsibleProps> = ({
+  title,
+  defaultOpen,
+  actions,
+  className,
+  children
+}) => {
   const [open, setOpen] = useState(defaultOpen);
 
   return (
@@ -20,9 +34,16 @@ export const Collapsible: FC<CollapsibleProps> = ({ title, defaultOpen, classNam
         <Text type="label" weight={500}>
           {title}
         </Text>
-        <RadixCollapsible.Trigger asChild className={styles.trigger}>
-          {open ? <RiArrowDownSLine /> : <RiArrowUpSLine />}
-        </RadixCollapsible.Trigger>
+        <div className={styles.actions}>
+          {actions?.map((action, key) => (
+            <div key={key} className={styles.action} onClick={action.onClick}>
+              {action.icon}
+            </div>
+          ))}
+          <RadixCollapsible.Trigger asChild className={styles.trigger}>
+            {open ? <RiArrowDownSLine /> : <RiArrowUpSLine />}
+          </RadixCollapsible.Trigger>
+        </div>
       </div>
 
       <RadixCollapsible.Content>{children}</RadixCollapsible.Content>
