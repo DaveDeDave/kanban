@@ -66,6 +66,47 @@
               }
             }
           }
+        },
+        "createColumn": {
+          "title": "Crea una colonna",
+          "form": {
+            "fields": {
+              "name": {
+                "label": "Nome",
+                "placeholder": "Inserisci il nome della colonna",
+                "errors": {
+                  "required": "Inserisci il nome della colonna"
+                }
+              },
+              "color": {
+                "label": "Colore",
+                "errors": {
+                  "required": "Scegli un colore"
+                }
+              }
+            }
+          }
+        },
+        "createTask": {
+          "title": "Crea un task",
+          "form": {
+            "fields": {
+              "title": {
+                "label": "Titolo",
+                "placeholder": "Inserisci il titolo del task",
+                "errors": {
+                  "required": "Inserisci il titolo del task"
+                }
+              },
+              "description": {
+                "label": "Descrizione",
+                "placeholder": "Inserisci la descrizione del task",
+                "errors": {
+                  "required": "Inserisci la descrizione del task"
+                }
+              }
+            }
+          }
         }
       }
     },

@@ -1,0 +1,7 @@
+@import "src/components/theme/index.scss";
+
+.createColumnForm {
+  display: flex;
+  flex-direction: column;
+  gap: $gap-lg;
+}

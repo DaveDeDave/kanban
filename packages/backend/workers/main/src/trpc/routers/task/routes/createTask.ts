@@ -12,7 +12,9 @@ export default authProcedure
   )
   .output(
     z.object({
-      createdTask: taskSchema
+      createdTask: taskSchema.extend({
+        boardId: z.string()
+      })
     })
   )
   .mutation(async ({ input: { title, description, columnId }, ctx: { prisma, user } }) => {
@@ -37,5 +39,10 @@ export default authProcedure
       }
     });
 
-    return { createdTask };
+    return {
+      createdTask: {
+        ...createdTask,
+        boardId: column.boardId
+      }
+    };
   });

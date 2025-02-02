@@ -1,0 +1,25 @@
+@import "src/components/theme/index.scss";
+
+.addColumnButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: px-to-rem(1) dashed darken($color-light, 10%);
+  border-radius: $border-radius-md;
+  min-width: px-to-rem(300);
+  width: px-to-rem(300);
+  color: darken($color-light, 10%);
+  transition: all $transition-short;
+  svg {
+    transition: all $transition-short;
+  }
+  &:hover {
+    cursor: pointer;
+    border: px-to-rem(1) dashed darken($color-light, 20%);
+    color: darken($color-light, 20%);
+    svg {
+      height: px-to-rem(40);
+      width: px-to-rem(40);
+    }
+  }
+}
