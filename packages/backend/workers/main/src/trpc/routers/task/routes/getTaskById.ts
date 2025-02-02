@@ -24,7 +24,11 @@ export default authProcedure
         }
       },
       include: {
-        subtasks: true
+        subtasks: {
+          orderBy: {
+            createdAt: "asc"
+          }
+        }
       }
     });
 

@@ -1,16 +1,16 @@
 import { ReactQueryOptions, trpc } from "@/config/trpc.config";
 
-export const useCreateTask = (opts?: ReactQueryOptions["task"]["createTask"]) => {
+export const useUpdateColumn = (opts?: ReactQueryOptions["column"]["updateColumn"]) => {
   const utils = trpc.useUtils();
 
-  return trpc.task.createTask.useMutation({
+  return trpc.column.updateColumn.useMutation({
     ...opts,
     onSuccess: (response, variables, context) => {
       opts?.onSuccess?.(response, variables, context);
 
       utils.board.getBoardById.setData(
         {
-          boardId: response.createdTask.boardId
+          boardId: response.updatedColumn.boardId
         },
         (oldData) =>
           oldData
@@ -18,15 +18,13 @@ export const useCreateTask = (opts?: ReactQueryOptions["task"]["createTask"]) =>
                 board: {
                   ...oldData.board,
                   columns: oldData.board.columns.map((column) => {
-                    if (column.id !== response.createdTask.columnId) {
+                    if (column.id !== response.updatedColumn.id) {
                       return column;
                     }
 
                     return {
                       ...column,
-                      tasks: column.tasks.concat({
-                        ...response.createdTask
-                      })
+                      ...response.updatedColumn
                     };
                   })
                 }
@@ -34,15 +32,22 @@ export const useCreateTask = (opts?: ReactQueryOptions["task"]["createTask"]) =>
             : undefined
       );
 
-      utils.task.getTasksByColumn.setData(
+      utils.column.getColumnsByBoard.setData(
         {
-          columnId: response.createdTask.columnId
+          boardId: response.updatedColumn.boardId
         },
         (oldData) =>
           oldData
             ? {
-                tasks: oldData.tasks.concat({
-                  ...response.createdTask
+                columns: oldData.columns.map((column) => {
+                  if (column.id !== response.updatedColumn.id) {
+                    return column;
+                  }
+
+                  return {
+                    ...column,
+                    ...response.updatedColumn
+                  };
                 })
               }
             : undefined

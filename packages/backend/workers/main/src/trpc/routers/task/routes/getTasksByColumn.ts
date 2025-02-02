@@ -22,6 +22,9 @@ export default authProcedure
             ownerId: user.id
           }
         }
+      },
+      orderBy: {
+        createdAt: "asc"
       }
     });
 

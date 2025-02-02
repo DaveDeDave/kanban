@@ -4,7 +4,7 @@ import { FC } from "react";
 import styles from "./boards-structure.module.scss";
 import { useGetBoards } from "@/hooks/trpc/board/getBoards.hook";
 import { useModal } from "@/molecules/modals/base-modal/base-modal.hooks";
-import { CreateBoardModal } from "@/molecules/modals/create-board-modal";
+import { CreateBoardModal } from "@/molecules/modals/board-modals";
 
 export const BoardsStructure: FC = () => {
   const navigate = useNavigate();

@@ -20,6 +20,9 @@ export default authProcedure
         board: {
           ownerId: user.id
         }
+      },
+      orderBy: {
+        createdAt: "asc"
       }
     });
 

@@ -13,7 +13,7 @@ export interface BoardHeaderProps {
   onDelete: () => void;
 }
 
-export const BoardHeader: FC<BoardHeaderProps> = ({ name, description }) => {
+export const BoardHeader: FC<BoardHeaderProps> = ({ name, description, onEdit, onDelete }) => {
   return (
     <div className={styles.boardHeader}>
       <div>
@@ -27,11 +27,13 @@ export const BoardHeader: FC<BoardHeaderProps> = ({ name, description }) => {
           variant="primary"
           leftIcon={<RiPencilLine />}
           label={t("components.organisms.boardHeader.buttons.edit")}
+          onClick={onEdit}
         />
         <Button
           variant="secondary"
           leftIcon={<RiDeleteBinLine />}
           label={t("components.organisms.boardHeader.buttons.delete")}
+          onClick={onDelete}
         />
       </div>
     </div>

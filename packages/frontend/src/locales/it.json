@@ -67,6 +67,13 @@
             }
           }
         },
+        "editBoard": {
+          "title": "Modifica la board"
+        },
+        "deleteBoard": {
+          "title": "Eliminare la board?",
+          "description": "Sei sicuro di voler eliminare questa board? Tutto il suo contenuto andrà perso."
+        },
         "createColumn": {
           "title": "Crea una colonna",
           "form": {
@@ -86,6 +93,9 @@
               }
             }
           }
+        },
+        "editColumn": {
+          "title": "Modifica la colonna"
         },
         "createTask": {
           "title": "Crea un task",
