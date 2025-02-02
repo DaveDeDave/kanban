@@ -4,6 +4,11 @@
       "italian": "Italian",
       "english": "English"
     },
+    "modal": {
+      "confirmButtonLabel": "Confirm",
+      "cancelButtonLabel": "Cancel",
+      "closeModal": "Close"
+    },
     "form": {
       "unexpectedError": "Something went wrong. Try again in a moment.",
       "fields": {
@@ -39,6 +44,31 @@
     }
   },
   "components": {
+    "molecules": {
+      "modals": {
+        "createBoard": {
+          "title": "Create Board",
+          "form": {
+            "fields": {
+              "name": {
+                "label": "Name",
+                "placeholder": "Type the board's name",
+                "errors": {
+                  "required": "Insert the board's name"
+                }
+              },
+              "description": {
+                "label": "Description",
+                "placeholder": "Type the board's description",
+                "errors": {
+                  "required": "Insert the board's description"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "organisms": {
       "boardListPanel": {
         "myBoards": "My boards"

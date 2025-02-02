@@ -3,17 +3,26 @@ import { useParams } from "@tanstack/react-router";
 import { FC } from "react";
 import styles from "./board.module.scss";
 import { KanbanColumn } from "@/organisms/kanban-column/kanban-column";
+import { useGetBoard } from "@/hooks/trpc/board/getBoard.hook";
 
 export const Component: FC = () => {
   const { boardId } = useParams({
     from: "/app/boards/$boardId"
   });
 
+  const { data: boardData, error } = useGetBoard({
+    boardId
+  });
+
+  if (error || !boardData) {
+    return "TODO: handle errors (e.g. 404, 500)";
+  }
+
   return (
     <div className={styles.board}>
       <BoardHeader
-        name={`Board ${boardId}`}
-        description={`This is the board ${boardId}`}
+        name={boardData.board.name}
+        description={boardData.board.description}
         onEdit={() => {}}
         onDelete={() => {}}
       />
