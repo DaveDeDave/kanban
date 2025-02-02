@@ -6,7 +6,8 @@ export default authProcedure
   .input(
     z.object({
       boardId: z.string(),
-      name: z.string()
+      name: z.string(),
+      description: z.string()
     })
   )
   .output(
@@ -14,7 +15,7 @@ export default authProcedure
       updatedBoard: boardSchema
     })
   )
-  .mutation(async ({ input: { boardId, name }, ctx: { prisma, user } }) => {
+  .mutation(async ({ input: { boardId, name, description }, ctx: { prisma, user } }) => {
     const board = await prisma.board.findUnique({
       where: {
         id: boardId,
@@ -32,7 +33,8 @@ export default authProcedure
         ownerId: user.id
       },
       data: {
-        name
+        name,
+        description
       }
     });
 

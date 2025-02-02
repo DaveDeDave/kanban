@@ -1,11 +1,11 @@
 import { ReactQueryOptions, trpc } from "@/config/trpc.config";
 import { useNavigate } from "@tanstack/react-router";
 
-export const useCreateBoard = (opts?: ReactQueryOptions["board"]["createBoard"]) => {
+export const useDeleteBoard = (opts?: ReactQueryOptions["board"]["deleteBoard"]) => {
   const utils = trpc.useUtils();
   const navigate = useNavigate();
 
-  return trpc.board.createBoard.useMutation({
+  return trpc.board.deleteBoard.useMutation({
     ...opts,
     onSuccess: (response, variables, context) => {
       opts?.onSuccess?.(response, variables, context);
@@ -13,15 +13,17 @@ export const useCreateBoard = (opts?: ReactQueryOptions["board"]["createBoard"])
       utils.board.getBoards.setData(undefined, (oldData) =>
         oldData
           ? {
-              boards: oldData.boards.concat({
-                ...response.createdBoard
-              })
+              boards: oldData.boards.filter((board) => board.id !== response.deletedBoard.id)
             }
           : undefined
       );
 
+      utils.board.getBoardById.invalidate({
+        boardId: response.deletedBoard.id
+      });
+
       navigate({
-        to: `/app/boards/${response.createdBoard.id}`
+        to: `/app/boards`
       });
     }
   });

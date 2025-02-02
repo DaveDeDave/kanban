@@ -46,6 +46,7 @@ describe("Board router test", () => {
   test("Should update the board", async () => {
     const updateBoardInput: RouterInputs["board"]["updateBoard"] = {
       name: "Updated test board",
+      description: "Updated description",
       boardId: board!.id
     };
     const response = await caller.board.updateBoard(updateBoardInput);
@@ -60,6 +61,7 @@ describe("Board router test", () => {
       try {
         const updateBoardInput: RouterInputs["board"]["updateBoard"] = {
           name: "Updated test board",
+          description: "Updated description",
           boardId: testData.boards[2].id
         };
         await caller.board.updateBoard(updateBoardInput);

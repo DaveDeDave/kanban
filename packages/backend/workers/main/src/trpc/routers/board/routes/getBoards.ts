@@ -12,6 +12,9 @@ export default authProcedure
     const boards = await prisma.board.findMany({
       where: {
         ownerId: user.id
+      },
+      orderBy: {
+        createdAt: "asc"
       }
     });
 

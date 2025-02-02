@@ -36,8 +36,8 @@ export const CreateTaskModal: FC<CreateTaskModalProps> = ({ columnId, onClose, .
         })
       })
     ),
-    onSubmit: ({ title, description }) => {
-      createTask.mutateAsync({
+    onSubmit: async ({ title, description }) => {
+      await createTask.mutateAsync({
         title,
         description,
         columnId: columnId!

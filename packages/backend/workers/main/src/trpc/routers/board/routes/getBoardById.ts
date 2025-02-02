@@ -21,8 +21,15 @@ export default authProcedure
       },
       include: {
         columns: {
+          orderBy: {
+            createdAt: "asc"
+          },
           include: {
-            tasks: true
+            tasks: {
+              orderBy: {
+                createdAt: "asc"
+              }
+            }
           }
         }
       }

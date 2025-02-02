@@ -7,12 +7,38 @@ export const useCreateColumn = (opts?: ReactQueryOptions["column"]["createColumn
     ...opts,
     onSuccess: (response, variables, context) => {
       opts?.onSuccess?.(response, variables, context);
-      utils.board.getBoardById.invalidate({
-        boardId: variables.boardId
-      });
-      utils.column.getColumnsByBoard.invalidate({
-        boardId: variables.boardId
-      });
+
+      utils.board.getBoardById.setData(
+        {
+          boardId: variables.boardId
+        },
+        (oldData) =>
+          oldData
+            ? {
+                board: {
+                  ...oldData.board,
+                  columns: oldData.board.columns.concat({
+                    ...response.createdColumn,
+                    tasks: []
+                  })
+                }
+              }
+            : undefined
+      );
+
+      utils.column.getColumnsByBoard.setData(
+        {
+          boardId: variables.boardId
+        },
+        (oldData) =>
+          oldData
+            ? {
+                columns: oldData.columns.concat({
+                  ...response.createdColumn
+                })
+              }
+            : undefined
+      );
     }
   });
 };

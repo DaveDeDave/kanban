@@ -1,7 +1,7 @@
 import { FC } from "react";
 import styles from "./kanban-column.module.scss";
 import { KanbanColumnHead, KanbanColumnHeadProps } from "@/molecules/kanban-column-head";
-import { RiAddCircleLine, RiSettings4Line } from "@remixicon/react";
+import { RiAddCircleLine, RiPencilLine } from "@remixicon/react";
 import { TaskCard, TaskCardProps } from "@/molecules/task-card";
 
 export interface KanbanColumnProps {
@@ -21,7 +21,7 @@ export const KanbanColumn: FC<KanbanColumnProps> = ({ head, tasks, onAddClick, o
         actions={[
           {
             onClick: onEditClick,
-            icon: <RiSettings4Line />
+            icon: <RiPencilLine />
           },
           {
             onClick: onAddClick,
