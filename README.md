@@ -4,7 +4,7 @@ This is a kanban task management web app. The users can organize their tasks usi
 ## General info
 The development of the backend of this web app has been completed and there is a live demo available at https://main.projectkanban.workers.dev/.
 
-The frontend hasn't been developed yet.
+The frontend is under development. I work on this project occasionally so i can't guarantee when it will be completed. Anyway, There is a a live demo available at https://kanban-35a.pages.dev
 
 ## "nice to know" information
 Don't use the online demo to store important information since a preconfigured service truncates all the tables every week.

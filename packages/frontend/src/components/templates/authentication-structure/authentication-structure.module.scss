@@ -6,14 +6,13 @@
   .contentWrapper {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
     padding: px-to-rem(20);
     .content {
       display: flex;
       min-width: px-to-rem(600);
       justify-content: center;
       align-items: center;
-      margin-bottom: px-to-rem(380);
+      flex-grow: 1;
     }
   }
   .bg {
