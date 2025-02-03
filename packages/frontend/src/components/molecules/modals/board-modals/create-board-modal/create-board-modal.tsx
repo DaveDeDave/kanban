@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useMemo } from "react";
 import { t } from "i18next";
 import { ModalProps } from "../../base-modal";
 import { useCreateBoard } from "@/hooks/trpc/board/createBoard.hook";
@@ -21,10 +21,19 @@ export const CreateBoardModal: FC<ModalProps> = ({ onClose, ...props }) => {
     onCloseModal();
   });
 
+  const isConfirmDisabled = useMemo(() => {
+    const hasErrors = Object.keys(formik.errors).length > 0;
+    const isTouched = Object.values(formik.touched).find((touched) => touched === true);
+
+    return Boolean(!isTouched || hasErrors);
+  }, [formik.errors, formik.touched]);
+
   return (
     <BoardFormModal
-      title={t("components.molecules.modals.createColumn.title")}
+      title={t("components.molecules.modals.createBoard.title")}
+      description={t("components.molecules.modals.createBoard.description")}
       isLoading={createBoard.isLoading}
+      disabled={isConfirmDisabled}
       formik={formik}
       onCloseModal={onCloseModal}
       {...props}

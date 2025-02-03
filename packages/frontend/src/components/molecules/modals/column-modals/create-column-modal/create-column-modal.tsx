@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useMemo } from "react";
 import { t } from "i18next";
 import { useCreateColumn } from "@/hooks/trpc/column/createColumn.hook";
 import { ModalProps } from "../../base-modal";
@@ -27,10 +27,20 @@ export const CreateColumnModal: FC<CreateColumnModalProps> = ({ boardId, onClose
     onCloseModal();
   });
 
+  const isConfirmDisabled = useMemo(() => {
+    return Boolean(!formik.values.name);
+    // const hasErrors = Object.keys(formik.errors).length > 0;
+    // const isTouched = Object.values(formik.touched).find((touched) => touched === true);
+
+    // return Boolean(!isTouched || hasErrors);
+  }, [formik.errors, formik.touched, formik.values]);
+
   return (
     <ColumnFormModal
       title={t("components.molecules.modals.createColumn.title")}
+      description={t("components.molecules.modals.createColumn.description")}
       isLoading={createColumn.isLoading}
+      disabled={isConfirmDisabled}
       formik={formik}
       onCloseModal={onCloseModal}
       {...props}

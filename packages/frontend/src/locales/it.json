@@ -48,6 +48,7 @@
       "modals": {
         "createBoard": {
           "title": "Crea una board",
+          "description": "Inserisci le informazioni base per creare una board",
           "form": {
             "fields": {
               "name": {
@@ -68,7 +69,8 @@
           }
         },
         "editBoard": {
-          "title": "Modifica la board"
+          "title": "Modifica la board",
+          "description": "Modifica le informazioni di questa board"
         },
         "deleteBoard": {
           "title": "Eliminare la board?",
@@ -76,6 +78,7 @@
         },
         "createColumn": {
           "title": "Crea una colonna",
+          "description": "Inserisci le informazioni base per creare una colonna",
           "form": {
             "fields": {
               "name": {
@@ -95,10 +98,12 @@
           }
         },
         "editColumn": {
-          "title": "Modifica la colonna"
+          "title": "Modifica la colonna",
+          "description": "Modifica le informazioni di questa colonna"
         },
         "createTask": {
           "title": "Crea un task",
+          "description": "Inserisci le informazioni base per creare un task",
           "form": {
             "fields": {
               "title": {

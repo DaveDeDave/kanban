@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useMemo } from "react";
 import { Modal, ModalProps } from "../base-modal";
 import { t } from "i18next";
 import { useFormik } from "formik";
@@ -46,10 +46,19 @@ export const CreateTaskModal: FC<CreateTaskModalProps> = ({ columnId, onClose, .
     }
   });
 
+  const isConfirmDisabled = useMemo(() => {
+    const hasErrors = Object.keys(formik.errors).length > 0;
+    const isTouched = Object.values(formik.touched).find((touched) => touched === true);
+
+    return Boolean(!isTouched || hasErrors);
+  }, [formik.errors, formik.touched]);
+
   return (
     <Modal
       title={t("components.molecules.modals.createTask.title")}
+      description={t("components.molecules.modals.createTask.description")}
       loading={createTask.isLoading}
+      disabled={isConfirmDisabled}
       confirmButton={{
         onClick: () => {
           formik.submitForm();
