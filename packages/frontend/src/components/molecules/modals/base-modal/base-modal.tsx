@@ -2,8 +2,6 @@ import { FC } from "react";
 import * as Dialog from "@radix-ui/react-dialog";
 import styles from "./base-modal.module.scss";
 import { Heading } from "@/atoms/typography/heading";
-import { IconButton } from "@/atoms/icon-button";
-import { RiCloseLine } from "@remixicon/react";
 import * as VisuallyHidden from "@radix-ui/react-visually-hidden";
 import { Button } from "@/atoms/button";
 import { t } from "i18next";
