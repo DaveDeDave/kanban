@@ -10,6 +10,7 @@ export const useColumnForm = (
       name: "",
       color: ""
     },
+    validateOnChange: true,
     validationSchema: toFormikValidationSchema(
       z.object({
         name: z.string({

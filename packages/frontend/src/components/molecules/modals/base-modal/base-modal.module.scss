@@ -1,5 +1,16 @@
 @import "src/components/theme/index.scss";
 
+@keyframes fadeIn {
+	from {
+		opacity: 0;
+    scale: 0;
+	}
+	to {
+		opacity: 1;
+    scale: 1;
+	}
+}
+
 .modalOverlay {
   position: absolute;
   top: 0;
@@ -10,6 +21,12 @@
   display: flex;
   padding: $padding-box-xl;
   overflow: auto;
+  &[data-state="open"] {
+    .modalContent[data-state="open"] {
+      animation: fadeIn 150ms ease-out;
+    }
+  }
+  
   .modalContent {
     margin: auto;
     min-height: px-to-rem(200);
@@ -18,24 +35,29 @@
     border-radius: $border-radius-md;
     display: flex;
     flex-direction: column;
+    gap: $gap-lg;
+    padding: $padding-box-xl;
     .heading {
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       justify-content: space-between;
-      background-color: darken($color-light, 5%);
-      padding: $padding-box-lg;
+      gap: $gap-sm;
       border-radius: $border-radius-lg $border-radius-lg 0 0;
-      min-height: px-to-rem(50);
+      .titlesWrapper {
+        display: flex;
+        flex-direction: column;
+      }
+      .closeButton {
+        padding: 0;
+      }
     }
     .content {
-      padding: $padding-box-lg;
       flex-grow: 1;
     }
     .footer {
       display: flex;
       justify-content: flex-end;
       gap: $gap-md;
-      padding: $padding-box-lg;
     }
   }
 }

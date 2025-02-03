@@ -7,6 +7,7 @@ import { RiCloseLine } from "@remixicon/react";
 import * as VisuallyHidden from "@radix-ui/react-visually-hidden";
 import { Button } from "@/atoms/button";
 import { t } from "i18next";
+import { Text } from "@/atoms/typography/text";
 
 interface ModalButton {
   onClick?: () => void;
@@ -21,6 +22,7 @@ export interface ModalProps extends Dialog.DialogProps {
   confirmButton?: ModalButton;
   cancelButton?: ModalButton;
   loading?: boolean;
+  disabled?: boolean;
   onClose?: () => void;
 }
 
@@ -32,6 +34,7 @@ export const Modal: FC<ModalProps> = ({
   confirmButton,
   cancelButton,
   loading,
+  disabled,
   onClose,
   children,
   ...props
@@ -41,7 +44,7 @@ export const Modal: FC<ModalProps> = ({
       <Dialog.Portal>
         <Dialog.Overlay
           className={styles.modalOverlay}
-          onClick={maskClosable && !loading ? onClose : undefined}
+          onClick={maskClosable && closable && !loading ? onClose : undefined}
         >
           <Dialog.Content
             className={styles.modalContent}
@@ -51,29 +54,31 @@ export const Modal: FC<ModalProps> = ({
             }}
           >
             <div className={styles.heading}>
-              <VisuallyHidden.Root asChild>
-                <Dialog.Title></Dialog.Title>
-              </VisuallyHidden.Root>
-              <Heading withoutMargins size={4}>
-                {title}
-              </Heading>
-              {closable ? (
+              <div className={styles.titlesWrapper}>
+                <VisuallyHidden.Root asChild>
+                  <Dialog.Title></Dialog.Title>
+                </VisuallyHidden.Root>
+                <Heading withoutMargins size={5} weight={500}>
+                  {title}
+                </Heading>
+                <VisuallyHidden.Root asChild>
+                  <Dialog.Description>{description}</Dialog.Description>
+                </VisuallyHidden.Root>
+                <Text withoutMargins>{description}</Text>
+              </div>
+              {/* {closable ? (
                 <Dialog.Close asChild>
                   <IconButton
                     icon={<RiCloseLine />}
                     onClick={onClose}
+                    className={styles.closeButton}
                     aria-label={t("general.modal.closeModal")}
                     disabled={loading}
                   />
                 </Dialog.Close>
-              ) : null}
+              ) : null} */}
             </div>
-            <div className={styles.content}>
-              <VisuallyHidden.Root asChild>
-                <Dialog.Description>{description}</Dialog.Description>
-              </VisuallyHidden.Root>
-              {children}
-            </div>
+            <div className={styles.content}>{children}</div>
             <div className={styles.footer}>
               {cancelButton ? (
                 <Button
@@ -87,7 +92,7 @@ export const Modal: FC<ModalProps> = ({
                 <Button
                   label={confirmButton.label ?? t("general.modal.confirmButtonLabel")}
                   onClick={confirmButton.onClick}
-                  disabled={loading}
+                  disabled={loading || disabled}
                 />
               ) : null}
             </div>
