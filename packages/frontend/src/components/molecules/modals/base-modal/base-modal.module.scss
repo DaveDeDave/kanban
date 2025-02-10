@@ -60,4 +60,9 @@
       gap: $gap-md;
     }
   }
+  &.sm {
+    .modalContent {
+      max-width: px-to-rem(400);
+    }
+  }
 }

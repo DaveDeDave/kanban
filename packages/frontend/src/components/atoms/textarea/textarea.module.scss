@@ -1,11 +1,12 @@
 @import "src/components/theme/index.scss";
 
-.inputWrapper {
+
+.textareaWrapper {
   display: flex;
   flex-direction: column;
   gap: px-to-rem(8);
 
-  .inputField {
+  .textareaField {
     display: flex;
     flex-direction: column;
     gap: px-to-rem(4);
@@ -18,16 +19,21 @@
       transition: all $transition-short;
     }
   
-    .input {
+    .textarea {
       border: 1px solid darken($color-light, 5%);
       border-radius: $border-radius-sm;
       background-color: #ffffff;
       padding: px-to-rem(10);
       color: $color-dark;
       transition: all $transition-short;
-  
+      resize: none;
+
       &:focus-visible {
         outline: none;
+      }
+
+      &.resizable {
+        resize: unset;
       }
     }
 
@@ -35,7 +41,7 @@
       .label {
         color: $color-primary;
       }
-      .input {
+      .textarea {
         border-color: $color-primary;
       }
     }
@@ -45,23 +51,23 @@
     .errorLabel {
       color: $color-error;
     }
-    .inputField {
+    .textareaField {
       .label {
         color: $color-error;
       }
-      .input {
+      .textarea {
         border-color: $color-error;
       }
     }
   }
 
   &.disabled {
-    .inputField {
+    .textareaField {
       .label {
         color: $color-disabled-text;
       }
 
-      .input {
+      .textarea {
         background-color: darken($color-light, 2);
         color: $color-disabled-text;
         border-color: $color-disabled-bg;
@@ -74,7 +80,7 @@
         .label {
           color: $color-disabled-text;
         }
-        .input {
+        .textarea {
           border-color: $color-disabled-bg;
         }
       }
@@ -84,7 +90,7 @@
         .label {
           cursor: not-allowed;
         }
-        .input {
+        .textarea {
           cursor: not-allowed;
         }
       }

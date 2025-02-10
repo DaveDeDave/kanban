@@ -6,6 +6,7 @@ import * as VisuallyHidden from "@radix-ui/react-visually-hidden";
 import { Button } from "@/atoms/button";
 import { t } from "i18next";
 import { Text } from "@/atoms/typography/text";
+import classNames from "classnames";
 
 interface ModalButton {
   onClick?: () => void;
@@ -21,6 +22,7 @@ export interface ModalProps extends Dialog.DialogProps {
   cancelButton?: ModalButton;
   loading?: boolean;
   disabled?: boolean;
+  size?: "sm";
   onClose?: () => void;
 }
 
@@ -33,6 +35,7 @@ export const Modal: FC<ModalProps> = ({
   cancelButton,
   loading,
   disabled,
+  size = "sm",
   onClose,
   children,
   ...props
@@ -41,7 +44,7 @@ export const Modal: FC<ModalProps> = ({
     <Dialog.Root {...props}>
       <Dialog.Portal>
         <Dialog.Overlay
-          className={styles.modalOverlay}
+          className={classNames(styles.modalOverlay, styles[size])}
           onClick={maskClosable && closable && !loading ? onClose : undefined}
         >
           <Dialog.Content

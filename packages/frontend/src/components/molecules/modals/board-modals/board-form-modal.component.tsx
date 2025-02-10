@@ -4,6 +4,7 @@ import { t } from "i18next";
 import { Input } from "@/atoms/input";
 import styles from "./board-modal.module.scss";
 import { useBoardForm } from "./board-form.hook";
+import { TextArea } from "@/atoms/textarea";
 
 interface BoardFormModalProps extends ModalProps {
   formik: ReturnType<typeof useBoardForm>;
@@ -46,14 +47,14 @@ export const BoardFormModal: FC<BoardFormModalProps> = ({
             formik.touched.name && formik.errors.name ? t(formik.errors.name as any) : undefined
           }
         />
-        <Input
-          type="text"
+        <TextArea
           name="description"
           placeholder={t(
             "components.molecules.modals.createBoard.form.fields.description.placeholder"
           )}
           label={t("components.molecules.modals.createBoard.form.fields.description.label")}
           value={formik.values.description}
+          rows={3}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
           error={
