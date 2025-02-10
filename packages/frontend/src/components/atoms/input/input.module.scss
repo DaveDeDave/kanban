@@ -19,12 +19,10 @@
     }
   
     .input {
-      border: none;
-      border-bottom: 1px solid $color-dark;
-      background-color: darken($color-light, 1);
-      background-color: $color-light;
-      padding: $padding-container-md;
-      padding: 4px 12px;
+      border: 1px solid darken($color-light, 5%);
+      border-radius: $border-radius-sm;
+      background-color: #ffffff;
+      padding: px-to-rem(10);
       color: $color-dark;
       transition: all $transition-short;
   
