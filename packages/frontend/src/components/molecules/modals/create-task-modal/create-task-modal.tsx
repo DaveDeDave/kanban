@@ -7,6 +7,7 @@ import { z } from "zod";
 import styles from "./create-task-modal.module.scss";
 import { Input } from "@/atoms/input";
 import { useCreateTask } from "@/hooks/trpc/task/createTask.hook";
+import { TextArea } from "@/atoms/textarea";
 
 export interface CreateTaskModalProps extends ModalProps {
   columnId?: string;
@@ -82,13 +83,13 @@ export const CreateTaskModal: FC<CreateTaskModalProps> = ({ columnId, onClose, .
             formik.touched.title && formik.errors.title ? t(formik.errors.title as any) : undefined
           }
         />
-        <Input
-          type="text"
+        <TextArea
           name="description"
           placeholder={t(
             "components.molecules.modals.createTask.form.fields.description.placeholder"
           )}
           label={t("components.molecules.modals.createTask.form.fields.description.label")}
+          rows={3}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
           error={
