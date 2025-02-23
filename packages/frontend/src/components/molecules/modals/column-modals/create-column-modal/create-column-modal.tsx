@@ -13,7 +13,6 @@ export const CreateColumnModal: FC<CreateColumnModalProps> = ({ boardId, onClose
   const createColumn = useCreateColumn();
 
   const onCloseModal = () => {
-    formik.resetForm();
     onClose?.();
   };
 
@@ -43,6 +42,9 @@ export const CreateColumnModal: FC<CreateColumnModalProps> = ({ boardId, onClose
       disabled={isConfirmDisabled}
       formik={formik}
       onCloseModal={onCloseModal}
+      afterClose={() => {
+        formik.resetForm();
+      }}
       {...props}
     />
   );

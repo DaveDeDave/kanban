@@ -46,6 +46,10 @@
   "components": {
     "molecules": {
       "modals": {
+        "logout": {
+          "title": "Logout",
+          "description": "Are you sure you want to logout?"
+        },
         "createBoard": {
           "title": "Create Board",
           "description": "Insert basic information for creating a board",

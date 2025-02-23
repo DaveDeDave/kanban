@@ -23,7 +23,6 @@ export const UpdateColumnModal: FC<UpdateColumnModalProps> = ({
   const updateColumn = useUpdateColumn();
 
   const onCloseModal = () => {
-    formik.resetForm();
     onClose?.();
   };
 
@@ -62,6 +61,9 @@ export const UpdateColumnModal: FC<UpdateColumnModalProps> = ({
       formik={formik}
       open={open}
       onCloseModal={onCloseModal}
+      afterClose={() => {
+        formik.resetForm();
+      }}
       {...props}
     />
   );

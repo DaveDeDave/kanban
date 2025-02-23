@@ -46,6 +46,10 @@
   "components": {
     "molecules": {
       "modals": {
+        "logout": {
+          "title": "Logout",
+          "description": "Sei sicuro di volerti disconnettere?"
+        },
         "createBoard": {
           "title": "Crea una board",
           "description": "Inserisci le informazioni base per creare una board",

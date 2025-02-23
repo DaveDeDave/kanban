@@ -23,7 +23,6 @@ export const UpdateBoardModal: FC<UpdateBoardModalProps> = ({
   const updateBoard = useUpdateBoard();
 
   const onCloseModal = () => {
-    formik.resetForm();
     onClose?.();
   };
 
@@ -61,6 +60,9 @@ export const UpdateBoardModal: FC<UpdateBoardModalProps> = ({
       formik={formik}
       open={open}
       onCloseModal={onCloseModal}
+      afterClose={() => {
+        formik.resetForm();
+      }}
       {...props}
     />
   );

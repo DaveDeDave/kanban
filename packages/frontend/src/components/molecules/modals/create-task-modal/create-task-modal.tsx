@@ -17,7 +17,6 @@ export const CreateTaskModal: FC<CreateTaskModalProps> = ({ columnId, onClose, .
   const createTask = useCreateTask();
 
   const onCloseModal = () => {
-    formik.resetForm();
     onClose?.();
   };
 
@@ -69,6 +68,9 @@ export const CreateTaskModal: FC<CreateTaskModalProps> = ({ columnId, onClose, .
         onClick: onCloseModal
       }}
       onClose={onCloseModal}
+      afterClose={() => {
+        formik.resetForm();
+      }}
       {...props}
     >
       <form className={styles.createTaskForm} onSubmit={formik.handleSubmit}>

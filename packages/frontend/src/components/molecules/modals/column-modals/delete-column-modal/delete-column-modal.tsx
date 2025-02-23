@@ -1,24 +1,24 @@
 import { FC } from "react";
 import { Modal, ModalProps } from "../../base-modal";
-import { useDeleteBoard } from "@/hooks/trpc/board/deleteBoard.hook";
 import { Text } from "@/atoms/typography/text";
 import { t } from "i18next";
+import { useDeleteColumn } from "@/hooks/trpc/column/deleteColumn.hook";
 
-export interface DeleteBoardModalProps extends ModalProps {
-  boardId?: string;
+export interface DeleteColumnModalProps extends ModalProps {
+  columnId?: string;
 }
 
-export const DeleteBoardModal: FC<DeleteBoardModalProps> = ({ boardId, onClose, ...props }) => {
-  const deleteBoard = useDeleteBoard();
+export const DeleteColumnModal: FC<DeleteColumnModalProps> = ({ columnId, onClose, ...props }) => {
+  const deleteColumn = useDeleteColumn();
 
   return (
     <Modal
       title={t("components.molecules.modals.deleteBoard.title")}
-      loading={deleteBoard.isLoading}
+      loading={deleteColumn.isLoading}
       confirmButton={{
         onClick: () => {
-          deleteBoard.mutateAsync({
-            boardId: boardId!
+          deleteColumn.mutateAsync({
+            columnId: columnId!
           });
           onClose?.();
         }
