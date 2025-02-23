@@ -57,17 +57,26 @@ export const Component: FC = () => {
                 color: column.color
               }}
               tasks={column.tasks}
-              onEditClick={() => {
+              onEdit={() => {
                 boardModals.showEditColumnModal({
                   id: column.id,
                   name: column.name,
                   color: column.color
                 });
               }}
-              onAddClick={() => {
+              onDelete={() => {
+                console.log("TODO: Delete column");
+              }}
+              onAddTask={() => {
                 boardModals.showCreateTaskModal({
                   columnId: column.id
                 });
+              }}
+              onEditTask={() => {
+                console.log("TODO: Edit task");
+              }}
+              onDeleteTask={() => {
+                console.log("TODO: Delete task");
               }}
             />
           ))}

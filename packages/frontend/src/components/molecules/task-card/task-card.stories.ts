@@ -1,11 +1,12 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { TaskCard } from "./task-card";
+import { fn } from "@storybook/test";
 
 const meta: Meta<typeof TaskCard> = {
   title: "Molecules/TaskCard",
   component: TaskCard,
   tags: ["autodocs"],
-  args: {}
+  args: { onEdit: fn(), onDelete: fn() }
 };
 
 export default meta;

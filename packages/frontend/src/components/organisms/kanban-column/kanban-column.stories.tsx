@@ -7,8 +7,11 @@ const meta: Meta<typeof KanbanColumn> = {
   component: KanbanColumn,
   tags: ["autodocs"],
   args: {
-    onAddClick: fn(),
-    onEditClick: fn()
+    onEdit: fn(),
+    onDelete: fn(),
+    onAddTask: fn(),
+    onEditTask: fn(),
+    onDeleteTask: fn()
   }
 };
 
@@ -16,9 +19,27 @@ export default meta;
 type Story = StoryObj<typeof KanbanColumn>;
 
 const mockTasks = [
-  { id: "1", title: "Write docs", description: "Write documentation" },
-  { id: "2", title: "Fix bug", description: "Fix the reported bug" },
-  { id: "3", title: "Answer email", description: "Answer the new email" }
+  {
+    id: "1",
+    title: "Write docs",
+    description: "Write documentation",
+    onEdit: () => {},
+    onDelete: () => {}
+  },
+  {
+    id: "2",
+    title: "Fix bug",
+    description: "Fix the reported bug",
+    onEdit: () => {},
+    onDelete: () => {}
+  },
+  {
+    id: "3",
+    title: "Answer email",
+    description: "Answer the new email",
+    onEdit: () => {},
+    onDelete: () => {}
+  }
 ];
 
 export const Normal: Story = {

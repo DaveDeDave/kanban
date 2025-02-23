@@ -1,15 +1,21 @@
-import { FC } from "react";
+import { FC, useState } from "react";
 import styles from "./task-card.module.scss";
-import { RiMoreFill } from "@remixicon/react";
+import { RiDeleteBin2Line, RiMoreFill, RiPencilLine } from "@remixicon/react";
 import { Text } from "@/atoms/typography/text";
+import { Dropdown } from "@/atoms/dropdown";
+import classNames from "classnames";
 
 export interface TaskCardProps {
   id: string;
   title: string;
   description: string;
+  onEdit: () => void;
+  onDelete: () => void;
 }
 
-export const TaskCard: FC<TaskCardProps> = ({ title, description }) => {
+export const TaskCard: FC<TaskCardProps> = ({ title, description, onEdit, onDelete }) => {
+  const [actionsDropdownOpen, setActionsDropdownOpen] = useState(false);
+
   return (
     <div className={styles.taskCard}>
       <div className={styles.head}>
@@ -18,9 +24,26 @@ export const TaskCard: FC<TaskCardProps> = ({ title, description }) => {
             {title}
           </Text>
         </div>
-        <div className={styles.actions}>
-          <RiMoreFill />
-        </div>
+        <Dropdown
+          onOpenChange={(open) => setActionsDropdownOpen(open)}
+          align="end"
+          items={[
+            {
+              label: "Edit",
+              onClick: onEdit,
+              icon: <RiPencilLine />
+            },
+            {
+              label: "Delete",
+              onClick: onDelete,
+              icon: <RiDeleteBin2Line />
+            }
+          ]}
+        >
+          <div className={classNames(styles.actions, actionsDropdownOpen && styles.open)}>
+            <RiMoreFill />
+          </div>
+        </Dropdown>
       </div>
       <div className={styles.body}>
         <div className={styles.description}>

@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { RiAddCircleLine, RiSettings4Line } from "@remixicon/react";
+import { RiAddCircleLine, RiDeleteBin2Line, RiEdit2Line } from "@remixicon/react";
 import { KanbanColumnHead } from "./kanban-column-head";
 
 const meta: Meta<typeof KanbanColumnHead> = {
@@ -27,11 +27,19 @@ export const WithActions: Story = {
     actions: [
       {
         onClick: () => {},
-        icon: <RiSettings4Line />
+        icon: <RiAddCircleLine />
+      }
+    ],
+    settings: [
+      {
+        icon: <RiEdit2Line />,
+        label: "Edit",
+        onClick: () => {}
       },
       {
-        onClick: () => {},
-        icon: <RiAddCircleLine />
+        icon: <RiDeleteBin2Line />,
+        label: "Delete",
+        onClick: () => {}
       }
     ]
   }
@@ -45,11 +53,19 @@ export const ColorVariant: Story = {
     actions: [
       {
         onClick: () => {},
-        icon: <RiSettings4Line />
+        icon: <RiAddCircleLine />
+      }
+    ],
+    settings: [
+      {
+        icon: <RiEdit2Line />,
+        label: "Edit",
+        onClick: () => {}
       },
       {
-        onClick: () => {},
-        icon: <RiAddCircleLine />
+        icon: <RiDeleteBin2Line />,
+        label: "Delete",
+        onClick: () => {}
       }
     ]
   }
