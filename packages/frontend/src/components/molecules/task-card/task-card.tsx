@@ -9,11 +9,11 @@ export interface TaskCardProps {
   id: string;
   title: string;
   description: string;
-  onEdit: () => void;
-  onDelete: () => void;
+  onEdit: (id: string) => void;
+  onDelete: (id: string) => void;
 }
 
-export const TaskCard: FC<TaskCardProps> = ({ title, description, onEdit, onDelete }) => {
+export const TaskCard: FC<TaskCardProps> = ({ id, title, description, onEdit, onDelete }) => {
   const [actionsDropdownOpen, setActionsDropdownOpen] = useState(false);
 
   return (
@@ -30,12 +30,12 @@ export const TaskCard: FC<TaskCardProps> = ({ title, description, onEdit, onDele
           items={[
             {
               label: "Edit",
-              onClick: onEdit,
+              onClick: () => onEdit(id),
               icon: <RiPencilLine />
             },
             {
               label: "Delete",
-              onClick: onDelete,
+              onClick: () => onDelete(id),
               icon: <RiDeleteBin2Line />
             }
           ]}

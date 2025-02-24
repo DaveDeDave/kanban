@@ -65,7 +65,7 @@ export const Component: FC = () => {
                 });
               }}
               onDelete={() => {
-                console.log("TODO: Delete column");
+                boardModals.showDeleteColumnModal(column.id);
               }}
               onAddTask={() => {
                 boardModals.showCreateTaskModal({
@@ -75,8 +75,8 @@ export const Component: FC = () => {
               onEditTask={() => {
                 console.log("TODO: Edit task");
               }}
-              onDeleteTask={() => {
-                console.log("TODO: Delete task");
+              onDeleteTask={(taskId) => {
+                boardModals.showDeleteTaskModal(taskId);
               }}
             />
           ))}

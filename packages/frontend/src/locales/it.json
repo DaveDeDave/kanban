@@ -105,6 +105,10 @@
           "title": "Modifica la colonna",
           "description": "Modifica le informazioni di questa colonna"
         },
+        "deleteColumn": {
+          "title": "Eliminare la colonna?",
+          "description": "Sei sicuro di voler eliminare questa colonna? Tutto il suo contenuto andrà perso."
+        },
         "createTask": {
           "title": "Crea un task",
           "description": "Inserisci le informazioni base per creare un task",
@@ -126,6 +130,10 @@
               }
             }
           }
+        },
+        "deleteTask": {
+          "title": "Eliminare il task?",
+          "description": "Sei sicuro di voler eliminare questo task? Tutto il suo contenuto andrà perso."
         }
       }
     },

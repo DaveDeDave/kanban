@@ -10,8 +10,8 @@ export interface KanbanColumnProps {
   onEdit: () => void;
   onDelete: () => void;
   onAddTask: () => void;
-  onEditTask: () => void;
-  onDeleteTask: () => void;
+  onEditTask: (taskId: string) => void;
+  onDeleteTask: (taskId: string) => void;
 }
 
 export const KanbanColumn: FC<KanbanColumnProps> = ({

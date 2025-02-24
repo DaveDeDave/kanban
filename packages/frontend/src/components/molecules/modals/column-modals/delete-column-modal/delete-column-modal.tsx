@@ -13,7 +13,7 @@ export const DeleteColumnModal: FC<DeleteColumnModalProps> = ({ columnId, onClos
 
   return (
     <Modal
-      title={t("components.molecules.modals.deleteBoard.title")}
+      title={t("components.molecules.modals.deleteColumn.title")}
       loading={deleteColumn.isLoading}
       confirmButton={{
         onClick: () => {
@@ -27,7 +27,7 @@ export const DeleteColumnModal: FC<DeleteColumnModalProps> = ({ columnId, onClos
       onClose={onClose}
       {...props}
     >
-      <Text>{t("components.molecules.modals.deleteBoard.description")}</Text>
+      <Text>{t("components.molecules.modals.deleteColumn.description")}</Text>
     </Modal>
   );
 };

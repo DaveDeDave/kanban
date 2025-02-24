@@ -19,8 +19,10 @@ export const useBoardModals = () => {
     name: string;
     color: string;
   } | null>(null);
+  const [deleteColumnId, setDeleteColumnId] = useState<string | null>(null);
 
   const [createTask, setCreateTask] = useState<{ columnId: string } | null>(null);
+  const [deleteTaskId, setDeleteTaskId] = useState<string | null>(null);
 
   const showEditBoardModal = (board: { id: string; name: string; description: string }) => {
     setEditBoard(board);
@@ -46,12 +48,28 @@ export const useBoardModals = () => {
     setEditColumn(null);
   };
 
+  const showDeleteColumnModal = (columnId: string) => {
+    setDeleteColumnId(columnId);
+  };
+
+  const hideDeleteColumnModal = () => {
+    setDeleteColumnId(null);
+  };
+
   const showCreateTaskModal = (task: { columnId: string }) => {
     setCreateTask(task);
   };
 
   const hideCreateTaskModal = () => {
     setCreateTask(null);
+  };
+
+  const showDeleteTaskModal = (taskId: string) => {
+    setDeleteTaskId(taskId);
+  };
+
+  const hideDeleteTaskModal = () => {
+    setDeleteTaskId(null);
   };
 
   return {
@@ -70,9 +88,17 @@ export const useBoardModals = () => {
     editColumnModalIsOpen: editColumn !== null,
     showEditColumnModal,
     hideEditColumnModal,
+    deleteColumnId,
+    deleteColumnModalIsOpen: deleteColumnId !== null,
+    showDeleteColumnModal,
+    hideDeleteColumnModal,
     createTask,
     createTaskModalIsOpen: createTask !== null,
     showCreateTaskModal,
-    hideCreateTaskModal
+    hideCreateTaskModal,
+    deleteTaskId,
+    deleteTaskModalIsOpen: deleteTaskId !== null,
+    showDeleteTaskModal,
+    hideDeleteTaskModal
   };
 };
