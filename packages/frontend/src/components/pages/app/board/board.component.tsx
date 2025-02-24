@@ -72,8 +72,8 @@ export const Component: FC = () => {
                   columnId: column.id
                 });
               }}
-              onEditTask={() => {
-                console.log("TODO: Edit task");
+              onEditTask={(task) => {
+                boardModals.showEditTaskModal(task);
               }}
               onDeleteTask={(taskId) => {
                 boardModals.showDeleteTaskModal(taskId);

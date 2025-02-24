@@ -3,7 +3,7 @@ import { CreateColumnModal, UpdateColumnModal } from "@/molecules/modals/column-
 import { FC } from "react";
 import { useBoardModals } from "./board-modals.hook";
 import { DeleteColumnModal } from "@/molecules/modals/column-modals/delete-column-modal";
-import { CreateTaskModal, DeleteTaskModal } from "@/molecules/modals/task-modals";
+import { CreateTaskModal, DeleteTaskModal, UpdateTaskModal } from "@/molecules/modals/task-modals";
 
 type BoardModalsProps = ReturnType<typeof useBoardModals> & {
   currentBoardId: string;
@@ -28,6 +28,9 @@ export const BoardModals: FC<BoardModalsProps> = ({
   createTask,
   createTaskModalIsOpen,
   hideCreateTaskModal,
+  editTask,
+  editTaskModalIsOpen,
+  hideEditTaskModal,
   deleteTaskId,
   deleteTaskModalIsOpen,
   hideDeleteTaskModal
@@ -53,8 +56,8 @@ export const BoardModals: FC<BoardModalsProps> = ({
       <UpdateColumnModal
         columnId={editColumn?.id}
         defaultValues={{
-          name: editColumn?.name!,
-          color: editColumn?.color!
+          name: editColumn?.name ?? "",
+          color: editColumn?.color ?? ""
         }}
         open={editColumnModalIsOpen}
         onClose={hideEditColumnModal}
@@ -68,6 +71,15 @@ export const BoardModals: FC<BoardModalsProps> = ({
         columnId={createTask?.columnId}
         open={createTaskModalIsOpen}
         onClose={hideCreateTaskModal}
+      />
+      <UpdateTaskModal
+        taskId={editTask?.id}
+        defaultValues={{
+          title: editTask?.title ?? "",
+          description: editTask?.description ?? ""
+        }}
+        open={editTaskModalIsOpen}
+        onClose={hideEditTaskModal}
       />
       <DeleteTaskModal
         taskId={deleteTaskId!}

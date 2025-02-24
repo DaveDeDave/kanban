@@ -22,6 +22,11 @@ export const useBoardModals = () => {
   const [deleteColumnId, setDeleteColumnId] = useState<string | null>(null);
 
   const [createTask, setCreateTask] = useState<{ columnId: string } | null>(null);
+  const [editTask, setEditTask] = useState<{
+    id: string;
+    title: string;
+    description: string;
+  } | null>(null);
   const [deleteTaskId, setDeleteTaskId] = useState<string | null>(null);
 
   const showEditBoardModal = (board: { id: string; name: string; description: string }) => {
@@ -64,6 +69,14 @@ export const useBoardModals = () => {
     setCreateTask(null);
   };
 
+  const showEditTaskModal = (task: { id: string; title: string; description: string }) => {
+    setEditTask(task);
+  };
+
+  const hideEditTaskModal = () => {
+    setEditTask(null);
+  };
+
   const showDeleteTaskModal = (taskId: string) => {
     setDeleteTaskId(taskId);
   };
@@ -96,6 +109,10 @@ export const useBoardModals = () => {
     createTaskModalIsOpen: createTask !== null,
     showCreateTaskModal,
     hideCreateTaskModal,
+    editTask,
+    editTaskModalIsOpen: editTask !== null,
+    showEditTaskModal,
+    hideEditTaskModal,
     deleteTaskId,
     deleteTaskModalIsOpen: deleteTaskId !== null,
     showDeleteTaskModal,

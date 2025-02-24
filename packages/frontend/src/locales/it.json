@@ -131,6 +131,10 @@
             }
           }
         },
+        "editTask": {
+          "title": "Modifica il task",
+          "description": "Modifica le informazioni di questo task"
+        },
         "deleteTask": {
           "title": "Eliminare il task?",
           "description": "Sei sicuro di voler eliminare questo task? Tutto il suo contenuto andrà perso."

@@ -9,7 +9,7 @@ export interface TaskCardProps {
   id: string;
   title: string;
   description: string;
-  onEdit: (id: string) => void;
+  onEdit: (task: { id: string; title: string; description: string }) => void;
   onDelete: (id: string) => void;
 }
 
@@ -30,7 +30,12 @@ export const TaskCard: FC<TaskCardProps> = ({ id, title, description, onEdit, on
           items={[
             {
               label: "Edit",
-              onClick: () => onEdit(id),
+              onClick: () =>
+                onEdit({
+                  id,
+                  title,
+                  description
+                }),
               icon: <RiPencilLine />
             },
             {

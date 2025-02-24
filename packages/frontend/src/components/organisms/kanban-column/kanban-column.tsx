@@ -10,7 +10,7 @@ export interface KanbanColumnProps {
   onEdit: () => void;
   onDelete: () => void;
   onAddTask: () => void;
-  onEditTask: (taskId: string) => void;
+  onEditTask: (task: { id: string; title: string; description: string }) => void;
   onDeleteTask: (taskId: string) => void;
 }
 
