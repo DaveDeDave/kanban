@@ -1,39 +1,28 @@
 @import "./src/index.scss";
 
 .heading {
-  font-family: "Roboto", sans-serif;
-
-  margin-top: 0;
-  margin-bottom: $margin-xxs;
-
   &-size-1 {
-    font-size: px-to-rem(36);
-    line-height: px-to-rem(48);
+    @include h1;
   }
 
   &-size-2 {
-    font-size: px-to-rem(32);
-    line-height: px-to-rem(40);
+    @include h2;
   }
 
   &-size-3 {
-    font-size: px-to-rem(28);
-    line-height: px-to-rem(40);
+    @include h3;
   }
 
   &-size-4 {
-    font-size: px-to-rem(24);
-    line-height: px-to-rem(32);
+    @include h4;
   }
 
   &-size-5 {
-    font-size: px-to-rem(20);
-    line-height: px-to-rem(24);
+    @include h5;
   }
 
   &-size-6 {
-    font-size: px-to-rem(18);
-    line-height: px-to-rem(24);
+    @include h6;
   }
 
   &-weight-400 {

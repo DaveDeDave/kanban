@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useEffect, useState } from "react";
 import * as Dialog from "@radix-ui/react-dialog";
 import styles from "./base-modal.module.scss";
 import { Heading } from "@/atoms/typography/heading";
@@ -7,6 +7,7 @@ import { Button } from "@/atoms/button";
 import { t } from "i18next";
 import { Text } from "@/atoms/typography/text";
 import classNames from "classnames";
+import { MODAL_ANIMATION_DURATION_MILLIS } from "./base-modal.const";
 
 interface ModalButton {
   onClick?: () => void;
@@ -24,9 +25,11 @@ export interface ModalProps extends Dialog.DialogProps {
   disabled?: boolean;
   size?: "sm";
   onClose?: () => void;
+  afterClose?: () => void;
 }
 
 export const Modal: FC<ModalProps> = ({
+  open,
   title,
   description,
   closable = true,
@@ -37,11 +40,27 @@ export const Modal: FC<ModalProps> = ({
   disabled,
   size = "sm",
   onClose,
+  afterClose,
   children,
   ...props
 }) => {
+  const [internalOpen, setInternalOpen] = useState(open);
+
+  useEffect(() => {
+    const isModalClosing = internalOpen && !open;
+    if (isModalClosing && afterClose) {
+      setTimeout(() => {
+        afterClose();
+      }, MODAL_ANIMATION_DURATION_MILLIS);
+    }
+
+    if (internalOpen !== open) {
+      setInternalOpen(open);
+    }
+  }, [open]);
+
   return (
-    <Dialog.Root {...props}>
+    <Dialog.Root open={open} {...props}>
       <Dialog.Portal>
         <Dialog.Overlay
           className={classNames(styles.modalOverlay, styles[size])}

@@ -6,7 +6,8 @@
   .contentWrapper {
     display: flex;
     flex-direction: column;
-    padding: px-to-rem(20);
+    padding: px-to-rem(16);
+    padding-top: px-to-rem(17);
     .content {
       display: flex;
       min-width: px-to-rem(600);

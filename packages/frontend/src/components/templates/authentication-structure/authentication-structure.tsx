@@ -1,4 +1,4 @@
-import { Navigate, Outlet, useLocation } from "@tanstack/react-router";
+import { Link, Navigate, Outlet, useLocation } from "@tanstack/react-router";
 import { FC, useContext } from "react";
 import styles from "./authentication-structure.module.scss";
 import ReactLogo from "@/assets/react.svg";
@@ -24,13 +24,15 @@ export const AuthenticationStructure: FC = () => {
   return (
     <div className={styles.authenticationStructure}>
       <div className={styles.contentWrapper}>
-        <img
-          width="35"
-          src={ReactLogo}
-          style={{
-            alignSelf: "flex-start"
-          }}
-        />
+        <Link to="/" style={{ width: "fit-content" }}>
+          <img
+            width="35"
+            src={ReactLogo}
+            style={{
+              alignSelf: "flex-start"
+            }}
+          />
+        </Link>
         <div className={styles.content}>
           <Outlet />
         </div>

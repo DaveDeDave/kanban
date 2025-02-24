@@ -4,23 +4,15 @@
   font-family: "Roboto", sans-serif;
 
   &.paragraph {
-    margin-top: 0;
-    margin-bottom: $margin-sm;
-
     &.text {
       &-size-lg {
-        font-size: px-to-rem(18);
-        line-height: px-to-rem(24);
+        @include text-paragraph-lg;
       }
-    
       &-size-md {
-        font-size: px-to-rem(16);
-        line-height: px-to-rem(24);
+        @include text-paragraph-md;
       }
-    
       &-size-sm {
-        font-size: px-to-rem(14);
-        line-height: px-to-rem(16);
+        @include text-paragraph-sm;
       }
     }
   }
@@ -28,18 +20,13 @@
   &.label {
     &.text {
       &-size-lg {
-        font-size: px-to-rem(18);
-        line-height: px-to-rem(24);
+        @include text-label-lg;
       }
-    
       &-size-md {
-        font-size: px-to-rem(16);
-        line-height: px-to-rem(22);
+        @include text-label-md;
       }
-    
       &-size-sm {
-        font-size: px-to-rem(14);
-        line-height: px-to-rem(16);
+        @include text-label-sm;
       }
     }
   }

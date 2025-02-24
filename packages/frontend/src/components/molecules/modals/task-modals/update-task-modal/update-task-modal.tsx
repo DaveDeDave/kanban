@@ -1,36 +1,36 @@
 import { FC, useEffect, useMemo } from "react";
 import { t } from "i18next";
 import { ModalProps } from "../../base-modal";
-import { useBoardForm } from "../board-form.hook";
-import { BoardFormModal } from "../board-form-modal.component";
-import { useUpdateBoard } from "@/hooks/trpc/board/updateBoard.hook";
+import { useUpdateTask } from "@/hooks/trpc/task/updateTask.hook";
+import { useTaskForm } from "../task-form.hook";
+import { TaskFormModal } from "../task-form-modal.component";
 
-export interface UpdateBoardModalProps extends ModalProps {
-  boardId?: string;
+export interface UpdateTaskModalProps extends ModalProps {
+  taskId?: string;
   defaultValues?: {
-    name: string;
+    title: string;
     description: string;
   };
 }
 
-export const UpdateBoardModal: FC<UpdateBoardModalProps> = ({
-  boardId,
+export const UpdateTaskModal: FC<UpdateTaskModalProps> = ({
+  taskId,
   defaultValues,
   open,
   onClose,
   ...props
 }) => {
-  const updateBoard = useUpdateBoard();
+  const updateTask = useUpdateTask();
 
   const onCloseModal = () => {
     onClose?.();
   };
 
-  const formik = useBoardForm(async ({ name, description }) => {
-    await updateBoard.mutateAsync({
-      boardId: boardId!,
-      name,
-      description
+  const formik = useTaskForm(async ({ title, description }) => {
+    await updateTask.mutateAsync({
+      title,
+      description,
+      taskId: taskId!
     });
     onCloseModal();
   });
@@ -38,7 +38,7 @@ export const UpdateBoardModal: FC<UpdateBoardModalProps> = ({
   useEffect(() => {
     if (open) {
       formik.setValues({
-        name: defaultValues?.name ?? "",
+        title: defaultValues?.title ?? "",
         description: defaultValues?.description ?? ""
       });
     }
@@ -52,10 +52,10 @@ export const UpdateBoardModal: FC<UpdateBoardModalProps> = ({
   }, [formik.errors, formik.touched]);
 
   return (
-    <BoardFormModal
-      title={t("components.molecules.modals.editBoard.title")}
-      description={t("components.molecules.modals.editBoard.description")}
-      isLoading={updateBoard.isLoading}
+    <TaskFormModal
+      title={t("components.molecules.modals.editTask.title")}
+      description={t("components.molecules.modals.editTask.description")}
+      isLoading={updateTask.isLoading}
       disabled={isConfirmDisabled}
       formik={formik}
       open={open}

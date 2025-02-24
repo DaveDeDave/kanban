@@ -27,9 +27,13 @@
 
       &:hover {
         cursor: pointer;
-        background-color: #{$color-light}99;
+        background-color: darken($color-light, 2%);
         padding: $padding-box-md;
         border-radius: $border-radius-rounded;
+      }
+
+      &.open {
+        background-color: darken($color-light, 2%);
       }
 
       svg {

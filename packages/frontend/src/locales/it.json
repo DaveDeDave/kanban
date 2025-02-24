@@ -46,6 +46,10 @@
   "components": {
     "molecules": {
       "modals": {
+        "logout": {
+          "title": "Logout",
+          "description": "Sei sicuro di volerti disconnettere?"
+        },
         "createBoard": {
           "title": "Crea una board",
           "description": "Inserisci le informazioni base per creare una board",
@@ -101,6 +105,10 @@
           "title": "Modifica la colonna",
           "description": "Modifica le informazioni di questa colonna"
         },
+        "deleteColumn": {
+          "title": "Eliminare la colonna?",
+          "description": "Sei sicuro di voler eliminare questa colonna? Tutto il suo contenuto andrà perso."
+        },
         "createTask": {
           "title": "Crea un task",
           "description": "Inserisci le informazioni base per creare un task",
@@ -122,6 +130,14 @@
               }
             }
           }
+        },
+        "editTask": {
+          "title": "Modifica il task",
+          "description": "Modifica le informazioni di questo task"
+        },
+        "deleteTask": {
+          "title": "Eliminare il task?",
+          "description": "Sei sicuro di voler eliminare questo task? Tutto il suo contenuto andrà perso."
         }
       }
     },

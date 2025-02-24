@@ -16,7 +16,7 @@ export const BoardListElement: FC<BoardListElement> = ({ name, isActive, onClick
         styles.boardListElement,
         textStyles.text,
         textStyles.label,
-        textStyles["text-weight-500"],
+        isActive && textStyles["text-weight-500"],
         isActive && styles.isActive
       )}
       onClick={onClick}

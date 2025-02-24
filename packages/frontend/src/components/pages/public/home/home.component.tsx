@@ -5,6 +5,7 @@ export const Component: FC = () => {
   return (
     <div className={styles.home}>
       <h1>Home</h1>
+      <p>This project is not finished. Register or login to see the current state.</p>
       {new Array(10).fill(null).map((_, key) => (
         <p key={key}>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt

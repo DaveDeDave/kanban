@@ -4,11 +4,11 @@ import { useDeleteBoard } from "@/hooks/trpc/board/deleteBoard.hook";
 import { Text } from "@/atoms/typography/text";
 import { t } from "i18next";
 
-export interface DeleteBoardModal extends ModalProps {
+export interface DeleteBoardModalProps extends ModalProps {
   boardId?: string;
 }
 
-export const DeleteBoardModal: FC<DeleteBoardModal> = ({ boardId, onClose, ...props }) => {
+export const DeleteBoardModal: FC<DeleteBoardModalProps> = ({ boardId, onClose, ...props }) => {
   const deleteBoard = useDeleteBoard();
 
   return (

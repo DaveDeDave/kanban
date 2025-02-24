@@ -1,0 +1,50 @@
+@import "src/components/theme/index.scss";
+
+.dropdown {
+  display: flex;
+  flex-direction: column;
+  gap: $gap-sm-2;
+  background-color: white;
+  border-radius: $border-radius-md;
+  padding: $padding-box-lg;
+  min-width: 200px;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+  .dropdownItem {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: $gap-sm;
+    border-radius: $border-radius-md;
+    outline: none;
+    transition: background-color $transition-short;
+    .dropdownItemIcon {
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      padding: $padding-box-md;
+      svg {
+        width: px-to-rem(22);
+        height: px-to-rem(22);
+        color: $color-dark;
+        transition: color $transition-short;
+      }
+    }
+    .dropdownItemLabel {
+      @include text-label-md;
+      color: $color-dark;
+      transition: color $transition-short;
+    }
+    &:hover {
+      cursor: pointer;
+      background-color: darken($color-light, 5%);
+      .dropdownItemIcon {
+        svg {
+          color: $color-primary;
+        }
+      }
+      .dropdownItemLabel {
+        color: $color-primary;
+      }
+    }
+  }
+}

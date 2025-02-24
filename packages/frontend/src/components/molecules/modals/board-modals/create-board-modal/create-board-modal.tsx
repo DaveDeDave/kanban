@@ -9,7 +9,6 @@ export const CreateBoardModal: FC<ModalProps> = ({ onClose, ...props }) => {
   const createBoard = useCreateBoard();
 
   const onCloseModal = () => {
-    formik.resetForm();
     onClose?.();
   };
 
@@ -36,6 +35,9 @@ export const CreateBoardModal: FC<ModalProps> = ({ onClose, ...props }) => {
       disabled={isConfirmDisabled}
       formik={formik}
       onCloseModal={onCloseModal}
+      afterClose={() => {
+        formik.resetForm();
+      }}
       {...props}
     />
   );
