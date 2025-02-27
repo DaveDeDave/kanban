@@ -27,6 +27,7 @@
     transition: left $transition-short;
 
     .closeButton {
+      color: $color-dark;
       display: inline-flex;
       border-radius: $border-radius-sm;
       transition: all $transition-short;

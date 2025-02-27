@@ -49,3 +49,20 @@
   }
 
 }
+
+@media (max-width: $mobile) {
+  .header {
+    justify-content: space-between;
+    .leftSection, .rightSection {
+      min-width: unset;
+    }
+    .middleSection {
+      display: none;
+    }
+    .rightSection {
+      .registerButton {
+        display: none;
+      }
+    }
+  }
+}

@@ -5,6 +5,7 @@
   display: flex;
   justify-content: space-between;
   border-bottom: px-to-rem(1) solid darken($color-light, 10%);
+  background-color: $color-light;
   padding: px-to-rem(16);
   .menu {
     position: absolute;

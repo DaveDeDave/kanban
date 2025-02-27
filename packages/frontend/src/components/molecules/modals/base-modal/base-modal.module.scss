@@ -1,7 +1,7 @@
 @import "src/components/theme/index.scss";
 
 .modalOverlay {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   height: 100%;
