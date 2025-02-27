@@ -56,7 +56,7 @@ export const BoardsStructure: FC = () => {
             <Button
               leftIcon={location.href === "/app/boards" ? undefined : <RiArrowLeftLine />}
               label={location.href === "/app/boards" ? "Show boards" : "Back to boards"}
-              variant="secondary"
+              variant="ghost"
               onClick={() => setBoardListOpen(true)}
             />
           </div>

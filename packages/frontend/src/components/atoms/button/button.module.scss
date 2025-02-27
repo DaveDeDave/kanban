@@ -48,6 +48,24 @@
       color: $color-light;
     }
   }
+  
+  &.ghost {
+    background-color: transparent;
+    border-color: transparent;
+    color: $color-dark;
+    padding: px-to-rem(2);
+
+    &:hover {
+      background-color: darken($color-light, 3%);
+      border-color: darken($color-light, 3%);
+      color: $color-primary-hover;
+    }
+
+    &:active {
+      background-color: darken($color-light, 3%);
+      border-color: darken($color-light, 3%);
+    }
+  }
 
   .icon {
     display: flex;
