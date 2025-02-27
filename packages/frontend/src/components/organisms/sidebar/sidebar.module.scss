@@ -8,6 +8,7 @@
   border-right: $border-size-sm solid darken($color-light, 10%);
   padding: $padding-container-lg;
   background-color: $color-light;
+  z-index: $z-index-4;
 
   .linksList {
     display: flex;

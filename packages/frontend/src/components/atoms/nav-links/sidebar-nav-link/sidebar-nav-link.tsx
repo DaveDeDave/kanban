@@ -7,6 +7,8 @@ import { Tooltip } from "@/atoms/tooltip";
 
 export type SidebarNavLinkProps = NavLinkProps & {
   icon: (isActive: boolean) => ReactNode;
+  onClickLink?: () => void;
+  expanded?: boolean;
 };
 
 export type SidebarNavLinkActionProps = NavLinkActionProps & {
@@ -14,7 +16,7 @@ export type SidebarNavLinkActionProps = NavLinkActionProps & {
 };
 
 export const SidebarNavLink = forwardRef<HTMLAnchorElement, SidebarNavLinkProps>(
-  ({ icon, label, ...props }, ref) => {
+  ({ icon, label, expanded, onClickLink, ...props }, ref) => {
     const location = useLocation();
 
     const isAnchorLink = useMemo(() => props.type === "anchor", [props.type]);
@@ -35,11 +37,21 @@ export const SidebarNavLink = forwardRef<HTMLAnchorElement, SidebarNavLinkProps>
                   e.preventDefault();
                   (props as NavLinkActionProps).onClick();
                 }
-              : undefined
+              : () => {
+                  if (onClickLink) {
+                    setTimeout(() => {
+                      onClickLink?.();
+                    }, 100);
+                  }
+                }
           }
-          className={classNames(styles.sidebarNavLink, isActive && styles.active)}
+          className={classNames(
+            styles.sidebarNavLink,
+            isActive && styles.active,
+            expanded && styles.expanded
+          )}
         >
-          {icon(isActive)}
+          {icon(isActive)} {expanded ? label : ""}
         </RouterNavLink>
       </Tooltip>
     );

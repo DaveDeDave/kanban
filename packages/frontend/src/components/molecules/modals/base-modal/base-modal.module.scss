@@ -10,6 +10,7 @@
   display: flex;
   padding: $padding-box-xl;
   overflow: auto;
+  z-index: $z-index-4;
 
   &[data-state="open"] {
     animation: fadeIn $transition-short ease-out;
@@ -35,6 +36,10 @@
     flex-direction: column;
     gap: $gap-lg;
     padding: $padding-box-xl;
+    &:focus-visible {
+      outline: none;
+      border: none;
+    }
     .heading {
       display: flex;
       align-items: flex-start;
@@ -61,6 +66,15 @@
   &.sm {
     .modalContent {
       max-width: px-to-rem(400);
+    }
+  }
+}
+
+@media (max-width: $mobile) {
+  .modalOverlay {
+    .modalContent {
+      min-width: unset;
+      width: 100%;
     }
   }
 }

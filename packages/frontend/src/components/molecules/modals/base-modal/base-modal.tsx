@@ -72,6 +72,10 @@ export const Modal: FC<ModalProps> = ({
               e.preventDefault();
               e.stopPropagation();
             }}
+            onOpenAutoFocus={(e) => {
+              e.preventDefault();
+              (e.currentTarget as HTMLDivElement)?.focus();
+            }}
           >
             <div className={styles.heading}>
               <div className={styles.titlesWrapper}>
