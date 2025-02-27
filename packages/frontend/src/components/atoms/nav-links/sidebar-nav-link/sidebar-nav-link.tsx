@@ -41,7 +41,7 @@ export const SidebarNavLink = forwardRef<HTMLAnchorElement, SidebarNavLinkProps>
                   if (onClickLink) {
                     setTimeout(() => {
                       onClickLink?.();
-                    }, 100);
+                    }, 200);
                   }
                 }
           }

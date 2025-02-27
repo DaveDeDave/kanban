@@ -53,6 +53,7 @@ export const Header = forwardRef<HTMLElement, HeaderProps>(({ navLinks, sticky }
               <Button variant="primary" label="Login" />
             </Link>
             <Link
+              className={styles.registerButton}
               to="/auth/register"
               style={{
                 textDecoration: "none"
