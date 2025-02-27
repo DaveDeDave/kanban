@@ -7,10 +7,26 @@
   background-color: $color-light;
   .columns {
     overflow-x: auto;
-    max-width: calc(100vw - 250px - 93px);
+    max-width: calc(100vw - 300px - 93px);
     flex-grow: 1;
     display: flex;
     gap: $gap-lg;
     padding: $padding-box-xl $padding-box-xxl;
+  }
+}
+
+@media (max-width: $tablet) {
+  .board {
+    .columns {
+      max-width: calc(100vw - 93px);
+    }
+  }
+}
+
+@media (max-width: $mobile) {
+  .board {
+    .columns {
+      max-width: 100vw;
+    }
   }
 }

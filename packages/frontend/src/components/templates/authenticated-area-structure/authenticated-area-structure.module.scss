@@ -1,0 +1,19 @@
+@import "src/components/theme/index.scss";
+
+.authArea {
+  .header {
+    display: none;
+  }
+}
+
+@media (max-width: $mobile) {
+  .authArea {
+    flex-direction: column !important;
+    .sidebar {
+      display: none;
+    }
+    .header {
+      display: flex;
+    }
+  }
+}

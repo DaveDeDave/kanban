@@ -23,4 +23,12 @@
   &.active {
     background-color: darken($color-light, 10%);
   }
+
+  &.expanded {
+    width: 100%;
+    height: unset;
+    padding: px-to-rem(16);
+    justify-content: flex-start;
+    gap: px-to-rem(8)
+  }
 }

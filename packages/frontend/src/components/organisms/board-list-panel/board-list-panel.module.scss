@@ -1,9 +1,59 @@
 @import "src/components/theme/index.scss";
 
 .boardListPanelWrapper {
+  display: flex;
+  flex-direction: column;
   padding: $padding-container-lg;
-  padding-top: px-to-rem(70);
+  padding-top: px-to-rem(130);
   background-color: $color-light;
   border-right: $border-size-sm solid darken($color-light, 10%);
-  min-width: px-to-rem(250);
+  min-width: px-to-rem(300);
+  width: px-to-rem(300);
+  .closeButton {
+    display: none;
+  }
+}
+
+
+@media (max-width: $tablet) {
+  .boardListPanelWrapper {
+    width: px-to-rem(400);
+    position: absolute;
+    left: px-to-rem(-400);
+    top: 0;
+    height: 100%;
+    padding-top: px-to-rem(16);
+    z-index: $z-index-3;
+    transition: left $transition-short;
+
+    .closeButton {
+      display: inline-flex;
+      border-radius: $border-radius-sm;
+      transition: all $transition-short;
+      border: none;
+      background-color: transparent;
+      padding: 0;
+      align-self: flex-end;
+      &:hover {
+        background-color: darken($color-light, 5%);
+        cursor: pointer;
+      }
+      margin-bottom: px-to-rem(90);
+    }
+
+    &.open {
+      left: 0;
+    }
+  }
+}
+
+@media (max-width: $mobile) {
+  .boardListPanelWrapper {
+    padding-top: px-to-rem(16);
+    width: 100%;
+    left:-100%;
+    .closeButton {
+      margin-bottom: px-to-rem(16);
+    }
+  }
 }

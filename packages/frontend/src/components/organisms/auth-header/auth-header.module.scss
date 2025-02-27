@@ -1,0 +1,39 @@
+@import "src/components/theme/index.scss";
+
+.authHeader {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  border-bottom: px-to-rem(1) solid darken($color-light, 10%);
+  padding: px-to-rem(16);
+  .menu {
+    position: absolute;
+    top: px-to-rem(71);
+    left: 0;
+    height: calc(100vh - 71px);
+    max-height: calc(100vh - 71px);
+    width: 100%;
+    overflow-y: auto;
+    background-color: $color-light;
+    z-index: $z-index-3;
+    display: none;
+    flex-direction: column;
+    padding: px-to-rem(16);
+    &.open {
+      display: flex;
+    }
+
+    .navLinks {
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      gap: px-to-rem(16);
+    }
+    
+    .actionLinks {
+      display: flex;
+      flex-direction: column;
+      gap: px-to-rem(16);
+    }
+  }
+}
