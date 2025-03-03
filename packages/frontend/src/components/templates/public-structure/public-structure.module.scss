@@ -1,0 +1,11 @@
+@import "src/components/theme/index.scss";
+
+.publicStructure {
+  background-color: white;
+  padding: px-to-rem(16);
+  .main {
+    background-color: darken($color-light, 3%);
+    border-radius: 0 0 px-to-rem(16) px-to-rem(16);
+  }
+}
+  

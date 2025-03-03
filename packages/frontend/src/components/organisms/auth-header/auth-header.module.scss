@@ -8,20 +8,25 @@
   background-color: $color-light;
   padding: px-to-rem(16);
   .menu {
-    position: absolute;
+    position: fixed;
     top: px-to-rem(71);
     left: 0;
-    height: calc(100vh - 71px);
-    max-height: calc(100vh - 71px);
+    height: calc(100% - 71px);
     width: 100%;
     overflow-y: auto;
     background-color: $color-light;
-    z-index: $z-index-3;
-    display: none;
+    z-index: $z-index-4;
+    display: flex;
     flex-direction: column;
     padding: px-to-rem(16);
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility $transition-short, opacity $transition-short;
+
     &.open {
-      display: flex;
+      visibility: visible;
+      opacity: 1;
+      
     }
 
     .navLinks {

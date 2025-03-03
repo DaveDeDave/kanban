@@ -3,6 +3,7 @@
 .tooltip {
   border-radius: $border-radius-sm;
   padding: $padding-container-md;
+  z-index: $z-index-4;
 
   &.primary {
     background-color: $color-light;

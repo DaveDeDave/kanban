@@ -9,6 +9,7 @@ export interface AppStructureProps {
   footer?: ReactNode | null;
   orientation?: "vertical" | "horizontal";
   className?: string;
+  mainClassname?: string;
 }
 
 export const AppStructure: FC<AppStructureProps> = ({
@@ -16,13 +17,14 @@ export const AppStructure: FC<AppStructureProps> = ({
   navbar,
   footer,
   orientation = "vertical",
-  className
+  className,
+  mainClassname
 }) => {
   return (
     <div className={classNames(styles.appStructure, styles[orientation], className)}>
       {header}
       {navbar}
-      <main className={styles.main}>
+      <main className={classNames(styles.main, mainClassname)}>
         <Outlet />
       </main>
       {footer}

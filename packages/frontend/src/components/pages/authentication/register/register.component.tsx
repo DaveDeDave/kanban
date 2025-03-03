@@ -73,8 +73,8 @@ export const Component: FC = () => {
     const isErrorPresent = Object.values(formik.errors).find((error) => error);
     const isFormTouched = Object.values(formik.touched).find((touched) => touched);
 
-    return Boolean(isErrorPresent || !isFormTouched);
-  }, [formik.errors, formik.touched]);
+    return Boolean(isErrorPresent || !isFormTouched || appContext?.register.isLoading);
+  }, [formik.errors, formik.touched, appContext?.register.isLoading]);
 
   return (
     <div className={styles.register}>

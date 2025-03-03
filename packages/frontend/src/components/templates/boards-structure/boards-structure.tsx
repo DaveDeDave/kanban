@@ -58,6 +58,9 @@ export const BoardsStructure: FC = () => {
               label={location.href === "/app/boards" ? "Show boards" : "Back to boards"}
               variant="ghost"
               onClick={() => setBoardListOpen(true)}
+              style={{
+                padding: 0
+              }}
             />
           </div>
           <Outlet />

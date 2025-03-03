@@ -1,8 +1,8 @@
 import { FC, useContext } from "react";
 import { AppStructure } from "../app-structure";
 import { Header } from "@/organisms/header";
-import { Footer } from "@/organisms/footer";
 import { AppContext } from "@/contexts/app.context";
+import styles from "./public-structure.module.scss";
 
 export const PublicStructure: FC = () => {
   const appContext = useContext(AppContext);
@@ -13,6 +13,8 @@ export const PublicStructure: FC = () => {
 
   return (
     <AppStructure
+      className={styles.publicStructure}
+      mainClassname={styles.main}
       header={
         <Header
           navLinks={[
@@ -29,7 +31,6 @@ export const PublicStructure: FC = () => {
           ]}
         />
       }
-      footer={<Footer />}
     />
   );
 };

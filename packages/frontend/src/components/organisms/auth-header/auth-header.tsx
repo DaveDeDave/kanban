@@ -11,6 +11,7 @@ export interface AuthHeaderProps extends SidebarProps {}
 
 export const AuthHeader: FC<SidebarProps> = ({ navLinks, actionLinks, className }) => {
   const [menuOpen, setMenuOpen] = useState(false);
+
   return (
     <div className={classNames(styles.authHeader, className)}>
       <img width="35" src={ReactLogo} />
@@ -19,7 +20,7 @@ export const AuthHeader: FC<SidebarProps> = ({ navLinks, actionLinks, className 
         icon={menuOpen ? <RiCloseLine /> : <RiMenuLine />}
         onClick={() => setMenuOpen((open) => !open)}
       />
-      <div className={classNames(styles.menu, menuOpen && styles.open)}>
+      <div className={classNames(styles.menu, menuOpen ? styles.open : styles.closed)}>
         <div className={styles.navLinks}>
           {navLinks.map(({ icon, label, ...props }) => (
             <SidebarNavLink
