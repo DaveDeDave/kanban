@@ -5,9 +5,9 @@
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  border-bottom: $border-size-sm solid $color-dark;
   padding: px-to-rem(16);
-  background-color: $color-light;
+  border-radius: px-to-rem(16) px-to-rem(16) 0 0;
+  background-color: darken($color-light, 3%);
 
   &.sticky {
     position: sticky;
@@ -31,7 +31,7 @@
     flex-grow: 1;
     .linksList {
       display: flex;
-      gap: px-to-rem(8);
+      gap: px-to-rem(16);
       list-style-type: none;
       padding: 0;
       margin: 0;
@@ -58,11 +58,6 @@
     }
     .middleSection {
       display: none;
-    }
-    .rightSection {
-      .registerButton {
-        display: none;
-      }
     }
   }
 }

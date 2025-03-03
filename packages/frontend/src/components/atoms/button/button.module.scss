@@ -29,6 +29,12 @@
       background-color: $color-primary-pressed;
       border-color: $color-primary-pressed;
     }
+
+    &.disabled {
+      background-color: $color-primary;
+      border-color: $color-primary;
+      color: $color-light;
+    }
   }
 
   &.secondary {
@@ -47,13 +53,18 @@
       border-color: $color-primary-pressed;
       color: $color-light;
     }
+
+    &.disabled {
+      background-color: white;
+      border-color: $color-primary;
+      color: $color-primary;
+    }
   }
   
   &.ghost {
     background-color: transparent;
     border-color: transparent;
     color: $color-dark;
-    padding: px-to-rem(2);
 
     &:hover {
       background-color: darken($color-light, 3%);
@@ -65,6 +76,16 @@
       background-color: darken($color-light, 3%);
       border-color: darken($color-light, 3%);
     }
+  
+    &.disabled {
+      background-color: transparent;
+      border-color: transparent;
+      color: $color-dark;
+    }
+  }
+
+  &.rounded {
+    border-radius: 999px;
   }
 
   .icon {
@@ -88,9 +109,5 @@
   &.disabled {
     cursor: not-allowed;
     filter: grayscale(0.2) opacity(0.5);
-    &:hover, &:active {
-      background-color: $color-primary;
-      border-color: $color-primary;
-    }
   }
 }

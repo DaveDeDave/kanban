@@ -45,21 +45,12 @@ export const Header = forwardRef<HTMLElement, HeaderProps>(({ navLinks, sticky }
         ) : (
           <>
             <Link
-              to="/auth/login"
-              style={{
-                textDecoration: "none"
-              }}
-            >
-              <Button variant="primary" label="Login" />
-            </Link>
-            <Link
-              className={styles.registerButton}
               to="/auth/register"
               style={{
                 textDecoration: "none"
               }}
             >
-              <Button variant="primary" label="Regiser" />
+              <Button variant="primary" rounded label="Get started" />
             </Link>
           </>
         )}

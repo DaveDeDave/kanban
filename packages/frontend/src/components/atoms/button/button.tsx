@@ -7,6 +7,7 @@ export interface ButtonProps
   extends DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement> {
   label?: string;
   variant?: "primary" | "secondary" | "ghost";
+  rounded?: boolean;
   leftIcon?: ReactNode | null;
   rightIcon?: ReactNode | null;
   iconClassName?: string;
@@ -17,6 +18,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     {
       label,
       variant = "primary",
+      rounded,
       leftIcon,
       rightIcon,
       className,
@@ -32,6 +34,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         className={classNames(
           styles.button,
           styles[variant],
+          rounded && styles.rounded,
           disabled && styles.disabled,
           className
         )}

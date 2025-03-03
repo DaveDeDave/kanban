@@ -2,6 +2,8 @@ import { FC, useContext } from "react";
 import { AppStructure } from "../app-structure";
 import { Sidebar, SidebarProps } from "@/organisms/sidebar/sidebar";
 import {
+  RiDashboardFill,
+  RiDashboardLine,
   RiHomeFill,
   RiHomeLine,
   RiLogoutBoxLine,
@@ -25,7 +27,7 @@ export const AuthenticatedAreaStructure: FC = () => {
       type: "anchor",
       label: "Boards",
       path: "/app/boards",
-      icon: (isActive) => (isActive ? <RiHomeFill /> : <RiHomeLine />)
+      icon: (isActive) => (isActive ? <RiDashboardFill /> : <RiDashboardLine />)
     },
     {
       type: "anchor",

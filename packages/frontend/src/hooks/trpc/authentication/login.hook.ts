@@ -1,4 +1,5 @@
 import { ReactQueryOptions, trpc } from "@/config/trpc.config";
+import { useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "@tanstack/react-router";
 
 export const useLogin = (opts?: ReactQueryOptions["authentication"]["login"]) => {
@@ -18,12 +19,12 @@ export const useLogin = (opts?: ReactQueryOptions["authentication"]["login"]) =>
 
 export const useLogout = ({ onSuccess }: { onSuccess?: () => void }) => {
   const navigate = useNavigate();
-  const utils = trpc.useUtils();
+  const queryClient = useQueryClient();
 
   return () => {
     onSuccess?.();
     localStorage.removeItem("accessToken");
-    utils.invalidate();
+    queryClient.clear();
     navigate({
       to: "/auth/login"
     });

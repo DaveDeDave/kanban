@@ -1,0 +1,24 @@
+@import "src/components/theme/index.scss";
+
+.headerNavLink {
+  @include text-label-md;
+  color: $color-primary;
+  border-radius: px-to-rem(16);
+  text-decoration: none;
+  transition: all $transition-short;
+  
+  &:hover {
+    cursor: pointer;
+    color: $color-primary-hover;
+  }
+  
+  &:active {
+    color: $color-primary-pressed;
+  }
+
+  &.active {
+    background-color: white;
+    padding: px-to-rem(6) px-to-rem(12);
+    font-weight: 500;
+  }
+}

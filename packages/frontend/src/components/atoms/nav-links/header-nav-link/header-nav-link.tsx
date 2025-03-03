@@ -1,7 +1,7 @@
 import { Link as RouterNavLink, useLocation } from "@tanstack/react-router";
 import { forwardRef, useMemo } from "react";
 import classNames from "classnames";
-import styles from "@/atoms/typography/text/text.module.scss";
+import styles from "./header-nav-link.module.scss";
 import { NavLinkAnchorProps } from "../navlink.types";
 
 export const HeaderNavLink = forwardRef<HTMLAnchorElement, NavLinkAnchorProps>(
@@ -14,7 +14,7 @@ export const HeaderNavLink = forwardRef<HTMLAnchorElement, NavLinkAnchorProps>(
       <RouterNavLink
         ref={ref}
         to={path}
-        className={classNames(styles.text, styles.link, isActive && styles.active)}
+        className={classNames(styles.headerNavLink, isActive && styles.active)}
       >
         {label}
       </RouterNavLink>
