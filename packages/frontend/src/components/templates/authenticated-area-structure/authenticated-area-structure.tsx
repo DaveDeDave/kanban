@@ -4,8 +4,6 @@ import { Sidebar, SidebarProps } from "@/organisms/sidebar/sidebar";
 import {
   RiDashboardFill,
   RiDashboardLine,
-  RiHomeFill,
-  RiHomeLine,
   RiLogoutBoxLine,
   RiSettingsFill,
   RiSettingsLine
