@@ -8,7 +8,7 @@ import {
   RouterInputs,
   RouterOutputs
 } from "../test.utility";
-import { BoardNotFoundException } from "@kanban/base-lib";
+import { HttpNotFoundException } from "@kanban/base-lib";
 import { Board } from "@prisma/client";
 
 describe("Board router test", () => {
@@ -69,7 +69,11 @@ describe("Board router test", () => {
         expect(e).toBeInstanceOf(TRPCError);
         throw (e as TRPCError).cause;
       }
-    }).rejects.toThrow(BoardNotFoundException);
+    }).rejects.toThrow(
+      new HttpNotFoundException({
+        errorCode: "BoardNotFound"
+      })
+    );
   });
 
   // deleteBoard
@@ -96,7 +100,11 @@ describe("Board router test", () => {
         expect(e).toBeInstanceOf(TRPCError);
         throw (e as TRPCError).cause;
       }
-    }).rejects.toThrow(BoardNotFoundException);
+    }).rejects.toThrow(
+      new HttpNotFoundException({
+        errorCode: "BoardNotFound"
+      })
+    );
   });
 
   // getBoards
@@ -139,6 +147,10 @@ describe("Board router test", () => {
         expect(e).toBeInstanceOf(TRPCError);
         throw (e as TRPCError).cause;
       }
-    }).rejects.toThrow(BoardNotFoundException);
+    }).rejects.toThrow(
+      new HttpNotFoundException({
+        errorCode: "BoardNotFound"
+      })
+    );
   });
 });

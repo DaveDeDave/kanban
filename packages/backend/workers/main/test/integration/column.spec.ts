@@ -1,7 +1,7 @@
 import { TRPCError } from "@trpc/server";
 import { deleteTestData, loadTestData, testData } from "../test.data";
 import { Caller, Context, createCaller, createContext, RouterInputs } from "../test.utility";
-import { ColumnNotFoundException } from "@kanban/base-lib";
+import { HttpNotFoundException } from "@kanban/base-lib";
 import { Column } from "@prisma/client";
 
 describe("Column router test", () => {
@@ -66,7 +66,11 @@ describe("Column router test", () => {
         expect(e).toBeInstanceOf(TRPCError);
         throw (e as TRPCError).cause;
       }
-    }).rejects.toThrow(ColumnNotFoundException);
+    }).rejects.toThrow(
+      new HttpNotFoundException({
+        errorCode: "ColumnNotFound"
+      })
+    );
   });
 
   // deleteColumn
@@ -94,7 +98,11 @@ describe("Column router test", () => {
         expect(e).toBeInstanceOf(TRPCError);
         throw (e as TRPCError).cause;
       }
-    }).rejects.toThrow(ColumnNotFoundException);
+    }).rejects.toThrow(
+      new HttpNotFoundException({
+        errorCode: "ColumnNotFound"
+      })
+    );
   });
 
   // getColumnsByBoard

@@ -1,4 +1,4 @@
-import { MissingTokenException, UnauthorizedException } from "@kanban/base-lib";
+import { HttpUnauthorizedException } from "@kanban/base-lib";
 import { deleteTestData, loadTestData, testData } from "../test.data";
 import { Caller, Context, createCaller, createContext } from "../test.utility";
 import { TRPCError } from "@trpc/server";
@@ -33,7 +33,11 @@ describe("User router test", () => {
         expect(e).toBeInstanceOf(TRPCError);
         throw (e as TRPCError).cause;
       }
-    }).rejects.toThrow(MissingTokenException);
+    }).rejects.toThrow(
+      new HttpUnauthorizedException({
+        errorCode: "MissingToken"
+      })
+    );
   });
 
   test("Should delete the user", async () => {
@@ -54,6 +58,11 @@ describe("User router test", () => {
         expect(e).toBeInstanceOf(TRPCError);
         throw (e as TRPCError).cause;
       }
-    }).rejects.toThrow(UnauthorizedException);
+    }).rejects.toThrow(
+      new HttpUnauthorizedException({
+        errorCode: "Unauthorized",
+        message: "Unauthorized. User does not exists"
+      })
+    );
   });
 });

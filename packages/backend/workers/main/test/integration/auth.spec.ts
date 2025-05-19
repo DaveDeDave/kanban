@@ -1,7 +1,8 @@
 import { TRPCError } from "@trpc/server";
 import { deleteTestData, loadTestData, testData } from "../test.data";
 import { Caller, Context, createCaller, createContext } from "../test.utility";
-import { EmailAlreadyExistsException, WrongCredentialsException } from "@kanban/base-lib";
+import { HttpUnauthorizedException } from "@kanban/base-lib";
+import { HttpBadRequestException } from "@kanban/base-lib/src/exceptions/http/bad-request/bad-request";
 
 describe("Authentication router test", () => {
   let caller: Caller;
@@ -41,7 +42,11 @@ describe("Authentication router test", () => {
         expect(e).toBeInstanceOf(TRPCError);
         throw (e as TRPCError).cause;
       }
-    }).rejects.toThrow(EmailAlreadyExistsException);
+    }).rejects.toThrow(
+      new HttpBadRequestException({
+        errorCode: "EmailAlreadyExists"
+      })
+    );
   });
 
   test("Should not create a user (email already exists)", async () => {
@@ -55,7 +60,11 @@ describe("Authentication router test", () => {
         expect(e).toBeInstanceOf(TRPCError);
         throw (e as TRPCError).cause;
       }
-    }).rejects.toThrow(EmailAlreadyExistsException);
+    }).rejects.toThrow(
+      new HttpBadRequestException({
+        errorCode: "EmailAlreadyExists"
+      })
+    );
   });
 
   test("Should not create a user (password too weak)", async () => {
@@ -98,7 +107,11 @@ describe("Authentication router test", () => {
         expect(e).toBeInstanceOf(TRPCError);
         throw (e as TRPCError).cause;
       }
-    }).rejects.toThrow(WrongCredentialsException);
+    }).rejects.toThrow(
+      new HttpUnauthorizedException({
+        errorCode: "WrongCredentials"
+      })
+    );
   });
 
   test("Should not authenticate the user (user doesn't exist)", async () => {
@@ -112,6 +125,10 @@ describe("Authentication router test", () => {
         expect(e).toBeInstanceOf(TRPCError);
         throw (e as TRPCError).cause;
       }
-    }).rejects.toThrow(WrongCredentialsException);
+    }).rejects.toThrow(
+      new HttpUnauthorizedException({
+        errorCode: "WrongCredentials"
+      })
+    );
   });
 });

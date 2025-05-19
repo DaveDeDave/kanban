@@ -1,7 +1,7 @@
 import { TRPCError } from "@trpc/server";
 import { deleteTestData, loadTestData, testData } from "../test.data";
 import { Caller, Context, createCaller, createContext, RouterInputs } from "../test.utility";
-import { SubtaskNotFoundException } from "@kanban/base-lib";
+import { HttpNotFoundException } from "@kanban/base-lib";
 import { Subtask } from "@prisma/client";
 
 describe("Subtask router test", () => {
@@ -65,7 +65,11 @@ describe("Subtask router test", () => {
         expect(e).toBeInstanceOf(TRPCError);
         throw (e as TRPCError).cause;
       }
-    }).rejects.toThrow(SubtaskNotFoundException);
+    }).rejects.toThrow(
+      new HttpNotFoundException({
+        errorCode: "SubtaskNotFound"
+      })
+    );
   });
 
   // deleteSubtask
@@ -93,7 +97,11 @@ describe("Subtask router test", () => {
         expect(e).toBeInstanceOf(TRPCError);
         throw (e as TRPCError).cause;
       }
-    }).rejects.toThrow(SubtaskNotFoundException);
+    }).rejects.toThrow(
+      new HttpNotFoundException({
+        errorCode: "SubtaskNotFound"
+      })
+    );
   });
 
   // getSubtasks

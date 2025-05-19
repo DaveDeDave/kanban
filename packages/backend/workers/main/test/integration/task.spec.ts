@@ -1,7 +1,7 @@
 import { TRPCError } from "@trpc/server";
 import { deleteTestData, loadTestData, testData } from "../test.data";
 import { Caller, Context, createCaller, createContext, RouterInputs } from "../test.utility";
-import { TaskNotFoundException } from "@kanban/base-lib";
+import { HttpNotFoundException } from "@kanban/base-lib";
 import { Task } from "@prisma/client";
 
 describe("Task router test", () => {
@@ -66,7 +66,11 @@ describe("Task router test", () => {
         expect(e).toBeInstanceOf(TRPCError);
         throw (e as TRPCError).cause;
       }
-    }).rejects.toThrow(TaskNotFoundException);
+    }).rejects.toThrow(
+      new HttpNotFoundException({
+        errorCode: "TaskNotFound"
+      })
+    );
   });
 
   // deleteTask
@@ -94,7 +98,11 @@ describe("Task router test", () => {
         expect(e).toBeInstanceOf(TRPCError);
         throw (e as TRPCError).cause;
       }
-    }).rejects.toThrow(TaskNotFoundException);
+    }).rejects.toThrow(
+      new HttpNotFoundException({
+        errorCode: "TaskNotFound"
+      })
+    );
   });
 
   // getTasksByColumn
