@@ -2,15 +2,16 @@ import { middleware } from "@/config/trpc.config";
 import {
   ExpiredTokenException,
   InvalidTokenException,
-  MissingTokenException,
-  UnauthorizedException
+  HttpUnauthorizedException
 } from "@kanban/base-lib";
 import { User } from "@prisma/client";
 
 export const withAuthentication = middleware(async ({ ctx, next }) => {
   const authorizationHeader = ctx.headers.get("authorization");
   if (!authorizationHeader) {
-    throw new MissingTokenException();
+    throw new HttpUnauthorizedException({
+      errorCode: "MissingToken"
+    });
   }
 
   const token = authorizationHeader.replace("Bearer ", "");
@@ -20,7 +21,10 @@ export const withAuthentication = middleware(async ({ ctx, next }) => {
     payload = (await ctx.helpers.jwt.verify(token)) as User;
   } catch (e) {
     if (e instanceof InvalidTokenException || e instanceof ExpiredTokenException) {
-      throw new UnauthorizedException("Unauthorized", e);
+      throw new HttpUnauthorizedException({
+        errorCode: "Unauthorized",
+        cause: e
+      });
     } else {
       throw e;
     }
@@ -37,7 +41,10 @@ export const withAuthentication = middleware(async ({ ctx, next }) => {
   });
 
   if (!user) {
-    throw new UnauthorizedException("Unauthorized. User does not exists");
+    throw new HttpUnauthorizedException({
+      errorCode: "Unauthorized",
+      message: "Unauthorized. User does not exists"
+    });
   }
 
   return next({

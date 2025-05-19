@@ -1,5 +1,5 @@
 import { authProcedure } from "@/trpc/procedures";
-import { BoardNotFoundException, populatedBoardSchema } from "@kanban/base-lib";
+import { HttpNotFoundException, populatedBoardSchema } from "@kanban/base-lib";
 import { z } from "zod";
 
 export default authProcedure
@@ -36,7 +36,9 @@ export default authProcedure
     });
 
     if (!board) {
-      throw new BoardNotFoundException();
+      throw new HttpNotFoundException({
+        errorCode: "BoardNotFound"
+      });
     }
 
     return {

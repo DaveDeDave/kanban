@@ -1,5 +1,5 @@
 import { authProcedure } from "@/trpc/procedures";
-import { TaskNotFoundException, populatedTaskSchema } from "@kanban/base-lib";
+import { HttpNotFoundException, populatedTaskSchema } from "@kanban/base-lib";
 import { z } from "zod";
 
 export default authProcedure
@@ -33,7 +33,9 @@ export default authProcedure
     });
 
     if (!task) {
-      throw new TaskNotFoundException();
+      throw new HttpNotFoundException({
+        errorCode: "TaskNotFound"
+      });
     }
 
     return {

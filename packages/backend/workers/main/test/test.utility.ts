@@ -2,7 +2,7 @@ import { PrismaClient } from "@prisma/client";
 import { createCallerFactory } from "../src/config/trpc.config";
 import { inferRouterContext, inferRouterInputs, inferRouterOutputs } from "@trpc/server";
 import { getJwtHelper } from "@kanban/base-lib";
-import { AppRouter, appRouter } from "../src/trpc/appRouter";
+import { AppRouter, appRouter } from "../src/trpc/app-router";
 
 export const createCaller = createCallerFactory(appRouter);
 export type Caller = ReturnType<typeof createCaller>;
