@@ -1,0 +1,27 @@
+@import "src/components/theme/index.scss";
+
+.tag {
+  display: flex;
+  align-items: center;
+  gap: $gap-sm;
+
+  background-color: darken($color-light, 10%);
+  padding: $padding-container-sm;
+  border-radius: $border-radius-md;
+
+  .icon {
+    display: inline-flex;
+    align-items: center;
+    justify-self: center;
+    svg {
+      color: $color-primary;
+      width: px-to-rem(16);
+      height: px-to-rem(16);
+    }
+  }
+
+  .label {
+    color: $color-primary;
+    line-height: px-to-rem(15) !important;
+  }
+}

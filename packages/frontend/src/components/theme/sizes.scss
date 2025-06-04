@@ -19,12 +19,14 @@ $height-container-md: px-to-rem(45);
 
 // PADDING
 
+$padding-container-sm: px-to-rem(4) px-to-rem(6);
 $padding-container-md: px-to-rem(6) px-to-rem(12);
 $padding-container-md-with-borders: px-to-rem(4) px-to-rem(10);
 $padding-container-lg: px-to-rem(32) px-to-rem(16);
 $padding-box-sm: px-to-rem(4);
 $padding-box-md: px-to-rem(6);
 $padding-box-lg: px-to-rem(8);
+$padding-box-lg-2: px-to-rem(12);
 $padding-box-xl: px-to-rem(16);
 $padding-box-xxl: px-to-rem(24);
 

@@ -1,0 +1,26 @@
+@import "src/components/theme/index.scss";
+
+.boardCard {
+  display: flex;
+  flex-direction: column;
+  gap: px-to-rem(8);
+  padding: $padding-box-lg-2;
+  border-radius: $border-radius-md;
+  background-color: white;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+  width: px-to-rem(325);
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .content {
+    display: flex;
+    flex-direction: column;
+    gap: px-to-rem(4);
+  }
+  .footer {
+    display: flex;
+    justify-content: flex-end;
+  }
+}

@@ -21,6 +21,8 @@ export const BoardsStructure: FC = () => {
   });
   const location = useLocation();
 
+  console.log(location.pathname === "/app/boards");
+
   useEffect(() => {
     setBoardListOpen(false);
   }, [location.pathname]);
@@ -31,22 +33,24 @@ export const BoardsStructure: FC = () => {
     <>
       <CreateBoardModal open={isOpen} onClose={hideModal} />
       <div className={styles.boardsStructure}>
-        <BoardListPanel
-          open={boardListOpen}
-          onClose={() => {
-            setBoardListOpen(false);
-          }}
-          onChangeActiveBoard={(boardId) => {
-            navigate({
-              to: `/app/boards/${boardId}`
-            });
-          }}
-          onCreateBoard={() => {
-            showModal();
-          }}
-          activeBoardId={params.boardId ?? ""}
-          boards={boardsData?.boards ?? []}
-        />
+        {params.boardId ? (
+          <BoardListPanel
+            open={boardListOpen}
+            onClose={() => {
+              setBoardListOpen(false);
+            }}
+            onChangeActiveBoard={(boardId) => {
+              navigate({
+                to: `/app/boards/${boardId}`
+              });
+            }}
+            onCreateBoard={() => {
+              showModal();
+            }}
+            activeBoardId={params.boardId ?? ""}
+            boards={boardsData?.boards ?? []}
+          />
+        ) : null}
         <div className={styles.boardWrapper}>
           <div
             className={classNames(styles.overlay, boardListOpen && styles.visible)}

@@ -2,3 +2,15 @@
   $rem: calc($px / 16);
   @return #{$rem}rem;
 }
+
+@mixin max-lines($number-of-lines, $line-height) {
+  display: block; /* Fallback for non-webkit */
+  display: -webkit-box;
+  max-height: px-to-rem(calc($number-of-lines * $line-height));
+  -webkit-line-clamp: $number-of-lines;
+  line-clamp: $number-of-lines;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-wrap: break-word;
+}

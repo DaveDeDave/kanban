@@ -45,6 +45,11 @@
   },
   "components": {
     "molecules": {
+      "boardCard": {
+        "buttons": {
+          "view": "Mostra"
+        }
+      },
       "modals": {
         "logout": {
           "title": "Logout",
