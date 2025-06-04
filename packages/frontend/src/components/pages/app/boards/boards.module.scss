@@ -1,3 +1,10 @@
 @import "src/components/theme/index.scss";
 
-.boards {}
+.boards {
+  padding: $padding-box-xl $padding-box-xxl;
+  .boardList {
+    display: flex;
+    flex-wrap: wrap;
+    gap: $gap-lg;
+  }
+}

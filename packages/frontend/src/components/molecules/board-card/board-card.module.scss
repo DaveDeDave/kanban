@@ -24,3 +24,9 @@
     justify-content: flex-end;
   }
 }
+
+@media (max-width: $mobile) {
+  .boardCard {
+    width: 100%;
+  }
+}

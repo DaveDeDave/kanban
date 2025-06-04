@@ -6,7 +6,7 @@ import { Text } from "../typography/text";
 export interface ButtonProps
   extends DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement> {
   label?: string;
-  variant?: "primary" | "secondary" | "ghost";
+  variant?: "primary" | "secondary" | "ghost" | "link";
   rounded?: boolean;
   leftIcon?: ReactNode | null;
   rightIcon?: ReactNode | null;

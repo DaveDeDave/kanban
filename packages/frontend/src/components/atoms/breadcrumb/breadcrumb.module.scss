@@ -1,0 +1,15 @@
+@import "src/components/theme/index.scss";
+
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  .active {
+    span {
+      font-weight: 500 !important;
+    }
+    &:hover {
+      cursor: default;
+      color: $color-dark; 
+    }
+  }
+}
