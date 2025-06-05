@@ -16,31 +16,6 @@
     .title {
       flex-grow: 1;
     }
-    .actions {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: $padding-box-md;
-      border-radius: $border-radius-rounded;
-
-      transition: all $transition-short;
-
-      &:hover {
-        cursor: pointer;
-        background-color: darken($color-light, 2%);
-        padding: $padding-box-md;
-        border-radius: $border-radius-rounded;
-      }
-
-      &.open {
-        background-color: darken($color-light, 2%);
-      }
-
-      svg {
-        height: $icon-size-xs;
-        width: $icon-size-xs;
-      }
-    }
   }
 
   .body {

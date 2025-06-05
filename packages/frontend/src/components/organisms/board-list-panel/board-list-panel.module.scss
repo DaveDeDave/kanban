@@ -17,44 +17,12 @@
 
 @media (max-width: $tablet) {
   .boardListPanelWrapper {
-    width: px-to-rem(400);
-    position: absolute;
-    left: px-to-rem(-400);
-    top: 0;
-    height: 100%;
-    padding-top: px-to-rem(16);
-    z-index: $z-index-3;
-    transition: left $transition-short;
-
-    .closeButton {
-      color: $color-dark;
-      display: inline-flex;
-      border-radius: $border-radius-sm;
-      transition: all $transition-short;
-      border: none;
-      background-color: transparent;
-      padding: 0;
-      align-self: flex-end;
-      &:hover {
-        background-color: darken($color-light, 5%);
-        cursor: pointer;
-      }
-      margin-bottom: px-to-rem(90);
-    }
-
-    &.open {
-      left: 0;
-    }
+    display: none;
   }
 }
 
 @media (max-width: $mobile) {
   .boardListPanelWrapper {
-    padding-top: px-to-rem(16);
-    width: 100%;
-    left:-100%;
-    .closeButton {
-      margin-bottom: px-to-rem(16);
-    }
+    display: none;
   }
 }

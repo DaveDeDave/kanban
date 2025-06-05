@@ -1,0 +1,28 @@
+@import "src/components/theme/index.scss";
+
+.buttonDropdown {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: $padding-box-md;
+  border-radius: $border-radius-rounded;
+
+  transition: all $transition-short;
+
+  svg {
+    height: $icon-size-xs;
+    width: $icon-size-xs;
+  }
+  
+  &:hover {
+    cursor: pointer;
+    background-color: darken($color-light, 2%);
+    padding: $padding-box-md;
+    border-radius: $border-radius-rounded;
+  }
+
+  &.isOpen {
+    background-color: darken($color-light, 2%);
+  }
+
+}

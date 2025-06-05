@@ -45,6 +45,11 @@
   },
   "components": {
     "molecules": {
+      "boardCard": {
+        "buttons": {
+          "view": "View"
+        }
+      },
       "modals": {
         "logout": {
           "title": "Logout",
@@ -166,6 +171,18 @@
       "accountAlreadyExists": "Do you already have an account? <2>Login</2>",
       "errors": {
         "emailAlreadyExists": "The submitted email is already linked to an existing account"
+      }
+    },
+    "boards": {
+      "welcome": {
+        "title": "You don't have any boards yet",
+        "description": "Create your first board to unlock all the features of Project Kanban.",
+        "button": "Create a board"
+      }
+    },
+    "board": {
+      "header": {
+        "boardDescription": "Board's description"
       }
     }
   }
