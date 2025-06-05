@@ -1,10 +1,45 @@
 @import "src/components/theme/index.scss";
 
 .boards {
+  display: flex;
+  flex-direction: column;
   padding: $padding-box-xl $padding-box-xxl;
-  .boardList {
+  flex-grow: 1;
+  .createBoard {
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: column;
+    flex-grow: 1;
+    align-items: center;
+    margin-bottom: px-to-rem(42);
+    justify-content: center;
+    text-align: center;
+    gap: $gap-sm-2;
+    .icon {
+      display: inline-flex;
+      background-color: darken($color-light, 10%);
+      padding: $padding-box-xxl;
+      border-radius: $border-radius-rounded;
+      svg {
+        color: $color-primary;
+        width: px-to-rem(80);
+        height: px-to-rem(80);
+      }
+    }
+    button {
+      width: fit-content;
+    }
+  }
+  .boardListWrapper {
+    display: flex;
+    flex-direction: column;
     gap: $gap-lg;
+    button {
+      width: fit-content;
+    }
+    .boardList {
+      display: flex;
+      flex-wrap: wrap;
+      gap: $gap-lg;
+    }
   }
 }

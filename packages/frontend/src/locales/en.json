@@ -172,6 +172,18 @@
       "errors": {
         "emailAlreadyExists": "The submitted email is already linked to an existing account"
       }
+    },
+    "boards": {
+      "welcome": {
+        "title": "You don't have any boards yet",
+        "description": "Create your first board to unlock all the features of Project Kanban.",
+        "button": "Create a board"
+      }
+    },
+    "board": {
+      "header": {
+        "boardDescription": "Board's description"
+      }
     }
   }
 }

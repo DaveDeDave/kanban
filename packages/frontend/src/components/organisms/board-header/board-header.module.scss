@@ -3,7 +3,7 @@
 .boardHeader {
   display: flex;
   flex-direction: column;
-  gap: $gap-sm-2;
+  gap: $gap-lg;
   padding: $padding-box-xl $padding-box-xxl;
   background-color: $color-light;
   border-bottom: $border-size-sm solid darken($color-light, 10%);

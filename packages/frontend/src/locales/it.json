@@ -172,6 +172,18 @@
       "errors": {
         "emailAlreadyExists": "L'email inserita risulta già registrata"
       }
+    },
+    "boards": {
+      "welcome": {
+        "title": "Non hai ancora creato nessuna board",
+        "description": "Creane una ora per sfruttare tutte le funzionalità di Project Kanban.",
+        "button": "Create a board"
+      }
+    },
+    "board": {
+      "header": {
+        "boardDescription": "Descrizione della board"
+      }
     }
   }
 }

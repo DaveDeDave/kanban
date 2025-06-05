@@ -1,6 +1,5 @@
 import { FC } from "react";
 import styles from "./board-header.module.scss";
-import { Heading } from "@/atoms/typography/heading";
 import { Text } from "@/atoms/typography/text";
 import { Button } from "@/atoms/button";
 import { RiDeleteBinLine, RiPencilLine } from "@remixicon/react";
@@ -13,14 +12,14 @@ export interface BoardHeaderProps {
   onDelete: () => void;
 }
 
-export const BoardHeader: FC<BoardHeaderProps> = ({ name, description, onEdit, onDelete }) => {
+export const BoardHeader: FC<BoardHeaderProps> = ({ description, onEdit, onDelete }) => {
   return (
     <div className={styles.boardHeader}>
       <div>
-        <Heading size={1} weight={600}>
-          {name}
-        </Heading>
-        <Text>{description}</Text>
+        <Text withoutMargins weight={500}>
+          {t("pages.board.header.boardDescription")}
+        </Text>
+        <Text withoutMargins>{description}</Text>
       </div>
       <div className={styles.buttons}>
         <Button
