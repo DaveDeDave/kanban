@@ -38,7 +38,7 @@ export const BoardCard: FC<BoardCardProps> = ({
   return (
     <div className={styles.boardCard}>
       <div className={styles.header}>
-        <Tag icon={<RiCalendarEventFill />} label={dayjs(createdAt).format("D/M/YYYY")} />
+        <Tag icon={<RiCalendarEventFill />} label={dayjs(createdAt).format("YYYY/M/D")} />
         <ButtonDropdown
           dropdown={{
             align: "end",
