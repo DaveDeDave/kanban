@@ -45,6 +45,11 @@
   },
   "components": {
     "molecules": {
+      "boardCard": {
+        "buttons": {
+          "view": "Mostra"
+        }
+      },
       "modals": {
         "logout": {
           "title": "Logout",
@@ -166,6 +171,18 @@
       "accountAlreadyExists": "Hai già un account? <2>Accedi</2>",
       "errors": {
         "emailAlreadyExists": "L'email inserita risulta già registrata"
+      }
+    },
+    "boards": {
+      "welcome": {
+        "title": "Non hai ancora creato nessuna board",
+        "description": "Creane una ora per sfruttare tutte le funzionalità di Project Kanban.",
+        "button": "Create a board"
+      }
+    },
+    "board": {
+      "header": {
+        "boardDescription": "Descrizione della board"
       }
     }
   }

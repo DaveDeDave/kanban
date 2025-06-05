@@ -84,6 +84,30 @@
     }
   }
 
+  &.link {
+    padding: 0;
+    background-color: transparent;
+    border-color: transparent;
+    color: $color-dark;
+
+    &:hover {
+      background-color: transparent;
+      border-color: transparent;
+      color: $color-primary-hover;
+    }
+
+    &:active {
+      background-color: transparent;
+      border-color: transparent;
+    }
+  
+    &.disabled {
+      background-color: transparent;
+      border-color: transparent;
+      color: $color-dark;
+    }
+  }
+
   &.rounded {
     border-radius: 999px;
   }

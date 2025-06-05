@@ -27,6 +27,7 @@
     "@trpc/react-query": "^10.45.2",
     "@trpc/server": "^10.45.2",
     "classnames": "^2.5.1",
+    "dayjs": "^1.11.13",
     "formik": "^2.4.6",
     "i18next": "^23.10.1",
     "modern-normalize": "^2.0.0",

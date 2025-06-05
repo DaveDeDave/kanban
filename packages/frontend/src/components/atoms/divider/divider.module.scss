@@ -1,0 +1,15 @@
+@import "src/components/theme/index.scss";
+
+.divider {
+  width: 100%;
+  height: px-to-rem(1);
+  margin: 4px 0;
+
+  &.dark {
+    background-color: lighten($color-disabled-text, 15%);
+  }
+
+  &.light {
+    background-color: darken($color-light, 5%);
+  }
+}
