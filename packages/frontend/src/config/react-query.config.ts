@@ -18,6 +18,7 @@ const customFetch = async (url: URL | RequestInfo, options?: RequestInit) => {
     const body = (await response.json()) as any;
     const shouldRedirect = body?.find((res: any) => res?.error?.errorCode !== "WrongCredentials");
     if (shouldRedirect) {
+      localStorage.removeItem("accessToken");
       window.location.href = "/auth/login";
     }
 
