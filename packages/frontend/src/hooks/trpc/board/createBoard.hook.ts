@@ -1,5 +1,6 @@
 import { ReactQueryOptions, trpc } from "@/config/trpc.config";
 import { useNavigate } from "@tanstack/react-router";
+import { BOARDS_PER_PAGE } from "./getBoards.hook";
 
 export const useCreateBoard = (opts?: ReactQueryOptions["board"]["createBoard"]) => {
   const utils = trpc.useUtils();
@@ -10,14 +11,22 @@ export const useCreateBoard = (opts?: ReactQueryOptions["board"]["createBoard"])
     onSuccess: (response, variables, context) => {
       opts?.onSuccess?.(response, variables, context);
 
-      utils.board.getBoards.setData(undefined, (oldData) =>
-        oldData
-          ? {
-              boards: oldData.boards.concat({
-                ...response.createdBoard
-              })
-            }
-          : undefined
+      utils.board.getBoards.setInfiniteData(
+        {
+          limit: BOARDS_PER_PAGE
+        },
+        (oldData) =>
+          oldData
+            ? {
+                ...oldData,
+                pages: oldData.pages.map((page) => ({
+                  ...page,
+                  boards: page.boards.concat({
+                    ...response.createdBoard
+                  })
+                }))
+              }
+            : undefined
       );
 
       navigate({

@@ -6,6 +6,7 @@ import { useGetBoards } from "@/hooks/trpc/board/getBoards.hook";
 import { useModal } from "@/molecules/modals/base-modal/base-modal.hooks";
 import { CreateBoardModal } from "@/molecules/modals/board-modals";
 import { Breadcrumb, BreadcrumbProps } from "@/atoms/breadcrumb";
+import classNames from "classnames";
 
 export const BoardsStructure: FC = () => {
   const navigate = useNavigate();
@@ -23,7 +24,13 @@ export const BoardsStructure: FC = () => {
     setBoardListOpen(false);
   }, [location.pathname]);
 
-  const { data: boardsData } = useGetBoards();
+  const {
+    flatData: boardsData,
+    isLoading: isLoadingBoards,
+    hasNextPage: hasMoreBoards,
+    fetchNextPage: fetchMoreBoards,
+    isFetchingNextPage: isLoadingMoreBoards
+  } = useGetBoards();
 
   const handleBreadCrumbLinkClick = (pathname: string) => {
     navigate({
@@ -65,6 +72,12 @@ export const BoardsStructure: FC = () => {
         {params.boardId ? (
           <BoardListPanel
             open={boardListOpen}
+            activeBoardId={params.boardId ?? ""}
+            boards={boardsData?.boards ?? []}
+            isLoading={isLoadingBoards}
+            isThereMore={hasMoreBoards}
+            isLoadingMore={isLoadingMoreBoards}
+            loadMore={fetchMoreBoards}
             onClose={() => {
               setBoardListOpen(false);
             }}
@@ -76,11 +89,9 @@ export const BoardsStructure: FC = () => {
             onCreateBoard={() => {
               showModal();
             }}
-            activeBoardId={params.boardId ?? ""}
-            boards={boardsData?.boards ?? []}
           />
         ) : null}
-        <div className={styles.boardWrapper}>
+        <div className={classNames(styles.boardWrapper, !params.boardId && styles.scrollable)}>
           <div className={styles.header}>
             <Breadcrumb links={breadCrumbLinks} onClickLink={handleBreadCrumbLinkClick} />
           </div>

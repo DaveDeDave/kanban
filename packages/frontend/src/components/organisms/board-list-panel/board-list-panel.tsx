@@ -11,6 +11,10 @@ interface BoardListPanelProps {
   boards: Pick<RouterOutputs["board"]["getBoards"]["boards"][number], "id" | "name" | "ownerId">[];
   activeBoardId: string;
   open?: boolean;
+  isLoading?: boolean;
+  isThereMore?: boolean;
+  isLoadingMore?: boolean;
+  loadMore?: () => void;
   onClose?: () => void;
   onChangeActiveBoard: (boardId: string) => void;
   onCreateBoard?: () => void;
@@ -20,6 +24,10 @@ export const BoardListPanel: FC<BoardListPanelProps> = ({
   boards,
   activeBoardId,
   open,
+  isLoading,
+  isThereMore,
+  isLoadingMore,
+  loadMore,
   onClose,
   onChangeActiveBoard,
   onCreateBoard
@@ -43,14 +51,22 @@ export const BoardListPanel: FC<BoardListPanelProps> = ({
             : undefined
         }
       >
-        <BoardList
-          boards={boards}
-          activeBoardId={activeBoardId}
-          onChangeActiveBoard={(boardId) => {
-            onChangeActiveBoard(boardId);
-            onClose?.();
-          }}
-        />
+        {/* TODO: add loading state */}
+        {isLoading ? (
+          ""
+        ) : (
+          <BoardList
+            boards={boards}
+            activeBoardId={activeBoardId}
+            isThereMore={isThereMore}
+            isLoadingMore={isLoadingMore}
+            loadMore={loadMore}
+            onChangeActiveBoard={(boardId) => {
+              onChangeActiveBoard(boardId);
+              onClose?.();
+            }}
+          />
+        )}
       </Collapsible>
     </div>
   );

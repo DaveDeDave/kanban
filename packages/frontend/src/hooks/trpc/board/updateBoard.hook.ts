@@ -1,4 +1,5 @@
 import { ReactQueryOptions, trpc } from "@/config/trpc.config";
+import { BOARDS_PER_PAGE } from "./getBoards.hook";
 
 export const useUpdateBoard = (opts?: ReactQueryOptions["board"]["updateBoard"]) => {
   const utils = trpc.useUtils();
@@ -8,19 +9,23 @@ export const useUpdateBoard = (opts?: ReactQueryOptions["board"]["updateBoard"])
     onSuccess: (response, variables, context) => {
       opts?.onSuccess?.(response, variables, context);
 
-      utils.board.getBoards.setData(undefined, (oldData) =>
+      utils.board.getBoards.setInfiniteData({ limit: BOARDS_PER_PAGE }, (oldData) =>
         oldData
           ? {
-              boards: oldData.boards.map((board) => {
-                if (board.id !== response.updatedBoard.id) {
-                  return board;
-                }
+              ...oldData,
+              pages: oldData.pages.map((page) => ({
+                ...page,
+                boards: page.boards.map((board) => {
+                  if (board.id !== response.updatedBoard.id) {
+                    return board;
+                  }
 
-                return {
-                  ...board,
-                  ...response.updatedBoard
-                };
-              })
+                  return {
+                    ...board,
+                    ...response.updatedBoard
+                  };
+                })
+              }))
             }
           : undefined
       );
