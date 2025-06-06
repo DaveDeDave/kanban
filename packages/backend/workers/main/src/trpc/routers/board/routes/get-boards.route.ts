@@ -3,22 +3,42 @@ import { boardSchema } from "@kanban/base-lib";
 import { z } from "zod";
 
 export default authProcedure
-  .output(
+  .input(
     z.object({
-      boards: z.array(boardSchema)
+      limit: z.number().default(20),
+      cursor: z.string().nullish()
     })
   )
-  .query(async ({ ctx: { prisma, user } }) => {
+  .output(
+    z.object({
+      boards: z.array(boardSchema),
+      nextCursor: z.string().optional()
+    })
+  )
+  .query(async ({ ctx: { prisma, user }, input: { limit, cursor } }) => {
     const boards = await prisma.board.findMany({
+      take: limit + 1,
       where: {
         ownerId: user.id
       },
-      orderBy: {
-        createdAt: "asc"
-      }
+      cursor: cursor ? { id: cursor } : undefined,
+      orderBy: [
+        {
+          createdAt: "asc"
+        },
+        {
+          id: "asc"
+        }
+      ]
     });
 
+    let nextCursor: string | undefined;
+    if (boards.length > limit) {
+      nextCursor = boards.pop()?.id;
+    }
+
     return {
-      boards
+      boards,
+      nextCursor
     };
   });

@@ -6,6 +6,18 @@
   border-radius: $border-radius-md;
   margin: 0;
   transition: background-color $transition-short;
+  display: flex;
+  align-items: center;
+  gap: px-to-rem(6);
+  .icon {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    svg {
+      width: px-to-rem(18);
+      height: px-to-rem(18);
+    }
+  }
   &:hover {
     cursor: pointer;
     background-color: darken($color-light, 2%);

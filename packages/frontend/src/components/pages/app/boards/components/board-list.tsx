@@ -16,7 +16,14 @@ export interface BoardListProps {
 }
 
 export const BoardList: FC<BoardListProps> = ({ onCreateBoard, onUpdateBoard, onDeleteBoard }) => {
-  const { data: boardsData, isLoading, isError } = useGetBoards();
+  const {
+    flatData: boardsData,
+    isLoading,
+    isError,
+    hasNextPage,
+    fetchNextPage,
+    isFetchingNextPage
+  } = useGetBoards();
 
   const navigate = useNavigate();
 
@@ -27,14 +34,14 @@ export const BoardList: FC<BoardListProps> = ({ onCreateBoard, onUpdateBoard, on
   };
 
   if (isLoading) {
-    return "TODO: loading state";
+    return ""; // TODO: loading state
   }
 
   if (isError) {
     return "TODO: error state";
   }
 
-  if (boardsData.boards.length === 0) {
+  if (boardsData?.boards.length === 0) {
     return (
       <div className={styles.createBoard}>
         <span className={styles.icon}>
@@ -61,7 +68,7 @@ export const BoardList: FC<BoardListProps> = ({ onCreateBoard, onUpdateBoard, on
         onClick={onCreateBoard}
       />
       <div className={styles.boardList}>
-        {boardsData.boards.map((board) => (
+        {boardsData?.boards.map((board) => (
           <BoardCard
             key={board.id}
             id={board.id}
@@ -82,6 +89,12 @@ export const BoardList: FC<BoardListProps> = ({ onCreateBoard, onUpdateBoard, on
           />
         ))}
       </div>
+      {isFetchingNextPage ? (
+        // TODO: loading next page state
+        ""
+      ) : hasNextPage ? (
+        <Button onClick={() => fetchNextPage()} label="Fetch next page" />
+      ) : null}
     </div>
   );
 };

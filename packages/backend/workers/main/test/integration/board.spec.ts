@@ -109,9 +109,37 @@ describe("Board router test", () => {
 
   // getBoards
 
-  test("Should get all the boards", async () => {
-    const response = await caller.board.getBoards();
+  test("Should get two boards", async () => {
+    const response = await caller.board.getBoards({
+      limit: 100
+    });
     expect(response.boards.length).toBe(2);
+    expect(response.nextCursor).toBeUndefined();
+    board = null;
+  });
+
+  test("Should get one board", async () => {
+    const response = await caller.board.getBoards({
+      limit: 1
+    });
+    expect(response.boards.length).toBe(1);
+    expect(response.nextCursor).toBeDefined();
+    board = null;
+  });
+
+  test("Should get one board (using cursor)", async () => {
+    const response = await caller.board.getBoards({
+      limit: 1
+    });
+    expect(response.boards.length).toBe(1);
+    expect(response.nextCursor).toBeDefined();
+
+    const responseWithCursor = await caller.board.getBoards({
+      limit: 1,
+      cursor: response.nextCursor
+    });
+    expect(responseWithCursor.boards.length).toBe(1);
+    expect(responseWithCursor.nextCursor).toBeUndefined();
     board = null;
   });
 
