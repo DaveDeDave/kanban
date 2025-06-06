@@ -9,6 +9,9 @@
   border-right: $border-size-sm solid darken($color-light, 10%);
   min-width: px-to-rem(300);
   width: px-to-rem(300);
+  overflow-y: auto;
+  max-height: 100vh; /* Support for legacy browsers */
+  max-height: 100dvh;
   .closeButton {
     display: none;
   }

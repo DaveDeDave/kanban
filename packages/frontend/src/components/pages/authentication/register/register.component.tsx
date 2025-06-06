@@ -52,7 +52,6 @@ export const Component: FC = () => {
     onSubmit: async ({ email, password }) => {
       try {
         await appContext!.register.mutateAsync({ email, password });
-        console.log("continuo");
       } catch (e: any) {
         if (e?.shape?.errorCode === "EmailAlreadyExists") {
           setError("pages.register.errors.emailAlreadyExists");

@@ -2,14 +2,16 @@ import { FC } from "react";
 import styles from "./board-list-element.module.scss";
 import textStyles from "@/atoms/typography/text/text.module.scss";
 import classNames from "classnames";
+import { ReactNode } from "@tanstack/react-router";
 
 interface BoardListElement {
   name: string;
+  icon?: ReactNode;
   isActive?: boolean;
   onClick?: () => void;
 }
 
-export const BoardListElement: FC<BoardListElement> = ({ name, isActive, onClick }) => {
+export const BoardListElement: FC<BoardListElement> = ({ name, icon, isActive, onClick }) => {
   return (
     <li
       className={classNames(
@@ -21,7 +23,8 @@ export const BoardListElement: FC<BoardListElement> = ({ name, isActive, onClick
       )}
       onClick={onClick}
     >
-      {name}
+      {icon ? <span className={styles.icon}>{icon}</span> : null}
+      <span className={styles.label}>{name}</span>
     </li>
   );
 };
