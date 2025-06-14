@@ -1,7 +1,7 @@
 {
   "name": "kanban",
   "version": "1.0.0",
-  "description": "Kanban task management web app challenge from frontend mentor",
+  "description": "Kanban task management web app",
   "repository": "https://github.com/DaveDeDave/kanban",
   "author": "Davide Ceci",
   "license": "MIT",
