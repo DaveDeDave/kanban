@@ -30,7 +30,7 @@
           "placeholder": "Inserisci la tua password",
           "errors": {
             "required": "Inserisci la tua password",
-            "weak": "La password non è abbastanza forte"
+            "weak": "La password non è abbastanza sicura"
           }
         },
         "repeatPassword": {
@@ -61,6 +61,11 @@
         }
       },
       "modals": {
+        "deleteAccount": {
+          "title": "Conferma cancellazione account",
+          "description-1": "Sei sicuro di voler cancellare il tuo account? Questa operazione è irreversibile e perderai tutti i tuoi dati.",
+          "description-2": "Per confermare, inserisci il tuo indirizzo email <bold>{{email}}</bold> e conferma l'operazione."
+        },
         "logout": {
           "title": "Disconnettiti",
           "description": "Sei sicuro di volerti disconnettere?"
@@ -194,6 +199,20 @@
     "board": {
       "header": {
         "boardDescription": "Descrizione della board"
+      }
+    },
+    "settings": {
+      "page": "Impostazioni",
+      "sections": {
+        "profile": {
+          "title": "Profilo",
+          "email": "Email"
+        },
+        "other": {
+          "title": "Altro",
+          "deleteAccount": "Vuoi cancellare il tuo account?",
+          "deleteAccountButton": "Cancella account"
+        }
       }
     }
   }

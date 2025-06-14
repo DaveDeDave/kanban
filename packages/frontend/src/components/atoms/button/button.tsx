@@ -9,6 +9,7 @@ export interface ButtonProps
   variant?: "primary" | "secondary" | "ghost" | "link";
   destructive?: boolean;
   rounded?: boolean;
+  fitContent?: boolean;
   leftIcon?: ReactNode | null;
   rightIcon?: ReactNode | null;
   iconClassName?: string;
@@ -21,6 +22,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       variant = "primary",
       destructive,
       rounded,
+      fitContent,
       leftIcon,
       rightIcon,
       className,
@@ -38,6 +40,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
           styles[variant],
           destructive && styles.destructive,
           rounded && styles.rounded,
+          fitContent && styles.fitContent,
           disabled && styles.disabled,
           className
         )}

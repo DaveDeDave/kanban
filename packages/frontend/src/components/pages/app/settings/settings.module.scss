@@ -1,0 +1,31 @@
+@import "src/components/theme/index.scss";
+
+.profileSettings {
+  display: flex;
+  flex-direction: column;
+
+  .informationList {
+    display: flex;
+    flex-direction: column;
+    gap: px-to-rem(8);
+    max-width: px-to-rem(750);
+    margin-top: px-to-rem(8);
+    margin-bottom: px-to-rem(24);
+    .informationRow {
+      display: flex;
+      justify-content: space-between;
+      gap: px-to-rem(16);
+    }
+  }
+}
+
+@media (max-width: $mobile) {
+  .profileSettings {
+    .informationList {
+      .informationRow {
+        flex-direction: column;
+        gap: px-to-rem(4);
+      }
+    }
+  }
+}
