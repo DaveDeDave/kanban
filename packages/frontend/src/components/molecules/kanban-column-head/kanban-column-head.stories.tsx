@@ -33,7 +33,7 @@ export const WithActions: Story = {
     settings: [
       {
         icon: <RiEdit2Line />,
-        label: "Edit",
+        label: "Update",
         onClick: () => {}
       },
       {
@@ -59,7 +59,7 @@ export const ColorVariant: Story = {
     settings: [
       {
         icon: <RiEdit2Line />,
-        label: "Edit",
+        label: "Update",
         onClick: () => {}
       },
       {

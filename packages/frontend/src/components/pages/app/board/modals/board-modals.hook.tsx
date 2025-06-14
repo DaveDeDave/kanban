@@ -2,7 +2,7 @@ import { useModal } from "@/molecules/modals/base-modal/base-modal.hooks";
 import { useState } from "react";
 
 export const useBoardModals = () => {
-  const [editBoard, setEditBoard] = useState<{
+  const [updateBoard, setUpdateBoard] = useState<{
     id: string;
     name: string;
     description: string;
@@ -17,7 +17,7 @@ export const useBoardModals = () => {
     showModal: showCreateColumnModal,
     hideModal: hideCreateColumnModal
   } = useModal();
-  const [editColumn, setEditColumn] = useState<{
+  const [updateColumn, setUpdateColumn] = useState<{
     id: string;
     name: string;
     color: string;
@@ -28,7 +28,7 @@ export const useBoardModals = () => {
   } | null>(null);
 
   const [createTask, setCreateTask] = useState<{ columnId: string } | null>(null);
-  const [editTask, setEditTask] = useState<{
+  const [updateTask, setUpdateTask] = useState<{
     id: string;
     title: string;
     description: string;
@@ -38,12 +38,12 @@ export const useBoardModals = () => {
     title: string;
   } | null>(null);
 
-  const showEditBoardModal = (board: { id: string; name: string; description: string }) => {
-    setEditBoard(board);
+  const showUpdateBoardModal = (board: { id: string; name: string; description: string }) => {
+    setUpdateBoard(board);
   };
 
-  const hideEditBoardModal = () => {
-    setEditBoard(null);
+  const hideUpdateBoardModal = () => {
+    setUpdateBoard(null);
   };
 
   const showDeleteBoardModal = (board: { id: string; name: string }) => {
@@ -54,12 +54,12 @@ export const useBoardModals = () => {
     setDeleteBoard(null);
   };
 
-  const showEditColumnModal = (column: { id: string; name: string; color: string }) => {
-    setEditColumn(column);
+  const showUpdateColumnModal = (column: { id: string; name: string; color: string }) => {
+    setUpdateColumn(column);
   };
 
-  const hideEditColumnModal = () => {
-    setEditColumn(null);
+  const hideUpdateColumnModal = () => {
+    setUpdateColumn(null);
   };
 
   const showDeleteColumnModal = (column: { id: string; name: string }) => {
@@ -78,12 +78,12 @@ export const useBoardModals = () => {
     setCreateTask(null);
   };
 
-  const showEditTaskModal = (task: { id: string; title: string; description: string }) => {
-    setEditTask(task);
+  const showUpdateTaskModal = (task: { id: string; title: string; description: string }) => {
+    setUpdateTask(task);
   };
 
-  const hideEditTaskModal = () => {
-    setEditTask(null);
+  const hideUpdateTaskModal = () => {
+    setUpdateTask(null);
   };
 
   const showDeleteTaskModal = (task: { id: string; title: string }) => {
@@ -95,10 +95,10 @@ export const useBoardModals = () => {
   };
 
   return {
-    editBoard,
-    editBoardModalIsOpen: editBoard !== null,
-    showEditBoardModal,
-    hideEditBoardModal,
+    updateBoard,
+    updateBoardModalIsOpen: updateBoard !== null,
+    showUpdateBoardModal,
+    hideUpdateBoardModal,
     deleteBoard,
     deleteBoardModalIsOpen: deleteBoard !== null,
     showDeleteBoardModal,
@@ -106,10 +106,10 @@ export const useBoardModals = () => {
     createColumnModalIsOpen,
     showCreateColumnModal,
     hideCreateColumnModal,
-    editColumn,
-    editColumnModalIsOpen: editColumn !== null,
-    showEditColumnModal,
-    hideEditColumnModal,
+    updateColumn,
+    updateColumnModalIsOpen: updateColumn !== null,
+    showUpdateColumnModal,
+    hideUpdateColumnModal,
     deleteColumn,
     deleteColumnModalIsOpen: deleteColumn !== null,
     showDeleteColumnModal,
@@ -118,10 +118,10 @@ export const useBoardModals = () => {
     createTaskModalIsOpen: createTask !== null,
     showCreateTaskModal,
     hideCreateTaskModal,
-    editTask,
-    editTaskModalIsOpen: editTask !== null,
-    showEditTaskModal,
-    hideEditTaskModal,
+    updateTask,
+    updateTaskModalIsOpen: updateTask !== null,
+    showUpdateTaskModal,
+    hideUpdateTaskModal,
     deleteTask,
     deleteTaskModalIsOpen: deleteTask !== null,
     showDeleteTaskModal,

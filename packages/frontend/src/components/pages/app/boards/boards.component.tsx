@@ -15,7 +15,7 @@ export const Component: FC = () => {
     showModal: showCreateBoardModal
   } = useModal();
 
-  const [editBoard, setEditBoard] = useState<{
+  const [updateBoard, setUpdateBoard] = useState<{
     id: string;
     name: string;
     description: string;
@@ -29,10 +29,10 @@ export const Component: FC = () => {
     <div className={styles.boards}>
       <CreateBoardModal open={isCreateBoardModalOpen} onClose={hideCreateBoardModal} />
       <UpdateBoardModal
-        boardId={editBoard?.id}
-        defaultValues={editBoard!}
-        open={editBoard !== null}
-        onClose={() => setEditBoard(null)}
+        boardId={updateBoard?.id}
+        defaultValues={updateBoard!}
+        open={updateBoard !== null}
+        onClose={() => setUpdateBoard(null)}
       />
       <DeleteBoardModal
         boardId={deleteBoard?.id}
@@ -42,7 +42,7 @@ export const Component: FC = () => {
       />
       <BoardList
         onCreateBoard={showCreateBoardModal}
-        onUpdateBoard={setEditBoard}
+        onUpdateBoard={setUpdateBoard}
         onDeleteBoard={setDeleteBoard}
       />
     </div>

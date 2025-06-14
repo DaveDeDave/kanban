@@ -9,7 +9,7 @@ const meta: Meta<typeof BoardCard> = {
     layout: "centered"
   },
   tags: ["autodocs"],
-  args: { onOpen: fn(), onEdit: fn(), onDelete: fn() }
+  args: { onOpen: fn(), onUpdate: fn(), onDelete: fn() }
 };
 
 export default meta;

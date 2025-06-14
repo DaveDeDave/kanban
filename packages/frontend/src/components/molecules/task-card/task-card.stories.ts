@@ -6,7 +6,7 @@ const meta: Meta<typeof TaskCard> = {
   title: "Molecules/TaskCard",
   component: TaskCard,
   tags: ["autodocs"],
-  args: { onEdit: fn(), onDelete: fn() }
+  args: { onUpdate: fn(), onDelete: fn() }
 };
 
 export default meta;

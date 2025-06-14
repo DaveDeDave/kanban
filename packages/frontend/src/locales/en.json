@@ -9,6 +9,10 @@
       "cancelButtonLabel": "Cancel",
       "closeModal": "Close"
     },
+    "label": {
+      "update": "Update",
+      "delete": "Delete"
+    },
     "form": {
       "unexpectedError": "Something went wrong. Try again in a moment.",
       "fields": {
@@ -78,7 +82,7 @@
           }
         },
         "updateBoard": {
-          "title": "Edit board",
+          "title": "Update board",
           "description": "Update the information of <bold>{{name}}</bold> board."
         },
         "deleteBoard": {
@@ -107,7 +111,7 @@
           }
         },
         "updateColumn": {
-          "title": "Edit column",
+          "title": "Update column",
           "description": "Update the information of <bold>{{name}}</bold> column."
         },
         "deleteColumn": {
@@ -137,7 +141,7 @@
           }
         },
         "updateTask": {
-          "title": "Edit task",
+          "title": "Update task",
           "description": "Update the information of <bold>{{title}}</bold> task."
         },
         "deleteTask": {
@@ -152,7 +156,7 @@
       },
       "boardHeader": {
         "buttons": {
-          "edit": "Edit",
+          "update": "Update",
           "delete": "Delete"
         }
       }

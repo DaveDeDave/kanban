@@ -76,7 +76,7 @@ export const BoardList: FC<BoardListProps> = ({ onCreateBoard, onUpdateBoard, on
             description={board.description}
             createdAt={new Date(board.createdAt)}
             onOpen={handleOpen}
-            onEdit={(id) => {
+            onUpdate={(id) => {
               onUpdateBoard({
                 id,
                 name: board.name,

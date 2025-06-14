@@ -37,8 +37,8 @@ export const Component: FC = () => {
         <BoardHeader
           name={boardData.board.name}
           description={boardData.board.description}
-          onEdit={() => {
-            boardModals.showEditBoardModal({
+          onUpdate={() => {
+            boardModals.showUpdateBoardModal({
               id: boardId,
               name: boardData.board.name,
               description: boardData.board.description
@@ -60,8 +60,8 @@ export const Component: FC = () => {
                 color: column.color
               }}
               tasks={column.tasks}
-              onEdit={() => {
-                boardModals.showEditColumnModal({
+              onUpdate={() => {
+                boardModals.showUpdateColumnModal({
                   id: column.id,
                   name: column.name,
                   color: column.color
@@ -78,8 +78,8 @@ export const Component: FC = () => {
                   columnId: column.id
                 });
               }}
-              onEditTask={(task) => {
-                boardModals.showEditTaskModal(task);
+              onUpdateTask={(task) => {
+                boardModals.showUpdateTaskModal(task);
               }}
               onDeleteTask={(task) => {
                 boardModals.showDeleteTaskModal({

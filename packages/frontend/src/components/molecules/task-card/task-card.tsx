@@ -3,16 +3,17 @@ import styles from "./task-card.module.scss";
 import { RiDeleteBin2Line, RiMoreFill, RiPencilLine } from "@remixicon/react";
 import { Text } from "@/atoms/typography/text";
 import { ButtonDropdown } from "@/atoms/button-dropdown";
+import { t } from "i18next";
 
 export interface TaskCardProps {
   id: string;
   title: string;
   description: string;
-  onEdit: (task: { id: string; title: string; description: string }) => void;
+  onUpdate: (task: { id: string; title: string; description: string }) => void;
   onDelete: (task: { id: string; title: string }) => void;
 }
 
-export const TaskCard: FC<TaskCardProps> = ({ id, title, description, onEdit, onDelete }) => {
+export const TaskCard: FC<TaskCardProps> = ({ id, title, description, onUpdate, onDelete }) => {
   return (
     <div className={styles.taskCard}>
       <div className={styles.head}>
@@ -26,9 +27,9 @@ export const TaskCard: FC<TaskCardProps> = ({ id, title, description, onEdit, on
             align: "end",
             items: [
               {
-                label: "Edit",
+                label: t("general.label.update"),
                 onClick: () =>
-                  onEdit({
+                  onUpdate({
                     id,
                     title,
                     description
@@ -36,7 +37,7 @@ export const TaskCard: FC<TaskCardProps> = ({ id, title, description, onEdit, on
                 icon: <RiPencilLine />
               },
               {
-                label: "Delete",
+                label: t("general.label.delete"),
                 onClick: () => onDelete({ id, title }),
                 icon: <RiDeleteBin2Line />
               }
