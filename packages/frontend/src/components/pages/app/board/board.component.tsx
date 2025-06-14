@@ -45,7 +45,10 @@ export const Component: FC = () => {
             });
           }}
           onDelete={() => {
-            boardModals.showDeleteBoardModal(boardData.board.id);
+            boardModals.showDeleteBoardModal({
+              id: boardData.board.id,
+              name: boardData.board.name
+            });
           }}
         />
         <div className={styles.columns}>
@@ -65,7 +68,10 @@ export const Component: FC = () => {
                 });
               }}
               onDelete={() => {
-                boardModals.showDeleteColumnModal(column.id);
+                boardModals.showDeleteColumnModal({
+                  id: column.id,
+                  name: column.name
+                });
               }}
               onAddTask={() => {
                 boardModals.showCreateTaskModal({
@@ -75,8 +81,11 @@ export const Component: FC = () => {
               onEditTask={(task) => {
                 boardModals.showEditTaskModal(task);
               }}
-              onDeleteTask={(taskId) => {
-                boardModals.showDeleteTaskModal(taskId);
+              onDeleteTask={(task) => {
+                boardModals.showDeleteTaskModal({
+                  id: task.id,
+                  title: task.title
+                });
               }}
             />
           ))}

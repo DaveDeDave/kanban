@@ -8,6 +8,7 @@ import { t } from "i18next";
 import { Text } from "@/atoms/typography/text";
 import classNames from "classnames";
 import { MODAL_ANIMATION_DURATION_MILLIS } from "./base-modal.const";
+import { ReactNode } from "@tanstack/react-router";
 
 interface ModalButton {
   onClick?: () => void;
@@ -16,7 +17,7 @@ interface ModalButton {
 
 export interface ModalProps extends Dialog.DialogProps {
   title?: string;
-  description?: string;
+  description?: string | ReactNode;
   closable?: boolean;
   maskClosable?: boolean;
   confirmButton?: ModalButton;

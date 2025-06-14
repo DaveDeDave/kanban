@@ -1,9 +1,11 @@
-import { FC, useEffect, useMemo } from "react";
+import { FC, useEffect, useMemo, useState } from "react";
 import { t } from "i18next";
 import { ModalProps } from "../../base-modal";
 import { useColumnForm } from "../column-form.hook";
 import { ColumnFormModal } from "../column-form-modal.component";
 import { useUpdateColumn } from "@/hooks/trpc/column/updateColumn.hook";
+import { Text } from "@/atoms/typography/text";
+import { Trans } from "react-i18next";
 
 export interface UpdateColumnModalProps extends ModalProps {
   columnId?: string;
@@ -20,6 +22,7 @@ export const UpdateColumnModal: FC<UpdateColumnModalProps> = ({
   onClose,
   ...props
 }) => {
+  const [name, setName] = useState("");
   const updateColumn = useUpdateColumn();
 
   const onCloseModal = () => {
@@ -45,6 +48,14 @@ export const UpdateColumnModal: FC<UpdateColumnModalProps> = ({
     }
   }, [open, defaultValues]);
 
+  useEffect(() => {
+    if (!defaultValues?.name) {
+      return;
+    }
+
+    setName(defaultValues.name);
+  }, [defaultValues?.name]);
+
   const isConfirmDisabled = useMemo(() => {
     const hasErrors = Object.keys(formik.errors).length > 0;
     // const isTouched = Object.values(formik.touched).find((touched) => touched === true);
@@ -54,8 +65,16 @@ export const UpdateColumnModal: FC<UpdateColumnModalProps> = ({
 
   return (
     <ColumnFormModal
-      title={t("components.molecules.modals.editColumn.title")}
-      description={t("components.molecules.modals.editColumn.description")}
+      title={t("components.molecules.modals.updateColumn.title")}
+      description={
+        <Trans
+          i18nKey="components.molecules.modals.updateColumn.description"
+          components={{ bold: <Text weight={500} type="label" /> }}
+          values={{
+            name
+          }}
+        />
+      }
       isLoading={updateColumn.isLoading}
       disabled={isConfirmDisabled}
       formik={formik}

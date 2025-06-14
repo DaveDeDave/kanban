@@ -12,7 +12,7 @@ import { RiAddLine, RiKanbanView } from "@remixicon/react";
 export interface BoardListProps {
   onCreateBoard: () => void;
   onUpdateBoard: (board: { id: string; name: string; description: string }) => void;
-  onDeleteBoard: (id: string) => void;
+  onDeleteBoard: (board: { id: string; name: string }) => void;
 }
 
 export const BoardList: FC<BoardListProps> = ({ onCreateBoard, onUpdateBoard, onDeleteBoard }) => {
@@ -84,7 +84,10 @@ export const BoardList: FC<BoardListProps> = ({ onCreateBoard, onUpdateBoard, on
               });
             }}
             onDelete={(id) => {
-              onDeleteBoard(id);
+              onDeleteBoard({
+                id,
+                name: board.name
+              });
             }}
           />
         ))}

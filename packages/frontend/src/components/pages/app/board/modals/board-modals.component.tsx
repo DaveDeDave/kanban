@@ -14,7 +14,7 @@ export const BoardModals: FC<BoardModalsProps> = ({
   editBoard,
   editBoardModalIsOpen,
   hideEditBoardModal,
-  deleteBoardId,
+  deleteBoard,
   deleteBoardModalIsOpen,
   hideDeleteBoardModal,
   createColumnModalIsOpen,
@@ -22,7 +22,7 @@ export const BoardModals: FC<BoardModalsProps> = ({
   editColumn,
   editColumnModalIsOpen,
   hideEditColumnModal,
-  deleteColumnId,
+  deleteColumn,
   deleteColumnModalIsOpen,
   hideDeleteColumnModal,
   createTask,
@@ -31,7 +31,7 @@ export const BoardModals: FC<BoardModalsProps> = ({
   editTask,
   editTaskModalIsOpen,
   hideEditTaskModal,
-  deleteTaskId,
+  deleteTask,
   deleteTaskModalIsOpen,
   hideDeleteTaskModal
 }) => {
@@ -44,7 +44,8 @@ export const BoardModals: FC<BoardModalsProps> = ({
         onClose={hideEditBoardModal}
       />
       <DeleteBoardModal
-        boardId={deleteBoardId!}
+        boardId={deleteBoard?.id}
+        boardName={deleteBoard?.name}
         open={deleteBoardModalIsOpen}
         onClose={hideDeleteBoardModal}
       />
@@ -63,7 +64,8 @@ export const BoardModals: FC<BoardModalsProps> = ({
         onClose={hideEditColumnModal}
       />
       <DeleteColumnModal
-        columnId={deleteColumnId!}
+        columnId={deleteColumn?.id}
+        columnName={deleteColumn?.name}
         open={deleteColumnModalIsOpen}
         onClose={hideDeleteColumnModal}
       />
@@ -82,7 +84,8 @@ export const BoardModals: FC<BoardModalsProps> = ({
         onClose={hideEditTaskModal}
       />
       <DeleteTaskModal
-        taskId={deleteTaskId!}
+        taskId={deleteTask?.id}
+        taskTitle={deleteTask?.title}
         open={deleteTaskModalIsOpen}
         onClose={hideDeleteTaskModal}
       />

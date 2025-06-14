@@ -20,7 +20,10 @@ export const Component: FC = () => {
     name: string;
     description: string;
   } | null>(null);
-  const [deleteBoardId, setDeleteBoardId] = useState<string | null>(null);
+  const [deleteBoard, setDeleteBoard] = useState<{
+    id: string;
+    name: string;
+  } | null>(null);
 
   return (
     <div className={styles.boards}>
@@ -32,14 +35,15 @@ export const Component: FC = () => {
         onClose={() => setEditBoard(null)}
       />
       <DeleteBoardModal
-        boardId={deleteBoardId!}
-        open={deleteBoardId !== null}
-        onClose={() => setDeleteBoardId(null)}
+        boardId={deleteBoard?.id}
+        boardName={deleteBoard?.name}
+        open={deleteBoard !== null}
+        onClose={() => setDeleteBoard(null)}
       />
       <BoardList
         onCreateBoard={showCreateBoardModal}
         onUpdateBoard={setEditBoard}
-        onDeleteBoard={setDeleteBoardId}
+        onDeleteBoard={setDeleteBoard}
       />
     </div>
   );
