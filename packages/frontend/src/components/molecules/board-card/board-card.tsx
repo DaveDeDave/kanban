@@ -51,6 +51,7 @@ export const BoardCard: FC<BoardCardProps> = ({
               {
                 label: t("general.label.delete"),
                 onClick: () => onDelete(id),
+                destructive: true,
                 icon: <RiDeleteBin2Line />
               }
             ]

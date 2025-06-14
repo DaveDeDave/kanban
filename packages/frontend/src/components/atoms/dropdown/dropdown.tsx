@@ -2,10 +2,12 @@ import { FC } from "react";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import styles from "./dropdown.module.scss";
 import { ReactNode } from "@tanstack/react-router";
+import classNames from "classnames";
 
 export interface DropdownItem {
   icon?: ReactNode;
   label: string;
+  destructive?: boolean;
   onClick: () => void;
 }
 
@@ -35,7 +37,11 @@ export const Dropdown: FC<DropdownProps> = ({
           align={align}
         >
           {items.map((item, key) => (
-            <DropdownMenu.Item key={key} className={styles.dropdownItem} onClick={item.onClick}>
+            <DropdownMenu.Item
+              key={key}
+              className={classNames(styles.dropdownItem, item.destructive && styles.destructive)}
+              onClick={item.onClick}
+            >
               {item.icon ? <span className={styles.dropdownItemIcon}>{item.icon}</span> : null}
               <span className={styles.dropdownItemLabel}>{item.label}</span>
             </DropdownMenu.Item>

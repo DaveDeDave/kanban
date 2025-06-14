@@ -39,6 +39,7 @@ export const TaskCard: FC<TaskCardProps> = ({ id, title, description, onUpdate, 
               {
                 label: t("general.label.delete"),
                 onClick: () => onDelete({ id, title }),
+                destructive: true,
                 icon: <RiDeleteBin2Line />
               }
             ]

@@ -44,6 +44,7 @@ export const KanbanColumn: FC<KanbanColumnProps> = ({
           {
             label: "Delete",
             onClick: onDelete,
+            destructive: true,
             icon: <RiDeleteBin2Line />
           }
         ]}
