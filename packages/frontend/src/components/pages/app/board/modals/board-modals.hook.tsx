@@ -2,63 +2,72 @@ import { useModal } from "@/molecules/modals/base-modal/base-modal.hooks";
 import { useState } from "react";
 
 export const useBoardModals = () => {
-  const [editBoard, setEditBoard] = useState<{
+  const [updateBoard, setUpdateBoard] = useState<{
     id: string;
     name: string;
     description: string;
   } | null>(null);
-  const [deleteBoardId, setDeleteBoardId] = useState<string | null>(null);
+  const [deleteBoard, setDeleteBoard] = useState<{
+    id: string;
+    name: string;
+  } | null>(null);
 
   const {
     isOpen: createColumnModalIsOpen,
     showModal: showCreateColumnModal,
     hideModal: hideCreateColumnModal
   } = useModal();
-  const [editColumn, setEditColumn] = useState<{
+  const [updateColumn, setUpdateColumn] = useState<{
     id: string;
     name: string;
     color: string;
   } | null>(null);
-  const [deleteColumnId, setDeleteColumnId] = useState<string | null>(null);
+  const [deleteColumn, setDeleteColumn] = useState<{
+    id: string;
+    name: string;
+  } | null>(null);
 
   const [createTask, setCreateTask] = useState<{ columnId: string } | null>(null);
-  const [editTask, setEditTask] = useState<{
+  const [updateTask, setUpdateTask] = useState<{
     id: string;
     title: string;
     description: string;
   } | null>(null);
-  const [deleteTaskId, setDeleteTaskId] = useState<string | null>(null);
+  const [deleteTask, setDeleteTask] = useState<{
+    id: string;
+    title: string;
+  } | null>(null);
 
-  const showEditBoardModal = (board: { id: string; name: string; description: string }) => {
-    setEditBoard(board);
+  const showUpdateBoardModal = (board: { id: string; name: string; description: string }) => {
+    setUpdateBoard(board);
   };
 
-  const hideEditBoardModal = () => {
-    setEditBoard(null);
+  const hideUpdateBoardModal = () => {
+    setUpdateBoard(null);
   };
 
-  const showDeleteBoardModal = (boardId: string) => {
-    setDeleteBoardId(boardId);
+  const showDeleteBoardModal = (board: { id: string; name: string }) => {
+    setDeleteBoard(board);
   };
 
   const hideDeleteBoardModal = () => {
-    setDeleteBoardId(null);
+    setDeleteBoard(null);
   };
 
-  const showEditColumnModal = (column: { id: string; name: string; color: string }) => {
-    setEditColumn(column);
+  const showUpdateColumnModal = (column: { id: string; name: string; color: string }) => {
+    setUpdateColumn(column);
   };
 
-  const hideEditColumnModal = () => {
-    setEditColumn(null);
+  const hideUpdateColumnModal = () => {
+    setUpdateColumn(null);
   };
 
-  const showDeleteColumnModal = (columnId: string) => {
-    setDeleteColumnId(columnId);
+  const showDeleteColumnModal = (column: { id: string; name: string }) => {
+    setDeleteColumn(column);
   };
 
   const hideDeleteColumnModal = () => {
-    setDeleteColumnId(null);
+    setDeleteColumn(null);
   };
 
   const showCreateTaskModal = (task: { columnId: string }) => {
@@ -69,52 +78,52 @@ export const useBoardModals = () => {
     setCreateTask(null);
   };
 
-  const showEditTaskModal = (task: { id: string; title: string; description: string }) => {
-    setEditTask(task);
+  const showUpdateTaskModal = (task: { id: string; title: string; description: string }) => {
+    setUpdateTask(task);
   };
 
-  const hideEditTaskModal = () => {
-    setEditTask(null);
+  const hideUpdateTaskModal = () => {
+    setUpdateTask(null);
   };
 
-  const showDeleteTaskModal = (taskId: string) => {
-    setDeleteTaskId(taskId);
+  const showDeleteTaskModal = (task: { id: string; title: string }) => {
+    setDeleteTask(task);
   };
 
   const hideDeleteTaskModal = () => {
-    setDeleteTaskId(null);
+    setDeleteTask(null);
   };
 
   return {
-    editBoard,
-    editBoardModalIsOpen: editBoard !== null,
-    showEditBoardModal,
-    hideEditBoardModal,
-    deleteBoardId,
-    deleteBoardModalIsOpen: deleteBoardId !== null,
+    updateBoard,
+    updateBoardModalIsOpen: updateBoard !== null,
+    showUpdateBoardModal,
+    hideUpdateBoardModal,
+    deleteBoard,
+    deleteBoardModalIsOpen: deleteBoard !== null,
     showDeleteBoardModal,
     hideDeleteBoardModal,
     createColumnModalIsOpen,
     showCreateColumnModal,
     hideCreateColumnModal,
-    editColumn,
-    editColumnModalIsOpen: editColumn !== null,
-    showEditColumnModal,
-    hideEditColumnModal,
-    deleteColumnId,
-    deleteColumnModalIsOpen: deleteColumnId !== null,
+    updateColumn,
+    updateColumnModalIsOpen: updateColumn !== null,
+    showUpdateColumnModal,
+    hideUpdateColumnModal,
+    deleteColumn,
+    deleteColumnModalIsOpen: deleteColumn !== null,
     showDeleteColumnModal,
     hideDeleteColumnModal,
     createTask,
     createTaskModalIsOpen: createTask !== null,
     showCreateTaskModal,
     hideCreateTaskModal,
-    editTask,
-    editTaskModalIsOpen: editTask !== null,
-    showEditTaskModal,
-    hideEditTaskModal,
-    deleteTaskId,
-    deleteTaskModalIsOpen: deleteTaskId !== null,
+    updateTask,
+    updateTaskModalIsOpen: updateTask !== null,
+    showUpdateTaskModal,
+    hideUpdateTaskModal,
+    deleteTask,
+    deleteTaskModalIsOpen: deleteTask !== null,
     showDeleteTaskModal,
     hideDeleteTaskModal
   };

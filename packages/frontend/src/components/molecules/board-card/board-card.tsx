@@ -22,7 +22,7 @@ export interface BoardCardProps {
   description: string;
   createdAt: Date;
   onOpen: (id: string) => void;
-  onEdit: (id: string) => void;
+  onUpdate: (id: string) => void;
   onDelete: (id: string) => void;
 }
 
@@ -32,7 +32,7 @@ export const BoardCard: FC<BoardCardProps> = ({
   description,
   createdAt,
   onOpen,
-  onEdit,
+  onUpdate,
   onDelete
 }) => {
   return (
@@ -44,13 +44,14 @@ export const BoardCard: FC<BoardCardProps> = ({
             align: "end",
             items: [
               {
-                label: "Edit",
-                onClick: () => onEdit(id),
+                label: t("general.label.update"),
+                onClick: () => onUpdate(id),
                 icon: <RiPencilLine />
               },
               {
-                label: "Delete",
+                label: t("general.label.delete"),
                 onClick: () => onDelete(id),
+                destructive: true,
                 icon: <RiDeleteBin2Line />
               }
             ]

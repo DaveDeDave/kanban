@@ -8,11 +8,11 @@ import { t } from "i18next";
 export interface BoardHeaderProps {
   name: string;
   description: string;
-  onEdit: () => void;
+  onUpdate: () => void;
   onDelete: () => void;
 }
 
-export const BoardHeader: FC<BoardHeaderProps> = ({ description, onEdit, onDelete }) => {
+export const BoardHeader: FC<BoardHeaderProps> = ({ description, onUpdate, onDelete }) => {
   return (
     <div className={styles.boardHeader}>
       <div>
@@ -25,11 +25,12 @@ export const BoardHeader: FC<BoardHeaderProps> = ({ description, onEdit, onDelet
         <Button
           variant="primary"
           leftIcon={<RiPencilLine />}
-          label={t("components.organisms.boardHeader.buttons.edit")}
-          onClick={onEdit}
+          label={t("components.organisms.boardHeader.buttons.update")}
+          onClick={onUpdate}
         />
         <Button
           variant="secondary"
+          destructive
           leftIcon={<RiDeleteBinLine />}
           label={t("components.organisms.boardHeader.buttons.delete")}
           onClick={onDelete}

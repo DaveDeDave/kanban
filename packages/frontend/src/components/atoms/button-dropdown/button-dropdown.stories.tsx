@@ -20,7 +20,7 @@ export const Default: Story = {
       align: "end",
       items: [
         {
-          label: "Edit",
+          label: "Update",
           onClick: () => {},
           icon: <RiPencilLine />
         },

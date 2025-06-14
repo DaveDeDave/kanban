@@ -3,6 +3,8 @@ $color-primary-hover: darken($color-primary, 10%);
 $color-primary-pressed: darken($color-primary, 20%);
 
 $color-error: #d84654;
+$color-error-hover: darken($color-error, 10%);
+$color-error-pressed: darken($color-error, 20%);
 $color-disabled-bg: #ced4da;
 $color-disabled-text: #6c757d;
 

@@ -6,21 +6,21 @@ import { TaskCard, TaskCardProps } from "@/molecules/task-card";
 
 export interface KanbanColumnProps {
   head: Omit<KanbanColumnHeadProps, "actions" | "numberOfTasks">;
-  tasks: Omit<TaskCardProps, "onEdit" | "onDelete">[];
-  onEdit: () => void;
+  tasks: Omit<TaskCardProps, "onUpdate" | "onDelete">[];
+  onUpdate: () => void;
   onDelete: () => void;
   onAddTask: () => void;
-  onEditTask: (task: { id: string; title: string; description: string }) => void;
-  onDeleteTask: (taskId: string) => void;
+  onUpdateTask: (task: { id: string; title: string; description: string }) => void;
+  onDeleteTask: (task: { id: string; title: string }) => void;
 }
 
 export const KanbanColumn: FC<KanbanColumnProps> = ({
   head,
   tasks,
   onAddTask,
-  onEdit,
+  onUpdate,
   onDelete,
-  onEditTask,
+  onUpdateTask,
   onDeleteTask
 }) => {
   return (
@@ -37,13 +37,14 @@ export const KanbanColumn: FC<KanbanColumnProps> = ({
         ]}
         settings={[
           {
-            label: "Edit",
-            onClick: onEdit,
+            label: "Update",
+            onClick: onUpdate,
             icon: <RiPencilLine />
           },
           {
             label: "Delete",
             onClick: onDelete,
+            destructive: true,
             icon: <RiDeleteBin2Line />
           }
         ]}
@@ -55,7 +56,7 @@ export const KanbanColumn: FC<KanbanColumnProps> = ({
             id={task.id}
             title={task.title}
             description={task.description}
-            onEdit={onEditTask}
+            onUpdate={onUpdateTask}
             onDelete={onDeleteTask}
           />
         ))}

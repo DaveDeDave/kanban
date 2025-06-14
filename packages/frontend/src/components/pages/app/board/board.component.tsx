@@ -37,15 +37,18 @@ export const Component: FC = () => {
         <BoardHeader
           name={boardData.board.name}
           description={boardData.board.description}
-          onEdit={() => {
-            boardModals.showEditBoardModal({
+          onUpdate={() => {
+            boardModals.showUpdateBoardModal({
               id: boardId,
               name: boardData.board.name,
               description: boardData.board.description
             });
           }}
           onDelete={() => {
-            boardModals.showDeleteBoardModal(boardData.board.id);
+            boardModals.showDeleteBoardModal({
+              id: boardData.board.id,
+              name: boardData.board.name
+            });
           }}
         />
         <div className={styles.columns}>
@@ -57,26 +60,32 @@ export const Component: FC = () => {
                 color: column.color
               }}
               tasks={column.tasks}
-              onEdit={() => {
-                boardModals.showEditColumnModal({
+              onUpdate={() => {
+                boardModals.showUpdateColumnModal({
                   id: column.id,
                   name: column.name,
                   color: column.color
                 });
               }}
               onDelete={() => {
-                boardModals.showDeleteColumnModal(column.id);
+                boardModals.showDeleteColumnModal({
+                  id: column.id,
+                  name: column.name
+                });
               }}
               onAddTask={() => {
                 boardModals.showCreateTaskModal({
                   columnId: column.id
                 });
               }}
-              onEditTask={(task) => {
-                boardModals.showEditTaskModal(task);
+              onUpdateTask={(task) => {
+                boardModals.showUpdateTaskModal(task);
               }}
-              onDeleteTask={(taskId) => {
-                boardModals.showDeleteTaskModal(taskId);
+              onDeleteTask={(task) => {
+                boardModals.showDeleteTaskModal({
+                  id: task.id,
+                  title: task.title
+                });
               }}
             />
           ))}

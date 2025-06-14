@@ -35,6 +35,28 @@
       border-color: $color-primary;
       color: $color-light;
     }
+
+    &.destructive {
+      background-color: $color-error;
+      border-color: $color-error;
+      color: $color-light;
+
+      &:hover {
+        background-color: $color-error-hover;
+        border-color: $color-error-hover;
+      }
+
+      &:active {
+        background-color: $color-error-pressed;
+        border-color: $color-error-pressed;
+      }
+
+      &.disabled {
+        background-color: $color-error;
+        border-color: $color-error;
+        color: $color-light;
+      }
+    }
   }
 
   &.secondary {
@@ -59,6 +81,30 @@
       border-color: $color-primary;
       color: $color-primary;
     }
+
+    &.destructive {
+      background-color: white;
+      border-color: $color-error;
+      color: $color-error;
+
+      &:hover {
+        background-color: $color-error;
+        border-color: $color-error;
+        color: $color-light;
+      }
+
+      &:active {
+        background-color: $color-error-pressed;
+        border-color: $color-error-pressed;
+        color: $color-light;
+      }
+
+      &.disabled {
+        background-color: white;
+        border-color: $color-error;
+        color: $color-error;
+      }
+    }
   }
   
   &.ghost {
@@ -81,6 +127,29 @@
       background-color: transparent;
       border-color: transparent;
       color: $color-dark;
+    }
+
+    &.destructive {
+      background-color: transparent;
+      border-color: transparent;
+      color: $color-error;
+
+      &:hover {
+        background-color: rgba($color-error, 0.1);
+        border-color: rgba($color-error, 0.02);
+        color: $color-error-hover;
+      }
+
+      &:active {
+        background-color: rgba($color-error, 0.2);
+        border-color: rgba($color-error, 0.05);
+      }
+    
+      &.disabled {
+        background-color: transparent;
+        border-color: transparent;
+        color: $color-error;
+      }
     }
   }
 
@@ -105,6 +174,30 @@
       background-color: transparent;
       border-color: transparent;
       color: $color-dark;
+    }
+
+    &.destructive {
+      padding: 0;
+      background-color: transparent;
+      border-color: transparent;
+      color: $color-error;
+
+      &:hover {
+        background-color: transparent;
+        border-color: transparent;
+        color: $color-error-hover;
+      }
+
+      &:active {
+        background-color: transparent;
+        border-color: transparent;
+      }
+    
+      &.disabled {
+        background-color: transparent;
+        border-color: transparent;
+        color: $color-error;
+      }
     }
   }
 

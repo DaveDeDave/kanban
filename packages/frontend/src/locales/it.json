@@ -9,6 +9,11 @@
       "cancelButtonLabel": "Annulla",
       "closeModal": "Chiudi"
     },
+    "label": {
+      "create": "Crea",
+      "update": "Modifica",
+      "delete": "Elimina"
+    },
     "form": {
       "unexpectedError": "Qualcosa è andato storto. Riprova tra un momento.",
       "fields": {
@@ -57,7 +62,7 @@
         },
         "createBoard": {
           "title": "Crea una board",
-          "description": "Inserisci le informazioni base per creare una board",
+          "description": "Inserisci le informazioni base per creare una board.",
           "form": {
             "fields": {
               "name": {
@@ -77,17 +82,17 @@
             }
           }
         },
-        "editBoard": {
+        "updateBoard": {
           "title": "Modifica la board",
-          "description": "Modifica le informazioni di questa board"
+          "description": "Modifica le informazioni della board <bold>{{name}}</bold>."
         },
         "deleteBoard": {
           "title": "Eliminare la board?",
-          "description": "Sei sicuro di voler eliminare questa board? Tutto il suo contenuto andrà perso."
+          "description": "Sei sicuro di voler eliminare la board <bold>{{name}}</bold>? Tutto il suo contenuto andrà perso."
         },
         "createColumn": {
           "title": "Crea una colonna",
-          "description": "Inserisci le informazioni base per creare una colonna",
+          "description": "Inserisci le informazioni base per creare una colonna.",
           "form": {
             "fields": {
               "name": {
@@ -106,17 +111,17 @@
             }
           }
         },
-        "editColumn": {
+        "updateColumn": {
           "title": "Modifica la colonna",
-          "description": "Modifica le informazioni di questa colonna"
+          "description": "Modifica le informazioni della colonna <bold>{{name}}</bold>."
         },
         "deleteColumn": {
           "title": "Eliminare la colonna?",
-          "description": "Sei sicuro di voler eliminare questa colonna? Tutto il suo contenuto andrà perso."
+          "description": "Sei sicuro di voler eliminare la colonna <bold>{{name}}</bold>? Tutto il suo contenuto andrà perso."
         },
         "createTask": {
           "title": "Crea un task",
-          "description": "Inserisci le informazioni base per creare un task",
+          "description": "Inserisci le informazioni base per creare un task.",
           "form": {
             "fields": {
               "title": {
@@ -136,13 +141,13 @@
             }
           }
         },
-        "editTask": {
+        "updateTask": {
           "title": "Modifica il task",
-          "description": "Modifica le informazioni di questo task"
+          "description": "Modifica le informazioni del task <bold>{{title}}</bold>."
         },
         "deleteTask": {
           "title": "Eliminare il task?",
-          "description": "Sei sicuro di voler eliminare questo task? Tutto il suo contenuto andrà perso."
+          "description": "Sei sicuro di voler eliminare il task <bold>{{title}}</bold>? Tutto il suo contenuto andrà perso."
         }
       }
     },
@@ -152,7 +157,7 @@
       },
       "boardHeader": {
         "buttons": {
-          "edit": "Modifica",
+          "update": "Modifica",
           "delete": "Elimina"
         }
       }
