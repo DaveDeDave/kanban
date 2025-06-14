@@ -9,7 +9,7 @@ interface IAppContext {
   login: ReturnType<typeof useLogin>;
   logout: ReturnType<typeof useLogout>;
   isUserLoggedIn: boolean;
-  user?: RouterOutputs["user"]["getCurrentUserInfo"];
+  user?: RouterOutputs["user"]["getCurrentUserInfo"]["user"];
 }
 
 export const AppContext = createContext<IAppContext | null>(null);
@@ -40,7 +40,7 @@ export const AppContextProvider: FC<PropsWithChildren> = ({ children }) => {
         login,
         logout,
         isUserLoggedIn: Boolean(accessToken),
-        user: userData
+        user: userData?.user
       }}
     >
       {children}

@@ -30,7 +30,7 @@
           "placeholder": "Inserisci la tua password",
           "errors": {
             "required": "Inserisci la tua password",
-            "weak": "La password non è abbastanza forte"
+            "weak": "La password non è abbastanza sicura"
           }
         },
         "repeatPassword": {
@@ -48,6 +48,11 @@
       }
     }
   },
+  "navlinks": {
+    "boards": "Le mie board",
+    "settings": "Impostazioni",
+    "logout": "Disconnettiti"
+  },
   "components": {
     "molecules": {
       "boardCard": {
@@ -56,8 +61,13 @@
         }
       },
       "modals": {
+        "deleteAccount": {
+          "title": "Conferma cancellazione account",
+          "description-1": "Sei sicuro di voler cancellare il tuo account? Questa operazione è irreversibile e perderai tutti i tuoi dati.",
+          "description-2": "Per confermare, inserisci il tuo indirizzo email <bold>{{email}}</bold> e conferma l'operazione."
+        },
         "logout": {
-          "title": "Logout",
+          "title": "Disconnettiti",
           "description": "Sei sicuro di volerti disconnettere?"
         },
         "createBoard": {
@@ -179,15 +189,30 @@
       }
     },
     "boards": {
+      "page": "Le mie board",
       "welcome": {
         "title": "Non hai ancora creato nessuna board",
         "description": "Creane una ora per sfruttare tutte le funzionalità di Project Kanban.",
-        "button": "Create a board"
+        "button": "Crea una board"
       }
     },
     "board": {
       "header": {
         "boardDescription": "Descrizione della board"
+      }
+    },
+    "settings": {
+      "page": "Impostazioni",
+      "sections": {
+        "profile": {
+          "title": "Profilo",
+          "email": "Email"
+        },
+        "other": {
+          "title": "Altro",
+          "deleteAccount": "Vuoi cancellare il tuo account?",
+          "deleteAccountButton": "Cancella account"
+        }
       }
     }
   }

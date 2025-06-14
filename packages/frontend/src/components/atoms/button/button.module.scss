@@ -205,6 +205,10 @@
     border-radius: 999px;
   }
 
+  &.fitContent {
+    width: fit-content;
+  }
+
   .icon {
     display: flex;
     justify-content: center;

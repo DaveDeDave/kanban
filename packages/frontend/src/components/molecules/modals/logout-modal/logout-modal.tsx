@@ -18,8 +18,10 @@ export const LogoutModal: FC<ModalProps> = ({ onClose, ...props }) => {
           navigate({
             to: "/auth/login"
           });
-        }
+        },
+        label: t("components.molecules.modals.logout.title")
       }}
+      destructive
       cancelButton={{}}
       onClose={onClose}
       {...props}

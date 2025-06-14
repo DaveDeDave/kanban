@@ -7,6 +7,7 @@ import { useModal } from "@/molecules/modals/base-modal/base-modal.hooks";
 import { CreateBoardModal } from "@/molecules/modals/board-modals";
 import { Breadcrumb, BreadcrumbProps } from "@/atoms/breadcrumb";
 import classNames from "classnames";
+import { t } from "i18next";
 
 export const BoardsStructure: FC = () => {
   const navigate = useNavigate();
@@ -46,7 +47,7 @@ export const BoardsStructure: FC = () => {
     if (!params.boardId) {
       return [
         {
-          label: "Boards",
+          label: t("pages.boards.page"),
           pathname: "/app/boards"
         }
       ];
@@ -56,7 +57,7 @@ export const BoardsStructure: FC = () => {
 
     return [
       {
-        label: "Boards",
+        label: t("pages.boards.page"),
         pathname: "/app/boards"
       },
       {
