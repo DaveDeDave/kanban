@@ -11,27 +11,27 @@ type BoardModalsProps = ReturnType<typeof useBoardModals> & {
 
 export const BoardModals: FC<BoardModalsProps> = ({
   currentBoardId,
-  editBoard,
-  editBoardModalIsOpen,
-  hideEditBoardModal,
-  deleteBoardId,
+  updateBoard,
+  updateBoardModalIsOpen,
+  hideUpdateBoardModal,
+  deleteBoard,
   deleteBoardModalIsOpen,
   hideDeleteBoardModal,
   createColumnModalIsOpen,
   hideCreateColumnModal,
-  editColumn,
-  editColumnModalIsOpen,
-  hideEditColumnModal,
-  deleteColumnId,
+  updateColumn,
+  updateColumnModalIsOpen,
+  hideUpdateColumnModal,
+  deleteColumn,
   deleteColumnModalIsOpen,
   hideDeleteColumnModal,
   createTask,
   createTaskModalIsOpen,
   hideCreateTaskModal,
-  editTask,
-  editTaskModalIsOpen,
-  hideEditTaskModal,
-  deleteTaskId,
+  updateTask,
+  updateTaskModalIsOpen,
+  hideUpdateTaskModal,
+  deleteTask,
   deleteTaskModalIsOpen,
   hideDeleteTaskModal
 }) => {
@@ -39,12 +39,13 @@ export const BoardModals: FC<BoardModalsProps> = ({
     <>
       <UpdateBoardModal
         boardId={currentBoardId}
-        defaultValues={editBoard!}
-        open={editBoardModalIsOpen}
-        onClose={hideEditBoardModal}
+        defaultValues={updateBoard!}
+        open={updateBoardModalIsOpen}
+        onClose={hideUpdateBoardModal}
       />
       <DeleteBoardModal
-        boardId={deleteBoardId!}
+        boardId={deleteBoard?.id}
+        boardName={deleteBoard?.name}
         open={deleteBoardModalIsOpen}
         onClose={hideDeleteBoardModal}
       />
@@ -54,16 +55,17 @@ export const BoardModals: FC<BoardModalsProps> = ({
         onClose={hideCreateColumnModal}
       />
       <UpdateColumnModal
-        columnId={editColumn?.id}
+        columnId={updateColumn?.id}
         defaultValues={{
-          name: editColumn?.name ?? "",
-          color: editColumn?.color ?? ""
+          name: updateColumn?.name ?? "",
+          color: updateColumn?.color ?? ""
         }}
-        open={editColumnModalIsOpen}
-        onClose={hideEditColumnModal}
+        open={updateColumnModalIsOpen}
+        onClose={hideUpdateColumnModal}
       />
       <DeleteColumnModal
-        columnId={deleteColumnId!}
+        columnId={deleteColumn?.id}
+        columnName={deleteColumn?.name}
         open={deleteColumnModalIsOpen}
         onClose={hideDeleteColumnModal}
       />
@@ -73,16 +75,17 @@ export const BoardModals: FC<BoardModalsProps> = ({
         onClose={hideCreateTaskModal}
       />
       <UpdateTaskModal
-        taskId={editTask?.id}
+        taskId={updateTask?.id}
         defaultValues={{
-          title: editTask?.title ?? "",
-          description: editTask?.description ?? ""
+          title: updateTask?.title ?? "",
+          description: updateTask?.description ?? ""
         }}
-        open={editTaskModalIsOpen}
-        onClose={hideEditTaskModal}
+        open={updateTaskModalIsOpen}
+        onClose={hideUpdateTaskModal}
       />
       <DeleteTaskModal
-        taskId={deleteTaskId!}
+        taskId={deleteTask?.id}
+        taskTitle={deleteTask?.title}
         open={deleteTaskModalIsOpen}
         onClose={hideDeleteTaskModal}
       />

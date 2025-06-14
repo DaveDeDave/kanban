@@ -7,10 +7,10 @@ const meta: Meta<typeof KanbanColumn> = {
   component: KanbanColumn,
   tags: ["autodocs"],
   args: {
-    onEdit: fn(),
+    onUpdate: fn(),
     onDelete: fn(),
     onAddTask: fn(),
-    onEditTask: fn(),
+    onUpdateTask: fn(),
     onDeleteTask: fn()
   }
 };
@@ -23,21 +23,21 @@ const mockTasks = [
     id: "1",
     title: "Write docs",
     description: "Write documentation",
-    onEdit: () => {},
+    onUpdate: () => {},
     onDelete: () => {}
   },
   {
     id: "2",
     title: "Fix bug",
     description: "Fix the reported bug",
-    onEdit: () => {},
+    onUpdate: () => {},
     onDelete: () => {}
   },
   {
     id: "3",
     title: "Answer email",
     description: "Answer the new email",
-    onEdit: () => {},
+    onUpdate: () => {},
     onDelete: () => {}
   }
 ];

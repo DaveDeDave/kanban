@@ -1,9 +1,11 @@
-import { FC, useEffect, useMemo } from "react";
+import { FC, useEffect, useMemo, useState } from "react";
 import { t } from "i18next";
 import { ModalProps } from "../../base-modal";
 import { useBoardForm } from "../board-form.hook";
 import { BoardFormModal } from "../board-form-modal.component";
 import { useUpdateBoard } from "@/hooks/trpc/board/updateBoard.hook";
+import { Trans } from "react-i18next";
+import { Text } from "@/atoms/typography/text";
 
 export interface UpdateBoardModalProps extends ModalProps {
   boardId?: string;
@@ -20,6 +22,7 @@ export const UpdateBoardModal: FC<UpdateBoardModalProps> = ({
   onClose,
   ...props
 }) => {
+  const [name, setName] = useState("");
   const updateBoard = useUpdateBoard();
 
   const onCloseModal = () => {
@@ -44,6 +47,14 @@ export const UpdateBoardModal: FC<UpdateBoardModalProps> = ({
     }
   }, [open, defaultValues]);
 
+  useEffect(() => {
+    if (!defaultValues?.name) {
+      return;
+    }
+
+    setName(defaultValues.name);
+  }, [defaultValues?.name]);
+
   const isConfirmDisabled = useMemo(() => {
     const hasErrors = Object.keys(formik.errors).length > 0;
     // const isTouched = Object.values(formik.touched).find((touched) => touched === true);
@@ -53,8 +64,17 @@ export const UpdateBoardModal: FC<UpdateBoardModalProps> = ({
 
   return (
     <BoardFormModal
-      title={t("components.molecules.modals.editBoard.title")}
-      description={t("components.molecules.modals.editBoard.description")}
+      title={t("components.molecules.modals.updateBoard.title")}
+      description={
+        <Trans
+          i18nKey="components.molecules.modals.updateBoard.description"
+          components={{ bold: <Text weight={500} type="label" /> }}
+          values={{
+            name
+          }}
+        />
+      }
+      confirmLabel={t("general.label.update")}
       isLoading={updateBoard.isLoading}
       disabled={isConfirmDisabled}
       formik={formik}

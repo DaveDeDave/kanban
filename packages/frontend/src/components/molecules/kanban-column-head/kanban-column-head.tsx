@@ -9,7 +9,7 @@ export interface KanbanColumnHeadProps {
   color?: string;
   numberOfTasks: number;
   actions?: { onClick: () => void; icon: ReactNode }[];
-  settings?: { onClick: () => void; label: string; icon: ReactNode }[];
+  settings?: { onClick: () => void; label: string; icon: ReactNode; destructive?: boolean }[];
 }
 
 export const KanbanColumnHead: FC<KanbanColumnHeadProps> = ({

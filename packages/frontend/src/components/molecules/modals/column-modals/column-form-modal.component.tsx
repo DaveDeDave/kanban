@@ -8,6 +8,7 @@ import styles from "./column-modal.module.scss";
 interface ColumnFormModalProps extends ModalProps {
   formik: ReturnType<typeof useColumnForm>;
   isLoading: boolean;
+  confirmLabel?: string;
   onCloseModal: () => void;
 }
 
@@ -15,6 +16,7 @@ export const ColumnFormModal: FC<ColumnFormModalProps> = ({
   title,
   formik,
   isLoading,
+  confirmLabel,
   onCloseModal,
   ...props
 }) => {
@@ -25,7 +27,8 @@ export const ColumnFormModal: FC<ColumnFormModalProps> = ({
       confirmButton={{
         onClick: () => {
           formik.submitForm();
-        }
+        },
+        label: confirmLabel
       }}
       cancelButton={{
         onClick: onCloseModal
