@@ -30,6 +30,7 @@ export const BoardHeader: FC<BoardHeaderProps> = ({ description, onUpdate, onDel
         />
         <Button
           variant="secondary"
+          destructive
           leftIcon={<RiDeleteBinLine />}
           label={t("components.organisms.boardHeader.buttons.delete")}
           onClick={onDelete}

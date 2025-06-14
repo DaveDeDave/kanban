@@ -37,8 +37,10 @@ export const DeleteColumnModal: FC<DeleteColumnModalProps> = ({
             columnId: columnId!
           });
           onClose?.();
-        }
+        },
+        label: t("general.label.delete")
       }}
+      destructive
       cancelButton={{}}
       onClose={onClose}
       {...props}

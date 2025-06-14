@@ -75,6 +75,7 @@ export const UpdateColumnModal: FC<UpdateColumnModalProps> = ({
           }}
         />
       }
+      confirmLabel={t("general.label.update")}
       isLoading={updateColumn.isLoading}
       disabled={isConfirmDisabled}
       formik={formik}

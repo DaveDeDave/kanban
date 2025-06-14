@@ -9,6 +9,7 @@ import { TextArea } from "@/atoms/textarea";
 interface BoardFormModalProps extends ModalProps {
   formik: ReturnType<typeof useBoardForm>;
   isLoading: boolean;
+  confirmLabel?: string;
   onCloseModal: () => void;
 }
 
@@ -16,6 +17,7 @@ export const BoardFormModal: FC<BoardFormModalProps> = ({
   title,
   formik,
   isLoading,
+  confirmLabel,
   onCloseModal,
   ...props
 }) => {
@@ -26,7 +28,8 @@ export const BoardFormModal: FC<BoardFormModalProps> = ({
       confirmButton={{
         onClick: () => {
           formik.submitForm();
-        }
+        },
+        label: confirmLabel
       }}
       cancelButton={{
         onClick: onCloseModal

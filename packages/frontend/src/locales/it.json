@@ -10,6 +10,7 @@
       "closeModal": "Chiudi"
     },
     "label": {
+      "create": "Crea",
       "update": "Modifica",
       "delete": "Elimina"
     },

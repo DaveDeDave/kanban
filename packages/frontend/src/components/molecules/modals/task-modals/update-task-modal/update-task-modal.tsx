@@ -74,6 +74,7 @@ export const UpdateTaskModal: FC<UpdateTaskModalProps> = ({
           }}
         />
       }
+      confirmLabel={t("general.label.update")}
       isLoading={updateTask.isLoading}
       disabled={isConfirmDisabled}
       formik={formik}

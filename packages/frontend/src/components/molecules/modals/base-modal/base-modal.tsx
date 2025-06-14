@@ -21,6 +21,7 @@ export interface ModalProps extends Dialog.DialogProps {
   closable?: boolean;
   maskClosable?: boolean;
   confirmButton?: ModalButton;
+  destructive?: boolean;
   cancelButton?: ModalButton;
   loading?: boolean;
   disabled?: boolean;
@@ -36,6 +37,7 @@ export const Modal: FC<ModalProps> = ({
   closable = true,
   maskClosable = true,
   confirmButton,
+  destructive,
   cancelButton,
   loading,
   disabled,
@@ -107,7 +109,7 @@ export const Modal: FC<ModalProps> = ({
             <div className={styles.footer}>
               {cancelButton ? (
                 <Button
-                  variant="secondary"
+                  variant="ghost"
                   label={cancelButton.label ?? t("general.modal.cancelButtonLabel")}
                   onClick={cancelButton.onClick ?? onClose}
                   disabled={loading}
@@ -115,6 +117,7 @@ export const Modal: FC<ModalProps> = ({
               ) : null}
               {confirmButton ? (
                 <Button
+                  destructive={destructive}
                   label={confirmButton.label ?? t("general.modal.confirmButtonLabel")}
                   onClick={confirmButton.onClick}
                   disabled={loading || disabled}

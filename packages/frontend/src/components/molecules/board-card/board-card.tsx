@@ -49,7 +49,7 @@ export const BoardCard: FC<BoardCardProps> = ({
                 icon: <RiPencilLine />
               },
               {
-                label: t("general.label.update"),
+                label: t("general.label.delete"),
                 onClick: () => onDelete(id),
                 icon: <RiDeleteBin2Line />
               }

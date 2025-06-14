@@ -9,6 +9,7 @@ import { useTaskForm } from "./task-form.hook";
 interface TaskFormModalProps extends ModalProps {
   formik: ReturnType<typeof useTaskForm>;
   isLoading: boolean;
+  confirmLabel?: string;
   onCloseModal: () => void;
 }
 
@@ -16,6 +17,7 @@ export const TaskFormModal: FC<TaskFormModalProps> = ({
   title,
   formik,
   isLoading,
+  confirmLabel,
   onCloseModal,
   ...props
 }) => {
@@ -26,7 +28,8 @@ export const TaskFormModal: FC<TaskFormModalProps> = ({
       confirmButton={{
         onClick: () => {
           formik.submitForm();
-        }
+        },
+        label: confirmLabel
       }}
       cancelButton={{
         onClick: onCloseModal

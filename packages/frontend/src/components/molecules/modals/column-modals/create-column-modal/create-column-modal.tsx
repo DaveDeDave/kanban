@@ -38,6 +38,7 @@ export const CreateColumnModal: FC<CreateColumnModalProps> = ({ boardId, onClose
     <ColumnFormModal
       title={t("components.molecules.modals.createColumn.title")}
       description={t("components.molecules.modals.createColumn.description")}
+      confirmLabel={t("general.label.create")}
       isLoading={createColumn.isLoading}
       disabled={isConfirmDisabled}
       formik={formik}

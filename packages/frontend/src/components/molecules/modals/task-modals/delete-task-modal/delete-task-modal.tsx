@@ -37,8 +37,10 @@ export const DeleteTaskModal: FC<DeleteTaskModalProps> = ({
             taskId: taskId!
           });
           onClose?.();
-        }
+        },
+        label: t("general.label.delete")
       }}
+      destructive
       cancelButton={{}}
       onClose={onClose}
       {...props}

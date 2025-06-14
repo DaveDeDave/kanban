@@ -37,8 +37,10 @@ export const DeleteBoardModal: FC<DeleteBoardModalProps> = ({
             boardId: boardId!
           });
           onClose?.();
-        }
+        },
+        label: t("general.label.delete")
       }}
+      destructive
       cancelButton={{}}
       onClose={onClose}
       {...props}

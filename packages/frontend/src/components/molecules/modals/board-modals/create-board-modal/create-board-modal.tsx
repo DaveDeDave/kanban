@@ -31,6 +31,7 @@ export const CreateBoardModal: FC<ModalProps> = ({ onClose, ...props }) => {
     <BoardFormModal
       title={t("components.molecules.modals.createBoard.title")}
       description={t("components.molecules.modals.createBoard.description")}
+      confirmLabel={t("general.label.create")}
       isLoading={createBoard.isLoading}
       disabled={isConfirmDisabled}
       formik={formik}

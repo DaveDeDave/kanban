@@ -74,6 +74,7 @@ export const UpdateBoardModal: FC<UpdateBoardModalProps> = ({
           }}
         />
       }
+      confirmLabel={t("general.label.update")}
       isLoading={updateBoard.isLoading}
       disabled={isConfirmDisabled}
       formik={formik}

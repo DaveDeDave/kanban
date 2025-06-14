@@ -36,6 +36,7 @@ export const CreateTaskModal: FC<CreateTaskModalProps> = ({ columnId, onClose, .
     <TaskFormModal
       title={t("components.molecules.modals.createTask.title")}
       description={t("components.molecules.modals.createTask.description")}
+      confirmLabel={t("general.label.create")}
       isLoading={createTask.isLoading}
       disabled={isConfirmDisabled}
       formik={formik}
