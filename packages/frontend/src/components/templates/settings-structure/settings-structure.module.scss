@@ -1,0 +1,28 @@
+@import "src/components/theme/index.scss";
+
+.settingsStructure {
+  display: flex;
+  flex-direction: row;
+  flex-grow: 1;
+
+  .settingsWrapper {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    &.scrollable {
+      overflow-y: auto;
+      max-height: 100vh; /* Support for legacy browsers */
+      max-height: 100dvh;
+    }
+    .header {
+      padding: $padding-box-xl $padding-box-xxl;
+      padding-bottom: 0;
+    }
+    .content {
+      display: flex;
+      flex-direction: column;
+      padding: $padding-box-xl $padding-box-xxl;
+      flex-grow: 1;
+    }
+  }
+}

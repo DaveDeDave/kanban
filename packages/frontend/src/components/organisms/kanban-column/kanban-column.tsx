@@ -3,6 +3,7 @@ import styles from "./kanban-column.module.scss";
 import { KanbanColumnHead, KanbanColumnHeadProps } from "@/molecules/kanban-column-head";
 import { RiAddCircleLine, RiDeleteBin2Line, RiPencilLine } from "@remixicon/react";
 import { TaskCard, TaskCardProps } from "@/molecules/task-card";
+import { t } from "i18next";
 
 export interface KanbanColumnProps {
   head: Omit<KanbanColumnHeadProps, "actions" | "numberOfTasks">;
@@ -37,12 +38,12 @@ export const KanbanColumn: FC<KanbanColumnProps> = ({
         ]}
         settings={[
           {
-            label: "Update",
+            label: t("general.label.update"),
             onClick: onUpdate,
             icon: <RiPencilLine />
           },
           {
-            label: "Delete",
+            label: t("general.label.delete"),
             onClick: onDelete,
             destructive: true,
             icon: <RiDeleteBin2Line />

@@ -16,6 +16,7 @@ import { Route as rootRoute } from './routes/__root'
 import { Route as AuthImport } from './routes/auth'
 import { Route as AppImport } from './routes/app'
 import { Route as PublicImport } from './routes/_public'
+import { Route as AppSettingsImport } from './routes/app/settings'
 import { Route as AppBoardsImport } from './routes/app/boards'
 import { Route as AppBoardsBoardIdImport } from './routes/app/boards/$boardId'
 
@@ -26,7 +27,7 @@ const PublicIndexLazyImport = createFileRoute('/_public/')()
 const AuthRegisterLazyImport = createFileRoute('/auth/register')()
 const AuthLoginLazyImport = createFileRoute('/auth/login')()
 const PublicAboutLazyImport = createFileRoute('/_public/about')()
-const AppProfileIndexLazyImport = createFileRoute('/app/profile/')()
+const AppSettingsIndexLazyImport = createFileRoute('/app/settings/')()
 const AppBoardsIndexLazyImport = createFileRoute('/app/boards/')()
 
 // Create/Update Routes
@@ -78,18 +79,24 @@ const PublicAboutLazyRoute = PublicAboutLazyImport.update({
   getParentRoute: () => PublicRoute,
 } as any).lazy(() => import('./routes/_public/about.lazy').then((d) => d.Route))
 
+const AppSettingsRoute = AppSettingsImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => AppRoute,
+} as any)
+
 const AppBoardsRoute = AppBoardsImport.update({
   id: '/boards',
   path: '/boards',
   getParentRoute: () => AppRoute,
 } as any)
 
-const AppProfileIndexLazyRoute = AppProfileIndexLazyImport.update({
-  id: '/profile/',
-  path: '/profile/',
-  getParentRoute: () => AppRoute,
+const AppSettingsIndexLazyRoute = AppSettingsIndexLazyImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AppSettingsRoute,
 } as any).lazy(() =>
-  import('./routes/app/profile/index.lazy').then((d) => d.Route),
+  import('./routes/app/settings/index.lazy').then((d) => d.Route),
 )
 
 const AppBoardsIndexLazyRoute = AppBoardsIndexLazyImport.update({
@@ -136,6 +143,13 @@ declare module '@tanstack/react-router' {
       path: '/boards'
       fullPath: '/app/boards'
       preLoaderRoute: typeof AppBoardsImport
+      parentRoute: typeof AppImport
+    }
+    '/app/settings': {
+      id: '/app/settings'
+      path: '/settings'
+      fullPath: '/app/settings'
+      preLoaderRoute: typeof AppSettingsImport
       parentRoute: typeof AppImport
     }
     '/_public/about': {
@@ -187,12 +201,12 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppBoardsIndexLazyImport
       parentRoute: typeof AppBoardsImport
     }
-    '/app/profile/': {
-      id: '/app/profile/'
-      path: '/profile'
-      fullPath: '/app/profile'
-      preLoaderRoute: typeof AppProfileIndexLazyImport
-      parentRoute: typeof AppImport
+    '/app/settings/': {
+      id: '/app/settings/'
+      path: '/'
+      fullPath: '/app/settings/'
+      preLoaderRoute: typeof AppSettingsIndexLazyImport
+      parentRoute: typeof AppSettingsImport
     }
   }
 }
@@ -226,16 +240,28 @@ const AppBoardsRouteWithChildren = AppBoardsRoute._addFileChildren(
   AppBoardsRouteChildren,
 )
 
+interface AppSettingsRouteChildren {
+  AppSettingsIndexLazyRoute: typeof AppSettingsIndexLazyRoute
+}
+
+const AppSettingsRouteChildren: AppSettingsRouteChildren = {
+  AppSettingsIndexLazyRoute: AppSettingsIndexLazyRoute,
+}
+
+const AppSettingsRouteWithChildren = AppSettingsRoute._addFileChildren(
+  AppSettingsRouteChildren,
+)
+
 interface AppRouteChildren {
   AppBoardsRoute: typeof AppBoardsRouteWithChildren
+  AppSettingsRoute: typeof AppSettingsRouteWithChildren
   AppIndexLazyRoute: typeof AppIndexLazyRoute
-  AppProfileIndexLazyRoute: typeof AppProfileIndexLazyRoute
 }
 
 const AppRouteChildren: AppRouteChildren = {
   AppBoardsRoute: AppBoardsRouteWithChildren,
+  AppSettingsRoute: AppSettingsRouteWithChildren,
   AppIndexLazyRoute: AppIndexLazyRoute,
-  AppProfileIndexLazyRoute: AppProfileIndexLazyRoute,
 }
 
 const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
@@ -257,6 +283,7 @@ export interface FileRoutesByFullPath {
   '/app': typeof AppRouteWithChildren
   '/auth': typeof AuthRouteWithChildren
   '/app/boards': typeof AppBoardsRouteWithChildren
+  '/app/settings': typeof AppSettingsRouteWithChildren
   '/about': typeof PublicAboutLazyRoute
   '/auth/login': typeof AuthLoginLazyRoute
   '/auth/register': typeof AuthRegisterLazyRoute
@@ -264,7 +291,7 @@ export interface FileRoutesByFullPath {
   '/app/': typeof AppIndexLazyRoute
   '/app/boards/$boardId': typeof AppBoardsBoardIdRoute
   '/app/boards/': typeof AppBoardsIndexLazyRoute
-  '/app/profile': typeof AppProfileIndexLazyRoute
+  '/app/settings/': typeof AppSettingsIndexLazyRoute
 }
 
 export interface FileRoutesByTo {
@@ -276,7 +303,7 @@ export interface FileRoutesByTo {
   '/app': typeof AppIndexLazyRoute
   '/app/boards/$boardId': typeof AppBoardsBoardIdRoute
   '/app/boards': typeof AppBoardsIndexLazyRoute
-  '/app/profile': typeof AppProfileIndexLazyRoute
+  '/app/settings': typeof AppSettingsIndexLazyRoute
 }
 
 export interface FileRoutesById {
@@ -285,6 +312,7 @@ export interface FileRoutesById {
   '/app': typeof AppRouteWithChildren
   '/auth': typeof AuthRouteWithChildren
   '/app/boards': typeof AppBoardsRouteWithChildren
+  '/app/settings': typeof AppSettingsRouteWithChildren
   '/_public/about': typeof PublicAboutLazyRoute
   '/auth/login': typeof AuthLoginLazyRoute
   '/auth/register': typeof AuthRegisterLazyRoute
@@ -292,7 +320,7 @@ export interface FileRoutesById {
   '/app/': typeof AppIndexLazyRoute
   '/app/boards/$boardId': typeof AppBoardsBoardIdRoute
   '/app/boards/': typeof AppBoardsIndexLazyRoute
-  '/app/profile/': typeof AppProfileIndexLazyRoute
+  '/app/settings/': typeof AppSettingsIndexLazyRoute
 }
 
 export interface FileRouteTypes {
@@ -302,6 +330,7 @@ export interface FileRouteTypes {
     | '/app'
     | '/auth'
     | '/app/boards'
+    | '/app/settings'
     | '/about'
     | '/auth/login'
     | '/auth/register'
@@ -309,7 +338,7 @@ export interface FileRouteTypes {
     | '/app/'
     | '/app/boards/$boardId'
     | '/app/boards/'
-    | '/app/profile'
+    | '/app/settings/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/auth'
@@ -320,13 +349,14 @@ export interface FileRouteTypes {
     | '/app'
     | '/app/boards/$boardId'
     | '/app/boards'
-    | '/app/profile'
+    | '/app/settings'
   id:
     | '__root__'
     | '/_public'
     | '/app'
     | '/auth'
     | '/app/boards'
+    | '/app/settings'
     | '/_public/about'
     | '/auth/login'
     | '/auth/register'
@@ -334,7 +364,7 @@ export interface FileRouteTypes {
     | '/app/'
     | '/app/boards/$boardId'
     | '/app/boards/'
-    | '/app/profile/'
+    | '/app/settings/'
   fileRoutesById: FileRoutesById
 }
 
@@ -376,8 +406,8 @@ export const routeTree = rootRoute
       "filePath": "app.tsx",
       "children": [
         "/app/boards",
-        "/app/",
-        "/app/profile/"
+        "/app/settings",
+        "/app/"
       ]
     },
     "/auth": {
@@ -393,6 +423,13 @@ export const routeTree = rootRoute
       "children": [
         "/app/boards/$boardId",
         "/app/boards/"
+      ]
+    },
+    "/app/settings": {
+      "filePath": "app/settings.tsx",
+      "parent": "/app",
+      "children": [
+        "/app/settings/"
       ]
     },
     "/_public/about": {
@@ -423,9 +460,9 @@ export const routeTree = rootRoute
       "filePath": "app/boards/index.lazy.tsx",
       "parent": "/app/boards"
     },
-    "/app/profile/": {
-      "filePath": "app/profile/index.lazy.tsx",
-      "parent": "/app"
+    "/app/settings/": {
+      "filePath": "app/settings/index.lazy.tsx",
+      "parent": "/app/settings"
     }
   }
 }

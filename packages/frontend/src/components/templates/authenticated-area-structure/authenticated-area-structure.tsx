@@ -14,6 +14,7 @@ import { LogoutModal } from "@/molecules/modals/logout-modal";
 import { useModal } from "@/molecules/modals/base-modal/base-modal.hooks";
 import styles from "./authenticated-area-structure.module.scss";
 import { AuthHeader } from "@/organisms/auth-header";
+import { t } from "i18next";
 
 export const AuthenticatedAreaStructure: FC = () => {
   const appContext = useContext(AppContext);
@@ -23,14 +24,14 @@ export const AuthenticatedAreaStructure: FC = () => {
   const navLinks: SidebarProps["navLinks"] = [
     {
       type: "anchor",
-      label: "Boards",
+      label: t("navlinks.boards"),
       path: "/app/boards",
       icon: (isActive) => (isActive ? <RiDashboardFill /> : <RiDashboardLine />)
     },
     {
       type: "anchor",
-      label: "Profile",
-      path: "/app/profile",
+      label: t("navlinks.settings"),
+      path: "/app/settings",
       icon: (isActive) => (isActive ? <RiSettingsFill /> : <RiSettingsLine />)
     }
   ];
@@ -38,7 +39,7 @@ export const AuthenticatedAreaStructure: FC = () => {
   const actionLinks: SidebarProps["actionLinks"] = [
     {
       type: "action",
-      label: "Logout",
+      label: t("navlinks.logout"),
       onClick: () => {
         showModal();
       },
