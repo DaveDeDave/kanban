@@ -22,8 +22,9 @@ export const AuthHeader: FC<SidebarProps> = ({ navLinks, actionLinks, className 
       />
       <div className={classNames(styles.menu, menuOpen ? styles.open : styles.closed)}>
         <div className={styles.navLinks}>
-          {navLinks.map(({ icon, label, ...props }) => (
+          {navLinks.map(({ icon, label, ...props }, key) => (
             <SidebarNavLink
+              key={key}
               expanded
               icon={icon}
               label={label}
@@ -35,8 +36,8 @@ export const AuthHeader: FC<SidebarProps> = ({ navLinks, actionLinks, className 
           ))}
         </div>
         <div className={styles.actionLinks}>
-          {actionLinks.map(({ icon, label, ...props }) => (
-            <SidebarNavLink expanded icon={icon} label={label} {...props} />
+          {actionLinks.map(({ icon, label, ...props }, key) => (
+            <SidebarNavLink key={key} expanded icon={icon} label={label} {...props} />
           ))}
         </div>
       </div>

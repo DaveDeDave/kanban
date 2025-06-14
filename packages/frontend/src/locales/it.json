@@ -48,6 +48,11 @@
       }
     }
   },
+  "navlinks": {
+    "boards": "Le mie board",
+    "settings": "Impostazioni",
+    "logout": "Disconnettiti"
+  },
   "components": {
     "molecules": {
       "boardCard": {
@@ -57,7 +62,7 @@
       },
       "modals": {
         "logout": {
-          "title": "Logout",
+          "title": "Disconnettiti",
           "description": "Sei sicuro di volerti disconnettere?"
         },
         "createBoard": {
@@ -179,10 +184,11 @@
       }
     },
     "boards": {
+      "page": "Le mie board",
       "welcome": {
         "title": "Non hai ancora creato nessuna board",
         "description": "Creane una ora per sfruttare tutte le funzionalità di Project Kanban.",
-        "button": "Create a board"
+        "button": "Crea una board"
       }
     },
     "board": {

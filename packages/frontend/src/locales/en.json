@@ -48,6 +48,11 @@
       }
     }
   },
+  "navlinks": {
+    "boards": "Boards",
+    "settings": "Settings",
+    "logout": "Logout"
+  },
   "components": {
     "molecules": {
       "boardCard": {
@@ -179,6 +184,7 @@
       }
     },
     "boards": {
+      "page": "Boards",
       "welcome": {
         "title": "You don't have any boards yet",
         "description": "Create your first board to unlock all the features of Project Kanban.",

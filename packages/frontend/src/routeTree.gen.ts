@@ -26,7 +26,7 @@ const PublicIndexLazyImport = createFileRoute('/_public/')()
 const AuthRegisterLazyImport = createFileRoute('/auth/register')()
 const AuthLoginLazyImport = createFileRoute('/auth/login')()
 const PublicAboutLazyImport = createFileRoute('/_public/about')()
-const AppProfileIndexLazyImport = createFileRoute('/app/profile/')()
+const AppSettingsIndexLazyImport = createFileRoute('/app/settings/')()
 const AppBoardsIndexLazyImport = createFileRoute('/app/boards/')()
 
 // Create/Update Routes
@@ -84,12 +84,12 @@ const AppBoardsRoute = AppBoardsImport.update({
   getParentRoute: () => AppRoute,
 } as any)
 
-const AppProfileIndexLazyRoute = AppProfileIndexLazyImport.update({
-  id: '/profile/',
-  path: '/profile/',
+const AppSettingsIndexLazyRoute = AppSettingsIndexLazyImport.update({
+  id: '/settings/',
+  path: '/settings/',
   getParentRoute: () => AppRoute,
 } as any).lazy(() =>
-  import('./routes/app/profile/index.lazy').then((d) => d.Route),
+  import('./routes/app/settings/index.lazy').then((d) => d.Route),
 )
 
 const AppBoardsIndexLazyRoute = AppBoardsIndexLazyImport.update({
@@ -187,11 +187,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppBoardsIndexLazyImport
       parentRoute: typeof AppBoardsImport
     }
-    '/app/profile/': {
-      id: '/app/profile/'
-      path: '/profile'
-      fullPath: '/app/profile'
-      preLoaderRoute: typeof AppProfileIndexLazyImport
+    '/app/settings/': {
+      id: '/app/settings/'
+      path: '/settings'
+      fullPath: '/app/settings'
+      preLoaderRoute: typeof AppSettingsIndexLazyImport
       parentRoute: typeof AppImport
     }
   }
@@ -229,13 +229,13 @@ const AppBoardsRouteWithChildren = AppBoardsRoute._addFileChildren(
 interface AppRouteChildren {
   AppBoardsRoute: typeof AppBoardsRouteWithChildren
   AppIndexLazyRoute: typeof AppIndexLazyRoute
-  AppProfileIndexLazyRoute: typeof AppProfileIndexLazyRoute
+  AppSettingsIndexLazyRoute: typeof AppSettingsIndexLazyRoute
 }
 
 const AppRouteChildren: AppRouteChildren = {
   AppBoardsRoute: AppBoardsRouteWithChildren,
   AppIndexLazyRoute: AppIndexLazyRoute,
-  AppProfileIndexLazyRoute: AppProfileIndexLazyRoute,
+  AppSettingsIndexLazyRoute: AppSettingsIndexLazyRoute,
 }
 
 const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
@@ -264,7 +264,7 @@ export interface FileRoutesByFullPath {
   '/app/': typeof AppIndexLazyRoute
   '/app/boards/$boardId': typeof AppBoardsBoardIdRoute
   '/app/boards/': typeof AppBoardsIndexLazyRoute
-  '/app/profile': typeof AppProfileIndexLazyRoute
+  '/app/settings': typeof AppSettingsIndexLazyRoute
 }
 
 export interface FileRoutesByTo {
@@ -276,7 +276,7 @@ export interface FileRoutesByTo {
   '/app': typeof AppIndexLazyRoute
   '/app/boards/$boardId': typeof AppBoardsBoardIdRoute
   '/app/boards': typeof AppBoardsIndexLazyRoute
-  '/app/profile': typeof AppProfileIndexLazyRoute
+  '/app/settings': typeof AppSettingsIndexLazyRoute
 }
 
 export interface FileRoutesById {
@@ -292,7 +292,7 @@ export interface FileRoutesById {
   '/app/': typeof AppIndexLazyRoute
   '/app/boards/$boardId': typeof AppBoardsBoardIdRoute
   '/app/boards/': typeof AppBoardsIndexLazyRoute
-  '/app/profile/': typeof AppProfileIndexLazyRoute
+  '/app/settings/': typeof AppSettingsIndexLazyRoute
 }
 
 export interface FileRouteTypes {
@@ -309,7 +309,7 @@ export interface FileRouteTypes {
     | '/app/'
     | '/app/boards/$boardId'
     | '/app/boards/'
-    | '/app/profile'
+    | '/app/settings'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/auth'
@@ -320,7 +320,7 @@ export interface FileRouteTypes {
     | '/app'
     | '/app/boards/$boardId'
     | '/app/boards'
-    | '/app/profile'
+    | '/app/settings'
   id:
     | '__root__'
     | '/_public'
@@ -334,7 +334,7 @@ export interface FileRouteTypes {
     | '/app/'
     | '/app/boards/$boardId'
     | '/app/boards/'
-    | '/app/profile/'
+    | '/app/settings/'
   fileRoutesById: FileRoutesById
 }
 
@@ -377,7 +377,7 @@ export const routeTree = rootRoute
       "children": [
         "/app/boards",
         "/app/",
-        "/app/profile/"
+        "/app/settings/"
       ]
     },
     "/auth": {
@@ -423,8 +423,8 @@ export const routeTree = rootRoute
       "filePath": "app/boards/index.lazy.tsx",
       "parent": "/app/boards"
     },
-    "/app/profile/": {
-      "filePath": "app/profile/index.lazy.tsx",
+    "/app/settings/": {
+      "filePath": "app/settings/index.lazy.tsx",
       "parent": "/app"
     }
   }
