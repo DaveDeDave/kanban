@@ -28,22 +28,33 @@ export const Component: FC = () => {
       return [];
     }
 
-    return boardData.board.columns.map((column) => ({
-      id: column.id
-    }));
+    return boardData.board.columns.map((column) => column.id);
+  }, [boardData?.board.columns]);
+
+  const taskIdsByColumn = useMemo(() => {
+    if (!boardData?.board.columns) {
+      return {};
+    }
+
+    return boardData.board.columns.reduce((tasksByColumn, column) => {
+      tasksByColumn[column.id] = column.tasks.map((task) => task.id);
+      return tasksByColumn;
+    }, {} as Record<string, string[]>);
   }, [boardData?.board.columns]);
 
   const columnListRef = useSortable<HTMLDivElement>(
     columnIds,
-    (newOrder) => {
-      console.log(newOrder);
+    (newItems) => {
+      console.log("New items:", newItems);
     },
     {
       handle: ".columnHandle"
     }
   );
 
-  const taskListsRef = useSharedSortable<HTMLDivElement>(columnIds);
+  const taskListsRef = useSharedSortable<HTMLDivElement>(taskIdsByColumn, (event) => {
+    console.log("New items:", event);
+  });
 
   const setTaskListRef = (el: HTMLDivElement | null, key: string) => {
     if (el) {
@@ -85,6 +96,7 @@ export const Component: FC = () => {
             {boardData.board.columns.map((column) => (
               <KanbanColumn
                 key={column.id}
+                id={column.id}
                 headClassName={"columnHandle"}
                 taskListRef={(el) => setTaskListRef(el, column.id)}
                 head={{

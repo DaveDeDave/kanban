@@ -2,8 +2,8 @@ import { useEffect, useRef } from "react";
 import Sortable from "sortablejs";
 
 export const useSortable = <T extends HTMLElement>(
-  items: unknown[],
-  onChange?: (newOrder: unknown[]) => void,
+  items: string[],
+  onChange?: (newItems: unknown[]) => void,
   options?: Sortable.Options
 ) => {
   const listRef = useRef<T>(null);
@@ -16,11 +16,10 @@ export const useSortable = <T extends HTMLElement>(
     const sortable = Sortable.create(listRef.current, {
       ...options,
       animation: 150,
-      onEnd: (evt) => {
-        console.log(evt);
+      onEnd: (event) => {
         const updated = [...items];
-        const [removed] = updated.splice(evt.oldIndex!, 1);
-        updated.splice(evt.newIndex!, 0, removed);
+        const [removed] = updated.splice(event.oldIndex!, 1);
+        updated.splice(event.newIndex!, 0, removed);
         onChange?.(updated);
       }
     });
@@ -34,8 +33,22 @@ export const useSortable = <T extends HTMLElement>(
 };
 
 export const useSharedSortable = <T extends HTMLElement>(
-  items: unknown[],
-  // TODO: onChange?: ...
+  items: Record<string, string[]>,
+  onChange?: (event: {
+    remove?: {
+      item: string;
+      from: string;
+    };
+    add?: {
+      item: string;
+      to: string;
+      newItems: string[];
+    };
+    sort?: {
+      list: string;
+      newItems: string[];
+    };
+  }) => void,
   options?: Sortable.Options
 ) => {
   const listsRef = useRef<Record<string, T>>({});
@@ -51,9 +64,43 @@ export const useSharedSortable = <T extends HTMLElement>(
         ...options,
         animation: 150,
         group: "shared",
-        onEnd: (evt) => {
-          console.log(evt);
-          // TODO
+        onEnd: (event) => {
+          const fromListId = event.from.id;
+          const toListId = event.to.id;
+
+          // sort within the same list
+          if (fromListId === toListId) {
+            const targetItems = items[fromListId];
+            const updated = [...targetItems];
+            const [movedItem] = updated.splice(event.oldIndex!, 1);
+            updated.splice(event.newIndex!, 0, movedItem);
+
+            onChange?.({
+              sort: {
+                list: fromListId,
+                newItems: updated
+              }
+            });
+          } else {
+            // sort between lists
+            const fromList = [...items[fromListId]];
+            const toList = [...items[toListId]];
+
+            const [movedItem] = fromList.splice(event.oldIndex!, 1);
+            toList.splice(event.newIndex!, 0, movedItem);
+
+            onChange?.({
+              remove: {
+                from: fromListId,
+                item: movedItem
+              },
+              add: {
+                to: toListId,
+                item: movedItem,
+                newItems: toList
+              }
+            });
+          }
         }
       })
     );
