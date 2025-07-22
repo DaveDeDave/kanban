@@ -1,11 +1,12 @@
 import { BoardHeader } from "@/organisms/board-header";
 import { useParams } from "@tanstack/react-router";
-import { FC } from "react";
+import { FC, useMemo } from "react";
 import styles from "./board.module.scss";
 import { KanbanColumn } from "@/organisms/kanban-column/kanban-column";
 import { useGetBoard } from "@/hooks/trpc/board/getBoard.hook";
 import { AddColumnButton } from "@/atoms/add-kanban-column-button";
 import { BoardModals, useBoardModals } from "./modals";
+import { useSharedSortable, useSortable } from "@/hooks/sortable.hooks";
 
 export const Component: FC = () => {
   const { boardId } = useParams({
@@ -21,6 +22,34 @@ export const Component: FC = () => {
   } = useGetBoard({
     boardId
   });
+
+  const columnIds = useMemo(() => {
+    if (!boardData?.board.columns) {
+      return [];
+    }
+
+    return boardData.board.columns.map((column) => ({
+      id: column.id
+    }));
+  }, [boardData?.board.columns]);
+
+  const columnListRef = useSortable<HTMLDivElement>(
+    columnIds,
+    (newOrder) => {
+      console.log(newOrder);
+    },
+    {
+      handle: ".columnHandle"
+    }
+  );
+
+  const taskListsRef = useSharedSortable<HTMLDivElement>(columnIds);
+
+  const setTaskListRef = (el: HTMLDivElement | null, key: string) => {
+    if (el) {
+      taskListsRef.current[key] = el;
+    }
+  };
 
   if (isLoading) {
     return <></>;
@@ -51,44 +80,48 @@ export const Component: FC = () => {
             });
           }}
         />
-        <div className={styles.columns}>
-          {boardData.board.columns.map((column) => (
-            <KanbanColumn
-              key={column.id}
-              head={{
-                title: column.name,
-                color: column.color
-              }}
-              tasks={column.tasks}
-              onUpdate={() => {
-                boardModals.showUpdateColumnModal({
-                  id: column.id,
-                  name: column.name,
+        <div className={styles.columnsWrapper}>
+          <div className={styles.columns} ref={columnListRef}>
+            {boardData.board.columns.map((column) => (
+              <KanbanColumn
+                key={column.id}
+                headClassName={"columnHandle"}
+                taskListRef={(el) => setTaskListRef(el, column.id)}
+                head={{
+                  title: column.name,
                   color: column.color
-                });
-              }}
-              onDelete={() => {
-                boardModals.showDeleteColumnModal({
-                  id: column.id,
-                  name: column.name
-                });
-              }}
-              onAddTask={() => {
-                boardModals.showCreateTaskModal({
-                  columnId: column.id
-                });
-              }}
-              onUpdateTask={(task) => {
-                boardModals.showUpdateTaskModal(task);
-              }}
-              onDeleteTask={(task) => {
-                boardModals.showDeleteTaskModal({
-                  id: task.id,
-                  title: task.title
-                });
-              }}
-            />
-          ))}
+                }}
+                tasks={column.tasks}
+                onUpdate={() => {
+                  boardModals.showUpdateColumnModal({
+                    id: column.id,
+                    name: column.name,
+                    color: column.color
+                  });
+                }}
+                onDelete={() => {
+                  boardModals.showDeleteColumnModal({
+                    id: column.id,
+                    name: column.name
+                  });
+                }}
+                onAddTask={() => {
+                  boardModals.showCreateTaskModal({
+                    columnId: column.id
+                  });
+                }}
+                onUpdateTask={(task) => {
+                  boardModals.showUpdateTaskModal(task);
+                }}
+                onDeleteTask={(task) => {
+                  boardModals.showDeleteTaskModal({
+                    id: task.id,
+                    title: task.title
+                  });
+                }}
+              />
+            ))}
+          </div>
 
           <AddColumnButton onClick={boardModals.showCreateColumnModal} />
         </div>

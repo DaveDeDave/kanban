@@ -1,13 +1,16 @@
-import { FC } from "react";
+import { FC, MutableRefObject, Ref } from "react";
 import styles from "./kanban-column.module.scss";
 import { KanbanColumnHead, KanbanColumnHeadProps } from "@/molecules/kanban-column-head";
 import { RiAddCircleLine, RiDeleteBin2Line, RiPencilLine } from "@remixicon/react";
 import { TaskCard, TaskCardProps } from "@/molecules/task-card";
 import { t } from "i18next";
+import classNames from "classnames";
 
 export interface KanbanColumnProps {
   head: Omit<KanbanColumnHeadProps, "actions" | "numberOfTasks">;
   tasks: Omit<TaskCardProps, "onUpdate" | "onDelete">[];
+  taskListRef?: Ref<HTMLDivElement>;
+  headClassName?: string;
   onUpdate: () => void;
   onDelete: () => void;
   onAddTask: () => void;
@@ -18,6 +21,8 @@ export interface KanbanColumnProps {
 export const KanbanColumn: FC<KanbanColumnProps> = ({
   head,
   tasks,
+  taskListRef,
+  headClassName,
   onAddTask,
   onUpdate,
   onDelete,
@@ -27,6 +32,7 @@ export const KanbanColumn: FC<KanbanColumnProps> = ({
   return (
     <div className={styles.kanbanColumn}>
       <KanbanColumnHead
+        className={headClassName}
         title={head.title}
         color={head.color}
         numberOfTasks={tasks.length}
@@ -50,7 +56,7 @@ export const KanbanColumn: FC<KanbanColumnProps> = ({
           }
         ]}
       />
-      <div className={styles.tasks}>
+      <div className={styles.tasks} ref={taskListRef}>
         {tasks.map((task) => (
           <TaskCard
             key={task.id}

@@ -3410,6 +3410,7 @@ __metadata:
     "@trpc/server": ^10.45.2
     "@types/react": ^18.2.64
     "@types/react-dom": ^18.2.21
+    "@types/sortablejs": ^1.15.8
     "@typescript-eslint/eslint-plugin": ^7.1.1
     "@typescript-eslint/parser": ^7.1.1
     "@vitejs/plugin-react": ^4.2.1
@@ -3427,6 +3428,7 @@ __metadata:
     react-dom: ^18.2.0
     react-i18next: ^14.1.0
     sass: ^1.75.0
+    sortablejs: ^1.15.6
     storybook: ^8.0.8
     typescript: ^5.2.2
     vite: ^5.1.6
@@ -6158,6 +6160,13 @@ __metadata:
     "@types/node": "*"
     "@types/send": "*"
   checksum: bbbf00dbd84719da2250a462270dc68964006e8d62f41fe3741abd94504ba3688f420a49afb2b7478921a1544d3793183ffa097c5724167da777f4e0c7f1a7d6
+  languageName: node
+  linkType: hard
+
+"@types/sortablejs@npm:^1.15.8":
+  version: 1.15.8
+  resolution: "@types/sortablejs@npm:1.15.8"
+  checksum: 7866c134a6c81cfc438af52b7910a3efdd89e49c5d196f91a90decea2644c40ab24bbae929d32abb70093ef00a5a6211fe6eb956b618478bc0c81a1dcc59e887
   languageName: node
   linkType: hard
 
@@ -14268,6 +14277,13 @@ __metadata:
     seroval: ~1.3.0
     seroval-plugins: ~1.3.0
   checksum: 94d975040af5ea51647bd44bd5824ea6eba3f2298196e6ddd761cf2f353b42bde7be58c27c3d004e6e69757f5223d6934cdf870b4c705d41a1973a83810648f7
+  languageName: node
+  linkType: hard
+
+"sortablejs@npm:^1.15.6":
+  version: 1.15.6
+  resolution: "sortablejs@npm:1.15.6"
+  checksum: c9ed2f1a8cbff9ceea506b076d684a5444a3fb69f7382178415b842b031924b994591f22a05743f6da179cabccc4c063139b83180e09f34c636ccec5cec83bb9
   languageName: node
   linkType: hard
 

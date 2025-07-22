@@ -3,6 +3,7 @@ import styles from "./kanban-column-head.module.scss";
 import { Heading } from "@/atoms/typography/heading";
 import { RiSettings4Line } from "@remixicon/react";
 import { Dropdown } from "@/atoms/dropdown";
+import classNames from "classnames";
 
 export interface KanbanColumnHeadProps {
   title: string;
@@ -10,6 +11,7 @@ export interface KanbanColumnHeadProps {
   numberOfTasks: number;
   actions?: { onClick: () => void; icon: ReactNode }[];
   settings?: { onClick: () => void; label: string; icon: ReactNode; destructive?: boolean }[];
+  className?: string;
 }
 
 export const KanbanColumnHead: FC<KanbanColumnHeadProps> = ({
@@ -17,11 +19,12 @@ export const KanbanColumnHead: FC<KanbanColumnHeadProps> = ({
   color,
   numberOfTasks,
   actions,
-  settings
+  settings,
+  className
 }) => {
   return (
     <div
-      className={styles.kanbanColumnHead}
+      className={classNames(styles.kanbanColumnHead, className)}
       style={{
         backgroundColor: color
       }}
