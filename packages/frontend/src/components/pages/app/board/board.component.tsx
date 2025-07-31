@@ -7,6 +7,7 @@ import { useGetBoard } from "@/hooks/trpc/board/getBoard.hook";
 import { AddColumnButton } from "@/atoms/add-kanban-column-button";
 import { BoardModals, useBoardModals } from "./modals";
 import { useSharedSortable, useSortable } from "@/hooks/sortable.hooks";
+import { useSortColumns } from "@/hooks/trpc/column/sort-columns.hook";
 
 export const Component: FC = () => {
   const { boardId } = useParams({
@@ -22,6 +23,8 @@ export const Component: FC = () => {
   } = useGetBoard({
     boardId
   });
+
+  const sortColumns = useSortColumns();
 
   const columnIds = useMemo(() => {
     if (!boardData?.board.columns) {
@@ -45,7 +48,11 @@ export const Component: FC = () => {
   const columnListRef = useSortable<HTMLDivElement>(
     columnIds,
     (newItems) => {
-      console.log("New items:", newItems);
+      const columnsOrder = (newItems as string[]).map((columnId, order) => ({ columnId, order }));
+      sortColumns.mutateAsync({
+        boardId: boardId!,
+        columnsOrder
+      });
     },
     {
       handle: ".columnHandle"

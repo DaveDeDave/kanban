@@ -21,9 +21,17 @@ export default authProcedure
           ownerId: user.id
         }
       },
-      orderBy: {
-        createdAt: "asc"
-      }
+      orderBy: [
+        {
+          order: {
+            sort: "asc",
+            nulls: "last"
+          }
+        },
+        {
+          createdAt: "asc"
+        }
+      ]
     });
 
     return {
