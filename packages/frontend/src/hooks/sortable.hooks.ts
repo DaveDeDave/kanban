@@ -35,12 +35,9 @@ export const useSortable = <T extends HTMLElement>(
 export const useSharedSortable = <T extends HTMLElement>(
   items: Record<string, string[]>,
   onChange?: (event: {
-    remove?: {
+    move?: {
       item: string;
       from: string;
-    };
-    add?: {
-      item: string;
       to: string;
       newItems: string[];
     };
@@ -90,11 +87,8 @@ export const useSharedSortable = <T extends HTMLElement>(
             toList.splice(event.newIndex!, 0, movedItem);
 
             onChange?.({
-              remove: {
+              move: {
                 from: fromListId,
-                item: movedItem
-              },
-              add: {
                 to: toListId,
                 item: movedItem,
                 newItems: toList

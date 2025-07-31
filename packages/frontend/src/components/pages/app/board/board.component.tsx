@@ -8,6 +8,8 @@ import { AddColumnButton } from "@/atoms/add-kanban-column-button";
 import { BoardModals, useBoardModals } from "./modals";
 import { useSharedSortable, useSortable } from "@/hooks/sortable.hooks";
 import { useSortColumns } from "@/hooks/trpc/column/sort-columns.hook";
+import { useSortTasks } from "@/hooks/trpc/board/sort-tasks.hook";
+import { useMoveTask } from "@/hooks/trpc/board/move-task.hook";
 
 export const Component: FC = () => {
   const { boardId } = useParams({
@@ -25,6 +27,8 @@ export const Component: FC = () => {
   });
 
   const sortColumns = useSortColumns();
+  const sortTasks = useSortTasks({ boardId });
+  const moveTask = useMoveTask({ boardId });
 
   const columnIds = useMemo(() => {
     if (!boardData?.board.columns) {
@@ -60,7 +64,27 @@ export const Component: FC = () => {
   );
 
   const taskListsRef = useSharedSortable<HTMLDivElement>(taskIdsByColumn, (event) => {
-    console.log("New items:", event);
+    if (event.sort) {
+      const tasksOrder = (event.sort.newItems as string[]).map((taskId, order) => ({
+        taskId,
+        order
+      }));
+      sortTasks.mutateAsync({
+        columnId: event.sort.list,
+        tasksOrder
+      });
+    } else if (event.move) {
+      const tasksOrder = (event.move.newItems as string[]).map((taskId, order) => ({
+        taskId,
+        order
+      }));
+      moveTask.mutateAsync({
+        fromColumnId: event.move.from,
+        toColumnId: event.move.to,
+        taskId: event.move.item,
+        tasksOrder
+      });
+    }
   });
 
   const setTaskListRef = (el: HTMLDivElement | null, key: string) => {

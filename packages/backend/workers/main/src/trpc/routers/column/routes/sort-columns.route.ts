@@ -16,6 +16,7 @@ export default authProcedure
   )
   .output(
     z.object({
+      boardId: z.string(),
       columnsOrder: z.array(columnOrderSchema)
     })
   )
@@ -33,7 +34,7 @@ export default authProcedure
       });
     }
 
-    const newColumnOrder = await prisma.$transaction(async ($tx) => {
+    const newColumnsOrder = await prisma.$transaction(async ($tx) => {
       const newOrder = await Promise.all(
         columnsOrder.map(async (columnOrder) => {
           const column = await $tx.column.findFirst({
@@ -64,7 +65,8 @@ export default authProcedure
     });
 
     return {
-      columnsOrder: newColumnOrder.map((column) => ({
+      boardId,
+      columnsOrder: newColumnsOrder.map((column) => ({
         columnId: column.id,
         order: column.order
       }))
