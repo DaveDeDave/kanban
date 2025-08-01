@@ -9,7 +9,8 @@ export interface KanbanColumnProps {
   head: Omit<KanbanColumnHeadProps, "actions" | "numberOfTasks">;
   tasks: Omit<TaskCardProps, "onUpdate" | "onDelete">[];
   taskListRef?: Ref<HTMLDivElement>;
-  headClassName?: string;
+  columnClassName?: string;
+  taskDragClassname?: string;
   id?: string;
   onUpdate: () => void;
   onDelete: () => void;
@@ -22,7 +23,8 @@ export const KanbanColumn: FC<KanbanColumnProps> = ({
   head,
   tasks,
   taskListRef,
-  headClassName,
+  columnClassName,
+  taskDragClassname,
   id,
   onAddTask,
   onUpdate,
@@ -33,7 +35,7 @@ export const KanbanColumn: FC<KanbanColumnProps> = ({
   return (
     <div className={styles.kanbanColumn}>
       <KanbanColumnHead
-        dragClassname={headClassName}
+        dragClassname={columnClassName}
         title={head.title}
         color={head.color}
         numberOfTasks={tasks.length}
@@ -64,6 +66,7 @@ export const KanbanColumn: FC<KanbanColumnProps> = ({
             id={task.id}
             title={task.title}
             description={task.description}
+            dragClassname={taskDragClassname}
             onUpdate={onUpdateTask}
             onDelete={onDeleteTask}
           />

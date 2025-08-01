@@ -11,6 +11,9 @@ import { useSortColumns } from "@/hooks/trpc/column/sort-columns.hook";
 import { useSortTasks } from "@/hooks/trpc/board/sort-tasks.hook";
 import { useMoveTask } from "@/hooks/trpc/board/move-task.hook";
 
+const columnDragClassName = "column-handle";
+const taskDragClassName = "task-handle";
+
 export const Component: FC = () => {
   const { boardId } = useParams({
     from: "/app/boards/$boardId"
@@ -59,33 +62,39 @@ export const Component: FC = () => {
       });
     },
     {
-      handle: ".columnHandle"
+      handle: columnDragClassName
     }
   );
 
-  const taskListsRef = useSharedSortable<HTMLDivElement>(taskIdsByColumn, (event) => {
-    if (event.sort) {
-      const tasksOrder = (event.sort.newItems as string[]).map((taskId, order) => ({
-        taskId,
-        order
-      }));
-      sortTasks.mutateAsync({
-        columnId: event.sort.list,
-        tasksOrder
-      });
-    } else if (event.move) {
-      const tasksOrder = (event.move.newItems as string[]).map((taskId, order) => ({
-        taskId,
-        order
-      }));
-      moveTask.mutateAsync({
-        fromColumnId: event.move.from,
-        toColumnId: event.move.to,
-        taskId: event.move.item,
-        tasksOrder
-      });
+  const taskListsRef = useSharedSortable<HTMLDivElement>(
+    taskIdsByColumn,
+    (event) => {
+      if (event.sort) {
+        const tasksOrder = (event.sort.newItems as string[]).map((taskId, order) => ({
+          taskId,
+          order
+        }));
+        sortTasks.mutateAsync({
+          columnId: event.sort.list,
+          tasksOrder
+        });
+      } else if (event.move) {
+        const tasksOrder = (event.move.newItems as string[]).map((taskId, order) => ({
+          taskId,
+          order
+        }));
+        moveTask.mutateAsync({
+          fromColumnId: event.move.from,
+          toColumnId: event.move.to,
+          taskId: event.move.item,
+          tasksOrder
+        });
+      }
+    },
+    {
+      handle: taskDragClassName
     }
-  });
+  );
 
   const setTaskListRef = (el: HTMLDivElement | null, key: string) => {
     if (el) {
@@ -128,7 +137,10 @@ export const Component: FC = () => {
               <KanbanColumn
                 key={column.id}
                 id={column.id}
-                headClassName={boardData.board.columns.length > 1 ? "columnHandle" : undefined}
+                columnClassName={
+                  boardData.board.columns.length > 1 ? columnDragClassName : undefined
+                }
+                taskDragClassname={taskDragClassName}
                 taskListRef={(el) => setTaskListRef(el, column.id)}
                 head={{
                   title: column.name,

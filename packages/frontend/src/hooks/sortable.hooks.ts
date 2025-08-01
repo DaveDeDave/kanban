@@ -15,6 +15,7 @@ export const useSortable = <T extends HTMLElement>(
 
     const sortable = Sortable.create(listRef.current, {
       ...options,
+      handle: options?.handle ? `.${options.handle}` : undefined,
       animation: 150,
       onEnd: (event) => {
         const updated = [...items];
@@ -61,6 +62,7 @@ export const useSharedSortable = <T extends HTMLElement>(
     const sortables = Object.entries(listsRef.current).map(([_columnId, element]) =>
       Sortable.create(element, {
         ...options,
+        handle: options?.handle ? `.${options.handle}` : undefined,
         animation: 150,
         group: "shared",
         onChoose: (evt) => {

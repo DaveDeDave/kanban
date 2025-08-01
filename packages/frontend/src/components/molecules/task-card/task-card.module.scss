@@ -16,10 +16,26 @@
     .title {
       flex-grow: 1;
     }
+
+    .grabbableIcon {
+      display: flex;
+      align-items: center;
+      cursor: grab;
+      &:active {
+        cursor: grabbing;
+      }
+    }
   }
 
   .body {
     display: flex;
     flex-direction: column;
+  }
+
+  &.sortable {
+    padding-left: px-to-rem(6);
+    .body {
+      padding-left: px-to-rem(6);
+    }
   }
 }
