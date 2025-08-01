@@ -10,6 +10,8 @@ import { useSharedSortable, useSortable } from "@/hooks/sortable.hooks";
 import { useSortColumns } from "@/hooks/trpc/column/sort-columns.hook";
 import { useSortTasks } from "@/hooks/trpc/board/sort-tasks.hook";
 import { useMoveTask } from "@/hooks/trpc/board/move-task.hook";
+import classNames from "classnames";
+import { RiLoader4Fill } from "@remixicon/react";
 
 const columnDragClassName = "column-handle";
 const taskDragClassName = "task-handle";
@@ -63,11 +65,11 @@ export const Component: FC = () => {
     }, {} as Record<string, string[]>);
   }, [boardData?.board.columns]);
 
-  const columnListRef = useSortable<HTMLDivElement>(
+  const { listRef: columnListRef, loading: sortableLoading } = useSortable<HTMLDivElement>(
     columnIds,
-    (newItems) => {
+    async (newItems) => {
       const columnsOrder = (newItems as string[]).map((columnId, order) => ({ columnId, order }));
-      sortColumns.mutateAsync({
+      await sortColumns.mutateAsync({
         boardId: boardId!,
         columnsOrder
       });
@@ -77,35 +79,36 @@ export const Component: FC = () => {
     }
   );
 
-  const taskListsRef = useSharedSortable<HTMLDivElement>(
-    taskIdsByColumn,
-    (event) => {
-      if (event.sort) {
-        const tasksOrder = (event.sort.newItems as string[]).map((taskId, order) => ({
-          taskId,
-          order
-        }));
-        sortTasks.mutateAsync({
-          columnId: event.sort.list,
-          tasksOrder
-        });
-      } else if (event.move) {
-        const tasksOrder = (event.move.newItems as string[]).map((taskId, order) => ({
-          taskId,
-          order
-        }));
-        moveTask.mutateAsync({
-          fromColumnId: event.move.from,
-          toColumnId: event.move.to,
-          taskId: event.move.item,
-          tasksOrder
-        });
+  const { listsRef: taskListsRef, loading: sharedSortableLoading } =
+    useSharedSortable<HTMLDivElement>(
+      taskIdsByColumn,
+      async (event) => {
+        if (event.sort) {
+          const tasksOrder = (event.sort.newItems as string[]).map((taskId, order) => ({
+            taskId,
+            order
+          }));
+          await sortTasks.mutateAsync({
+            columnId: event.sort.list,
+            tasksOrder
+          });
+        } else if (event.move) {
+          const tasksOrder = (event.move.newItems as string[]).map((taskId, order) => ({
+            taskId,
+            order
+          }));
+          await moveTask.mutateAsync({
+            fromColumnId: event.move.from,
+            toColumnId: event.move.to,
+            taskId: event.move.item,
+            tasksOrder
+          });
+        }
+      },
+      {
+        handle: taskDragClassName
       }
-    },
-    {
-      handle: taskDragClassName
-    }
-  );
+    );
 
   const setTaskListRef = (el: HTMLDivElement | null, key: string) => {
     if (el) {
@@ -143,6 +146,16 @@ export const Component: FC = () => {
           }}
         />
         <div className={styles.columnsWrapper}>
+          <div
+            className={classNames(
+              styles.loader,
+              (sortableLoading || sharedSortableLoading) && styles.show
+            )}
+          >
+            <span className={styles.loaderIcon}>
+              <RiLoader4Fill />
+            </span>
+          </div>
           <div className={styles.columns} ref={columnListRef}>
             {boardData.board.columns.map((column) => (
               <KanbanColumn
@@ -188,7 +201,6 @@ export const Component: FC = () => {
               />
             ))}
           </div>
-
           <AddColumnButton onClick={boardModals.showCreateColumnModal} />
         </div>
       </div>
