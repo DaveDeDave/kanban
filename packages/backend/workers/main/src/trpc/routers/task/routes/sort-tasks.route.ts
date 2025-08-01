@@ -69,8 +69,9 @@ export default authProcedure
     return {
       columnId,
       tasksOrder: newTasksOrder.map((task) => ({
-        taskId: task.id,
-        order: task.order
+        // typescript requires non-null assertion operator
+        taskId: task!.id,
+        order: task!.order
       }))
     };
   });

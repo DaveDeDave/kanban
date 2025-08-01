@@ -64,7 +64,7 @@ export default authProcedure
       }
 
       const newTasksOrder = await prisma.$transaction(async ($tx) => {
-        const a = await $tx.task.update({
+        await $tx.task.update({
           where: {
             id: task.id
           },
@@ -72,7 +72,6 @@ export default authProcedure
             columnId: toColumn.id
           }
         });
-        console.log(a);
 
         const newOrder = await Promise.all(
           tasksOrder.map(async (taskOrder) => {
@@ -108,8 +107,9 @@ export default authProcedure
         toColumnId,
         taskId,
         tasksOrder: newTasksOrder.map((task) => ({
-          taskId: task.id,
-          order: task.order
+          // typescript requires non-null assertion operator
+          taskId: task!.id,
+          order: task!.order
         }))
       };
     }

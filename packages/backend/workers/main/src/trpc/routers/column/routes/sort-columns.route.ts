@@ -67,8 +67,9 @@ export default authProcedure
     return {
       boardId,
       columnsOrder: newColumnsOrder.map((column) => ({
-        columnId: column.id,
-        order: column.order
+        // typescript requires non-null assertion operator
+        columnId: column!.id,
+        order: column!.order
       }))
     };
   });
