@@ -33,6 +33,7 @@ model Column {
   name            String
   color           String
   tasks           Task[]
+  order           Int?
   createdAt       DateTime   @default(now())
   updatedAt       DateTime   @updatedAt
   board           Board      @relation(fields: [boardId], references: [id], onDelete: Cascade)
@@ -44,6 +45,7 @@ model Task {
   title           String
   description     String
   subtasks        Subtask[]
+  order           Int?
   createdAt       DateTime   @default(now())
   updatedAt       DateTime   @updatedAt
   column          Column     @relation(fields: [columnId], references: [id], onDelete: Cascade)

@@ -23,9 +23,17 @@ export default authProcedure
           }
         }
       },
-      orderBy: {
-        createdAt: "asc"
-      }
+      orderBy: [
+        {
+          order: {
+            sort: "asc",
+            nulls: "last"
+          }
+        },
+        {
+          createdAt: "asc"
+        }
+      ]
     });
 
     return {

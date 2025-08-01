@@ -55,6 +55,7 @@ export const testData = {
       name: "Column 1",
       color: "#ffffff",
       boardId: "1",
+      order: null,
       createdAt: testDate,
       updatedAt: testDate
     },
@@ -63,6 +64,7 @@ export const testData = {
       name: "Column 2",
       color: "#ffffff",
       boardId: "1",
+      order: null,
       createdAt: testDate,
       updatedAt: testDate
     },
@@ -71,6 +73,7 @@ export const testData = {
       name: "Column 3",
       color: "#ffffff",
       boardId: "3",
+      order: null,
       createdAt: testDate,
       updatedAt: testDate
     }
@@ -81,6 +84,7 @@ export const testData = {
       title: "Task 1",
       description: "Task 1 description",
       columnId: "1",
+      order: null,
       createdAt: testDate,
       updatedAt: testDate
     },
@@ -89,6 +93,7 @@ export const testData = {
       title: "Task 2",
       description: "Task 2 description",
       columnId: "1",
+      order: null,
       createdAt: testDate,
       updatedAt: testDate
     },
@@ -97,6 +102,7 @@ export const testData = {
       title: "Task 3",
       description: "Task 3 description",
       columnId: "3",
+      order: null,
       createdAt: testDate,
       updatedAt: testDate
     }
