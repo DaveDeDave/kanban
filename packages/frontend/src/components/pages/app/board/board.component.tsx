@@ -26,6 +26,7 @@ export const Component: FC = () => {
   const {
     data: boardData,
     isLoading,
+    isRefetching,
     error
   } = useGetBoard({
     boardId
@@ -149,7 +150,7 @@ export const Component: FC = () => {
           <div
             className={classNames(
               styles.loader,
-              (sortableLoading || sharedSortableLoading) && styles.show
+              (isRefetching || sortableLoading || sharedSortableLoading) && styles.show
             )}
           >
             <span className={styles.loaderIcon}>
