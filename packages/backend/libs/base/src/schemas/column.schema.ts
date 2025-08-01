@@ -6,6 +6,7 @@ export const columnSchema = z.object({
   name: z.string(),
   color: z.string(),
   boardId: z.string(),
+  order: z.number().nullable(),
   createdAt: z.date(),
   updatedAt: z.date()
 });
