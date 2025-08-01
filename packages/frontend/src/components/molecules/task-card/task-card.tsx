@@ -24,11 +24,13 @@ export const TaskCard: FC<TaskCardProps> = ({
   onDelete
 }) => {
   return (
-    <div className={classNames(styles.taskCard, styles.sortable)}>
+    <div className={classNames(styles.taskCard, dragClassname && styles.sortable)}>
       <div className={styles.head}>
-        <div className={classNames(styles.grabbableIcon, dragClassname)}>
-          <RiDraggable />
-        </div>
+        {dragClassname ? (
+          <div className={classNames(styles.grabbableIcon, dragClassname)}>
+            <RiDraggable />
+          </div>
+        ) : null}
         <div className={styles.title}>
           <Text type="label" weight={600}>
             {title}

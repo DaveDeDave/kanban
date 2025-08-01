@@ -41,6 +41,17 @@ export const Component: FC = () => {
     return boardData.board.columns.map((column) => column.id);
   }, [boardData?.board.columns]);
 
+  const numberOfTasks = useMemo(() => {
+    if (!boardData) {
+      return 0;
+    }
+
+    return boardData.board.columns.reduce(
+      (totalTasks, column) => totalTasks + column.tasks.length,
+      0
+    );
+  }, [boardData?.board.columns]);
+
   const taskIdsByColumn = useMemo(() => {
     if (!boardData?.board.columns) {
       return {};
@@ -140,7 +151,7 @@ export const Component: FC = () => {
                 columnClassName={
                   boardData.board.columns.length > 1 ? columnDragClassName : undefined
                 }
-                taskDragClassname={taskDragClassName}
+                taskDragClassname={numberOfTasks > 1 ? taskDragClassName : undefined}
                 taskListRef={(el) => setTaskListRef(el, column.id)}
                 head={{
                   title: column.name,
