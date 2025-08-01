@@ -10,6 +10,11 @@
   min-width: px-to-rem(300);
   width: px-to-rem(300);
   height: 100%;
+
+  &:global(.sortable-chosen) {
+    cursor: grabbing;
+  }
+
   .tasks {
     display: flex;
     flex-direction: column;

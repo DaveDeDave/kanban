@@ -11,7 +11,24 @@
   border-radius: $border-radius-md;
   background-color: $color-primary;
   color: $color-light;
+
+  &.sortable {
+    padding-left: 8px;
+  }
   
+  .group {
+    display: flex;
+    align-items: center;
+    .grabbableIcon {
+      display: flex;
+      align-items: center;
+      cursor: grab;
+      &:active {
+        cursor: grabbing;
+      }
+    }
+  }
+
   .numberOfTasks {
     background-color: #{$color-dark}33;
     padding: px-to-rem(4) px-to-rem(10);

@@ -128,7 +128,7 @@ export const Component: FC = () => {
               <KanbanColumn
                 key={column.id}
                 id={column.id}
-                headClassName={"columnHandle"}
+                headClassName={boardData.board.columns.length > 1 ? "columnHandle" : undefined}
                 taskListRef={(el) => setTaskListRef(el, column.id)}
                 head={{
                   title: column.name,

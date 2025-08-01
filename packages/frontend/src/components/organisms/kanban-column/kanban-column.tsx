@@ -33,7 +33,7 @@ export const KanbanColumn: FC<KanbanColumnProps> = ({
   return (
     <div className={styles.kanbanColumn}>
       <KanbanColumnHead
-        className={headClassName}
+        dragClassname={headClassName}
         title={head.title}
         color={head.color}
         numberOfTasks={tasks.length}

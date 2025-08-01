@@ -55,12 +55,21 @@ export const useSharedSortable = <T extends HTMLElement>(
       return;
     }
 
+    let nextSibling: Element | null = null;
+
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const sortables = Object.entries(listsRef.current).map(([_columnId, element]) =>
       Sortable.create(element, {
         ...options,
         animation: 150,
         group: "shared",
+        onChoose: (evt) => {
+          nextSibling = evt.item.nextElementSibling;
+        },
+        onAdd: (evt) => {
+          const referenceNode = nextSibling && nextSibling.parentNode !== null ? nextSibling : null;
+          evt.from.insertBefore(evt.item, referenceNode);
+        },
         onEnd: (event) => {
           const fromListId = event.from.id;
           const toListId = event.to.id;
