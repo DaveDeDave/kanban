@@ -1,12 +1,13 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import Sortable from "sortablejs";
 
 export const useSortable = <T extends HTMLElement>(
   items: string[],
-  onChange?: (newItems: unknown[]) => void,
+  onChange?: (newItems: unknown[]) => Promise<void> | void,
   options?: Sortable.Options
 ) => {
   const listRef = useRef<T>(null);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (!listRef.current) {
@@ -17,11 +18,16 @@ export const useSortable = <T extends HTMLElement>(
       ...options,
       handle: options?.handle ? `.${options.handle}` : undefined,
       animation: 150,
-      onEnd: (event) => {
-        const updated = [...items];
-        const [removed] = updated.splice(event.oldIndex!, 1);
-        updated.splice(event.newIndex!, 0, removed);
-        onChange?.(updated);
+      onEnd: async (event) => {
+        try {
+          setLoading(true);
+          const updated = [...items];
+          const [removed] = updated.splice(event.oldIndex!, 1);
+          updated.splice(event.newIndex!, 0, removed);
+          await onChange?.(updated);
+        } finally {
+          setLoading(false);
+        }
       }
     });
 
@@ -30,7 +36,7 @@ export const useSortable = <T extends HTMLElement>(
     };
   }, [items]);
 
-  return listRef;
+  return { listRef, loading };
 };
 
 export const useSharedSortable = <T extends HTMLElement>(
@@ -46,10 +52,11 @@ export const useSharedSortable = <T extends HTMLElement>(
       list: string;
       newItems: string[];
     };
-  }) => void,
+  }) => Promise<void> | void,
   options?: Sortable.Options
 ) => {
   const listsRef = useRef<Record<string, T>>({});
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (!listsRef.current) {
@@ -72,39 +79,44 @@ export const useSharedSortable = <T extends HTMLElement>(
           const referenceNode = nextSibling && nextSibling.parentNode !== null ? nextSibling : null;
           evt.from.insertBefore(evt.item, referenceNode);
         },
-        onEnd: (event) => {
-          const fromListId = event.from.id;
-          const toListId = event.to.id;
+        onEnd: async (event) => {
+          try {
+            setLoading(true);
+            const fromListId = event.from.id;
+            const toListId = event.to.id;
 
-          // sort within the same list
-          if (fromListId === toListId) {
-            const targetItems = items[fromListId];
-            const updated = [...targetItems];
-            const [movedItem] = updated.splice(event.oldIndex!, 1);
-            updated.splice(event.newIndex!, 0, movedItem);
+            // sort within the same list
+            if (fromListId === toListId) {
+              const targetItems = items[fromListId];
+              const updated = [...targetItems];
+              const [movedItem] = updated.splice(event.oldIndex!, 1);
+              updated.splice(event.newIndex!, 0, movedItem);
 
-            onChange?.({
-              sort: {
-                list: fromListId,
-                newItems: updated
-              }
-            });
-          } else {
-            // sort between lists
-            const fromList = [...items[fromListId]];
-            const toList = [...items[toListId]];
+              await onChange?.({
+                sort: {
+                  list: fromListId,
+                  newItems: updated
+                }
+              });
+            } else {
+              // sort between lists
+              const fromList = [...items[fromListId]];
+              const toList = [...items[toListId]];
 
-            const [movedItem] = fromList.splice(event.oldIndex!, 1);
-            toList.splice(event.newIndex!, 0, movedItem);
+              const [movedItem] = fromList.splice(event.oldIndex!, 1);
+              toList.splice(event.newIndex!, 0, movedItem);
 
-            onChange?.({
-              move: {
-                from: fromListId,
-                to: toListId,
-                item: movedItem,
-                newItems: toList
-              }
-            });
+              await onChange?.({
+                move: {
+                  from: fromListId,
+                  to: toListId,
+                  item: movedItem,
+                  newItems: toList
+                }
+              });
+            }
+          } finally {
+            setLoading(false);
           }
         }
       })
@@ -115,5 +127,5 @@ export const useSharedSortable = <T extends HTMLElement>(
     };
   }, [items]);
 
-  return listsRef;
+  return { listsRef, loading };
 };
