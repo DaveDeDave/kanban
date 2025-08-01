@@ -36,3 +36,9 @@ $transition-short: .2s;
     scale: 0;
 	}
 }
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
