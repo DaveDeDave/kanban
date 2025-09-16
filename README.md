@@ -1,6 +1,8 @@
 # Kanban
 This is a kanban task management web app. It is possible to create boards, custom columns and tasks.
 
+![kanban board page](https://raw.githubusercontent.com/DaveDeDave/kanban/refs/heads/feature/general/screenshots/kanban.png)
+
 ## General info
 There is a live demo available [here](https://kanban-35a.pages.dev).
 
