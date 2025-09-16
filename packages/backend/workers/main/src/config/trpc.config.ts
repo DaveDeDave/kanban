@@ -89,7 +89,13 @@ const t = initTRPC.context<typeof createContext>().create({
       cause: error.cause
     });
 
-    return { ...shape };
+    return {
+      ...shape,
+      data: {
+        ...shape.data,
+        stack: ""
+      }
+    };
   }
 });
 
