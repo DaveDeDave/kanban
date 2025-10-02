@@ -24,9 +24,7 @@ export const useCreateTask = (opts?: ReactQueryOptions["task"]["createTask"]) =>
 
                     return {
                       ...column,
-                      tasks: column.tasks.concat({
-                        ...response.createdTask
-                      })
+                      tasks: [{ ...response.createdTask }, ...column.tasks]
                     };
                   })
                 }
@@ -41,9 +39,7 @@ export const useCreateTask = (opts?: ReactQueryOptions["task"]["createTask"]) =>
         (oldData) =>
           oldData
             ? {
-                tasks: oldData.tasks.concat({
-                  ...response.createdTask
-                })
+                tasks: [{ ...response.createdTask }, ...oldData.tasks]
               }
             : undefined
       );

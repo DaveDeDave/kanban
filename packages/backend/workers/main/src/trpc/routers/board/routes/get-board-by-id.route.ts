@@ -23,10 +23,7 @@ export default authProcedure
         columns: {
           orderBy: [
             {
-              order: {
-                sort: "asc",
-                nulls: "last"
-              }
+              rank: "asc"
             },
             {
               createdAt: "asc"
@@ -36,10 +33,7 @@ export default authProcedure
             tasks: {
               orderBy: [
                 {
-                  order: {
-                    sort: "asc",
-                    nulls: "last"
-                  }
+                  rank: "asc"
                 },
                 {
                   createdAt: "asc"

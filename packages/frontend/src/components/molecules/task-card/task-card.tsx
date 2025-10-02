@@ -21,10 +21,11 @@ export const TaskCard: FC<TaskCardProps> = ({
   description,
   dragClassname,
   onUpdate,
-  onDelete
+  onDelete,
+  ...props
 }) => {
   return (
-    <div className={classNames(styles.taskCard, dragClassname && styles.sortable)}>
+    <div id={id} className={classNames(styles.taskCard, dragClassname && styles.sortable)}>
       <div className={styles.head}>
         {dragClassname ? (
           <div className={classNames(styles.grabbableIcon, dragClassname)}>
