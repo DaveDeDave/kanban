@@ -7,9 +7,8 @@ import { useGetBoard } from "@/hooks/trpc/board/getBoard.hook";
 import { AddColumnButton } from "@/atoms/add-kanban-column-button";
 import { BoardModals, useBoardModals } from "./modals";
 import { useSharedSortable, useSortable } from "@/hooks/sortable.hooks";
-import { useSortColumns } from "@/hooks/trpc/column/sort-columns.hook";
-import { useSortTasks } from "@/hooks/trpc/board/sort-tasks.hook";
-import { useMoveTask } from "@/hooks/trpc/board/move-task.hook";
+import { useRankColumn } from "@/hooks/trpc/column/rank-column.hook";
+import { useRankTask } from "@/hooks/trpc/board/rank-task.hook";
 import classNames from "classnames";
 import { RiLoader4Fill } from "@remixicon/react";
 
@@ -32,9 +31,8 @@ export const Component: FC = () => {
     boardId
   });
 
-  const sortColumns = useSortColumns();
-  const sortTasks = useSortTasks({ boardId });
-  const moveTask = useMoveTask({ boardId });
+  const rankColumn = useRankColumn();
+  const rankTask = useRankTask({ boardId });
 
   const columnIds = useMemo(() => {
     if (!boardData?.board.columns) {
@@ -68,11 +66,12 @@ export const Component: FC = () => {
 
   const { listRef: columnListRef, loading: sortableLoading } = useSortable<HTMLDivElement>(
     columnIds,
-    async (newItems) => {
-      const columnsOrder = (newItems as string[]).map((columnId, order) => ({ columnId, order }));
-      await sortColumns.mutateAsync({
+    async (event) => {
+      await rankColumn.mutateAsync({
         boardId: boardId!,
-        columnsOrder
+        columnId: event.itemId,
+        previousColumnId: event.previousItemId,
+        nextColumnId: event.nextItemId
       });
     },
     {
@@ -84,27 +83,13 @@ export const Component: FC = () => {
     useSharedSortable<HTMLDivElement>(
       taskIdsByColumn,
       async (event) => {
-        if (event.sort) {
-          const tasksOrder = (event.sort.newItems as string[]).map((taskId, order) => ({
-            taskId,
-            order
-          }));
-          await sortTasks.mutateAsync({
-            columnId: event.sort.list,
-            tasksOrder
-          });
-        } else if (event.move) {
-          const tasksOrder = (event.move.newItems as string[]).map((taskId, order) => ({
-            taskId,
-            order
-          }));
-          await moveTask.mutateAsync({
-            fromColumnId: event.move.from,
-            toColumnId: event.move.to,
-            taskId: event.move.item,
-            tasksOrder
-          });
-        }
+        await rankTask.mutateAsync({
+          columnId: event.listId,
+          moveToColumnId: event.newListId,
+          taskId: event.itemId,
+          previousTaskId: event.previousItemId,
+          nextTaskId: event.nextItemId
+        });
       },
       {
         handle: taskDragClassName

@@ -1,23 +1,18 @@
 import { ReactQueryOptions, trpc } from "@/config/trpc.config";
 
-export const useSortTasks = (
-  state: { boardId: string },
-  opts?: ReactQueryOptions["task"]["sortTasks"]
-) => {
+export const useRankColumn = (opts?: ReactQueryOptions["column"]["rankColumn"]) => {
   const utils = trpc.useUtils();
 
-  const { boardId } = state;
-
-  return trpc.task.sortTasks.useMutation({
+  return trpc.column.rankColumn.useMutation({
     ...opts,
     onSettled: (response, error, input, ctx) => {
       opts?.onSettled?.(response, error, input, ctx);
 
-      utils.task.getTasksByColumn.invalidate({
-        columnId: input.columnId
+      utils.column.getColumnsByBoard.invalidate({
+        boardId: input.boardId
       });
       utils.board.getBoardById.invalidate({
-        boardId
+        boardId: input.boardId
       });
     }
   });

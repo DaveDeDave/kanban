@@ -6,7 +6,7 @@ export const taskSchema = z.object({
   title: z.string(),
   description: z.string(),
   columnId: z.string(),
-  order: z.number().nullable(),
+  rank: z.string(),
   createdAt: z.date(),
   updatedAt: z.date()
 });

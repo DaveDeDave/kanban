@@ -59,7 +59,7 @@ export const KanbanColumn: FC<KanbanColumnProps> = ({
           }
         ]}
       />
-      <div className={styles.tasks} id={id} ref={taskListRef}>
+      <div id={id} className={styles.tasks} ref={taskListRef}>
         {tasks.map((task) => (
           <TaskCard
             key={task.id}
