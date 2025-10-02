@@ -21,8 +21,7 @@ export const TaskCard: FC<TaskCardProps> = ({
   description,
   dragClassname,
   onUpdate,
-  onDelete,
-  ...props
+  onDelete
 }) => {
   return (
     <div id={id} className={classNames(styles.taskCard, dragClassname && styles.sortable)}>
