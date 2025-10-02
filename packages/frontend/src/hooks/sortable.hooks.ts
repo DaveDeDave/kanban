@@ -3,7 +3,11 @@ import Sortable from "sortablejs";
 
 export const useSortable = <T extends HTMLElement>(
   items: string[],
-  onChange?: (newItems: unknown[]) => Promise<void> | void,
+  onChange?: (event: {
+    itemId: string;
+    previousItemId: string | null;
+    nextItemId: string | null;
+  }) => Promise<void> | void,
   options?: Sortable.Options
 ) => {
   const listRef = useRef<T>(null);
@@ -21,10 +25,23 @@ export const useSortable = <T extends HTMLElement>(
       onEnd: async (event) => {
         try {
           setLoading(true);
-          const updated = [...items];
-          const [removed] = updated.splice(event.oldIndex!, 1);
-          updated.splice(event.newIndex!, 0, removed);
-          await onChange?.(updated);
+
+          const targetItems = items;
+
+          const neighborsIndex =
+            event.newIndex! > event.oldIndex!
+              ? [event.newIndex!, event.newIndex! + 1]
+              : [event.newIndex! - 1, event.newIndex!];
+
+          const itemId = targetItems[event.oldIndex!];
+          const previousItemId = targetItems[neighborsIndex[0]] || null;
+          const nextItemId = targetItems[neighborsIndex[1]] || null;
+
+          await onChange?.({
+            itemId,
+            previousItemId,
+            nextItemId
+          });
         } finally {
           setLoading(false);
         }
@@ -42,16 +59,11 @@ export const useSortable = <T extends HTMLElement>(
 export const useSharedSortable = <T extends HTMLElement>(
   items: Record<string, string[]>,
   onChange?: (event: {
-    move?: {
-      item: string;
-      from: string;
-      to: string;
-      newItems: string[];
-    };
-    sort?: {
-      list: string;
-      newItems: string[];
-    };
+    listId: string;
+    newListId: string | null;
+    itemId: string;
+    previousItemId: string | null;
+    nextItemId: string | null;
   }) => Promise<void> | void,
   options?: Sortable.Options
 ) => {
@@ -85,34 +97,43 @@ export const useSharedSortable = <T extends HTMLElement>(
             const fromListId = event.from.id;
             const toListId = event.to.id;
 
-            // sort within the same list
             if (fromListId === toListId) {
+              if (event.oldIndex === event.newIndex) {
+                return;
+              }
+
               const targetItems = items[fromListId];
-              const updated = [...targetItems];
-              const [movedItem] = updated.splice(event.oldIndex!, 1);
-              updated.splice(event.newIndex!, 0, movedItem);
+
+              const neighborsIndex =
+                event.newIndex! > event.oldIndex!
+                  ? [event.newIndex!, event.newIndex! + 1]
+                  : [event.newIndex! - 1, event.newIndex!];
+
+              const itemId = targetItems[event.oldIndex!];
+              const previousItemId = targetItems[neighborsIndex[0]] || null;
+              const nextItemId = targetItems[neighborsIndex[1]] || null;
 
               await onChange?.({
-                sort: {
-                  list: fromListId,
-                  newItems: updated
-                }
+                listId: fromListId,
+                newListId: null,
+                itemId,
+                previousItemId,
+                nextItemId
               });
             } else {
-              // sort between lists
               const fromList = [...items[fromListId]];
               const toList = [...items[toListId]];
 
-              const [movedItem] = fromList.splice(event.oldIndex!, 1);
-              toList.splice(event.newIndex!, 0, movedItem);
+              const itemId = fromList[event.oldIndex!];
+              const previousItemId = toList[event.newIndex! - 1] || null;
+              const nextItemId = toList[event.newIndex!] || null;
 
               await onChange?.({
-                move: {
-                  from: fromListId,
-                  to: toListId,
-                  item: movedItem,
-                  newItems: toList
-                }
+                listId: fromListId,
+                newListId: toListId,
+                itemId,
+                previousItemId,
+                nextItemId
               });
             }
           } finally {

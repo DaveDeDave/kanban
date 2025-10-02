@@ -4,7 +4,16 @@ import { HttpException, getJwtHelper } from "@kanban/base-lib";
 import { initTRPC } from "@trpc/server";
 import { FetchCreateContextFnOptions } from "@trpc/server/adapters/fetch";
 
-const createContext = async ({ req, env }: FetchCreateContextFnOptions & { env: Env }) => {
+const createContext = async ({
+  req,
+  env
+}: FetchCreateContextFnOptions & { env: Env }): Promise<{
+  headers: Headers;
+  prisma: ReturnType<typeof getPrismaClient>;
+  helpers: {
+    jwt: Awaited<ReturnType<typeof getJwtHelper>>;
+  };
+}> => {
   const prisma = getPrismaClient(env.DATABASE_URL);
   const jwt = await getJwtHelper(env.JWT_SECRET);
 
@@ -19,9 +28,10 @@ const createContext = async ({ req, env }: FetchCreateContextFnOptions & { env: 
 
 const t = initTRPC.context<typeof createContext>().create({
   errorFormatter({ shape, error }) {
-    const { cause } = error;
+    console.log("asdasd", error.name, error.cause?.name);
 
-    if (cause instanceof HttpException) {
+    if (error.cause && error.cause.name === "HttpException") {
+      const cause = error.cause as HttpException;
       if (cause.statusCode === "INTERNAL_SERVER_ERROR") {
         // logger.fatal
         console.log({

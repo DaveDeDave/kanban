@@ -3452,6 +3452,7 @@ __metadata:
     dotenv: ^16.4.5
     eslint: ^8.57.0
     jest: ^29.7.0
+    lexorank: ^1.0.5
     prisma: ^5.11.0
     ts-jest: ^29.1.2
     ts-node: ^10.9.2
@@ -11591,6 +11592,13 @@ __metadata:
     prelude-ls: ^1.2.1
     type-check: ~0.4.0
   checksum: 12c5021c859bd0f5248561bf139121f0358285ec545ebf48bb3d346820d5c61a4309535c7f387ed7d84361cf821e124ce346c6b7cef8ee09a67c1473b46d0fc4
+  languageName: node
+  linkType: hard
+
+"lexorank@npm:^1.0.5":
+  version: 1.0.5
+  resolution: "lexorank@npm:1.0.5"
+  checksum: 234bf37851fb5e4c0078344cf379d1ee48c0c87fae8f5e2b57d366a2064858edeb48f2145991492e5704ff6cc6a32cc4a341c2139eefefecbe8305d9fba920ee
   languageName: node
   linkType: hard
 

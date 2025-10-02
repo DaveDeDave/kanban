@@ -25,10 +25,7 @@ export default authProcedure
       },
       orderBy: [
         {
-          order: {
-            sort: "asc",
-            nulls: "last"
-          }
+          rank: "asc"
         },
         {
           createdAt: "asc"

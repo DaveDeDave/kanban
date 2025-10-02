@@ -1,5 +1,6 @@
 import { authProcedure } from "@/trpc/procedures";
 import { HttpNotFoundException, taskSchema } from "@kanban/base-lib";
+import { LexoRank } from "lexorank";
 import { z } from "zod";
 
 export default authProcedure
@@ -33,11 +34,31 @@ export default authProcedure
       });
     }
 
+    const firstTask = await prisma.task.findFirst({
+      where: {
+        columnId
+      },
+      orderBy: {
+        rank: "asc"
+      }
+    });
+
+    let rank: string;
+    if (firstTask) {
+      const firstTaskRank = LexoRank.parse(firstTask.rank);
+      rank = firstTaskRank.genPrev().toString();
+    } else {
+      rank = LexoRank.middle().toString();
+    }
+
+    // TODO: handle rebalancing ranks when necessary
+
     const createdTask = await prisma.task.create({
       data: {
         title,
         description,
-        columnId
+        columnId,
+        rank
       }
     });
 
