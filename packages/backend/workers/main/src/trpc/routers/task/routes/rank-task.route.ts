@@ -1,6 +1,7 @@
 import { authProcedure } from "@/trpc/procedures";
 import { HttpNotFoundException, taskSchema } from "@kanban/base-lib";
 import { LexoRank } from "lexorank";
+import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 
 export default authProcedure
@@ -46,7 +47,7 @@ export default authProcedure
 
       const targetColumnId = moveToColumnId ?? columnId;
 
-      if (!column || (moveToColumnId && !toColumn)) {
+      if (!column || (moveToColumnId && (!toColumn || toColumn.boardId !== column.boardId))) {
         throw new HttpNotFoundException({
           errorCode: "ColumnNotFound"
         });
@@ -65,15 +66,44 @@ export default authProcedure
         });
       }
 
-      const previousTask = previousTaskId
-        ? await prisma.task.findFirst({ where: { id: previousTaskId, columnId: targetColumnId } })
-        : null;
-      const nextTask = nextTaskId
-        ? await prisma.task.findFirst({ where: { id: nextTaskId, columnId: targetColumnId } })
-        : null;
+      const neighborIds = [previousTaskId, nextTaskId].filter((id): id is string => !!id);
+      const neighbors = neighborIds.length
+        ? await prisma.task.findMany({
+            where: { id: { in: neighborIds }, columnId: targetColumnId },
+            select: { id: true, rank: true }
+          })
+        : [];
+      const previousTask = neighbors.find(({ id }) => id === previousTaskId);
+      const nextTask = neighbors.find(({ id }) => id === nextTaskId);
 
-      let newRank: string = "";
-      let needRebalance = false;
+      if (
+        (previousTaskId && !previousTask) ||
+        (nextTaskId && !nextTask) ||
+        (previousTask && nextTask && previousTask.rank >= nextTask.rank)
+      ) {
+        throw new TRPCError({ code: "CONFLICT", message: "Task order has changed" });
+      }
+
+      const taskBetweenNeighbors = await prisma.task.findFirst({
+        where: {
+          columnId: targetColumnId,
+          id: { notIn: [taskId, ...neighborIds] },
+          rank:
+            previousTask && nextTask
+              ? { gte: previousTask.rank, lte: nextTask.rank }
+              : previousTask
+                ? { gte: previousTask.rank }
+                : nextTask
+                  ? { lte: nextTask.rank }
+                  : undefined
+        },
+        select: { id: true }
+      });
+      if (taskBetweenNeighbors) {
+        throw new TRPCError({ code: "CONFLICT", message: "Task order has changed" });
+      }
+
+      let newRank: string;
 
       try {
         // Generate a new rank based on the position of the previous and next tasks
@@ -90,13 +120,10 @@ export default authProcedure
         } else {
           newRank = LexoRank.middle().toString();
         }
-      } catch (e) {
-        // In case of an error (e.g., ranks are too close), we set a flag to rebalance
-        needRebalance = true;
-      }
-
-      if (needRebalance) {
-        // TODO: handle rebalancing ranks when necessary
+      } catch {
+        // TODO: rebalance the target column's ranks atomically and retry this move.
+        // Until then, reject it rather than persisting an empty or invalid rank.
+        throw new TRPCError({ code: "CONFLICT", message: "Task rank cannot be calculated" });
       }
 
       const updatedTask = await prisma.task.update({

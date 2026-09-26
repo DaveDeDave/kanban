@@ -29,6 +29,7 @@
       "@/assets/*": ["./src/assets/*"],
       "@/config/*": ["./src/config/*"],
       "@/hooks/*": ["./src/hooks/*"],
+      "@/utils/*": ["./src/utils/*"],
       "@/contexts/*": ["./src/components/contexts/*"]
     }
   },

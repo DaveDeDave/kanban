@@ -8,5 +8,5 @@
     "strict": true,
     "jsx": "react-jsx"
   },
-  "include": ["vite.config.ts", ".storybook/**/*.tsx"]
+  "include": ["vite.config.ts", "vitest.config.ts", ".storybook/**/*.tsx"]
 }

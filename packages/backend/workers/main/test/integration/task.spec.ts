@@ -122,4 +122,129 @@ describe("Task router test", () => {
     const response = await caller.task.getTasksByColumn(getTaskByBoardInput);
     expect(response.tasks.length).toBe(0);
   });
+
+  test("Should move a task to another column and back in the requested order", async () => {
+    const moved = await caller.task.rankTask({
+      columnId: testData.columns[0].id,
+      moveToColumnId: testData.columns[1].id,
+      taskId: testData.tasks[0].id,
+      previousTaskId: null,
+      nextTaskId: null
+    });
+    expect(moved.task.columnId).toBe(testData.columns[1].id);
+
+    const returned = await caller.task.rankTask({
+      columnId: testData.columns[1].id,
+      moveToColumnId: testData.columns[0].id,
+      taskId: testData.tasks[0].id,
+      previousTaskId: null,
+      nextTaskId: testData.tasks[1].id
+    });
+    expect(returned.task.columnId).toBe(testData.columns[0].id);
+    const source = await caller.task.getTasksByColumn({ columnId: testData.columns[0].id });
+    expect(source.tasks.map(({ id }) => id)).toEqual([testData.tasks[0].id, testData.tasks[1].id]);
+  });
+
+  test("Should reorder tasks within their column", async () => {
+    await caller.task.rankTask({
+      columnId: testData.columns[0].id,
+      taskId: testData.tasks[0].id,
+      previousTaskId: testData.tasks[1].id,
+      nextTaskId: null
+    });
+    const reordered = await caller.task.getTasksByColumn({ columnId: testData.columns[0].id });
+    expect(reordered.tasks.map(({ id }) => id)).toEqual([testData.tasks[1].id, testData.tasks[0].id]);
+
+    await caller.task.rankTask({
+      columnId: testData.columns[0].id,
+      taskId: testData.tasks[0].id,
+      previousTaskId: null,
+      nextTaskId: testData.tasks[1].id
+    });
+  });
+
+  test("Should reject stale neighbors without changing the task", async () => {
+    await expect(
+      caller.task.rankTask({
+        columnId: testData.columns[0].id,
+        moveToColumnId: testData.columns[1].id,
+        taskId: testData.tasks[0].id,
+        previousTaskId: testData.tasks[1].id,
+        nextTaskId: null
+      })
+    ).rejects.toMatchObject({ code: "CONFLICT" });
+    const task = await context.prisma.task.findUnique({ where: { id: testData.tasks[0].id } });
+    expect(task?.columnId).toBe(testData.columns[0].id);
+  });
+
+  test("Should reject non-adjacent neighbors", async () => {
+    const created = await caller.task.createTask({
+      columnId: testData.columns[1].id,
+      title: "Moving task",
+      description: ""
+    });
+    try {
+      await expect(
+        caller.task.rankTask({
+          columnId: testData.columns[1].id,
+          moveToColumnId: testData.columns[0].id,
+          taskId: created.createdTask.id,
+          previousTaskId: null,
+          nextTaskId: testData.tasks[1].id
+        })
+      ).rejects.toMatchObject({ code: "CONFLICT" });
+      const unchanged = await context.prisma.task.findUnique({
+        where: { id: created.createdTask.id }
+      });
+      expect(unchanged?.columnId).toBe(testData.columns[1].id);
+    } finally {
+      await caller.task.deleteTask({ taskId: created.createdTask.id });
+    }
+  });
+
+  test("Should reject a destination on another board owned by the same user", async () => {
+    const otherColumn = await caller.column.createColumn({
+      boardId: testData.boards[1].id,
+      name: "Other board column",
+      color: "#ffffff"
+    });
+    await expect(
+      caller.task.rankTask({
+        columnId: testData.columns[0].id,
+        moveToColumnId: otherColumn.createdColumn.id,
+        taskId: testData.tasks[0].id,
+        previousTaskId: null,
+        nextTaskId: null
+      })
+    ).rejects.toThrow();
+  });
+
+  test("Should never write an empty rank when rank generation fails", async () => {
+    const original = await context.prisma.task.findUniqueOrThrow({
+      where: { id: testData.tasks[0].id }
+    });
+    try {
+      await context.prisma.task.update({
+        where: { id: original.id },
+        data: { rank: "invalid-rank" }
+      });
+      await expect(
+        caller.task.rankTask({
+          columnId: testData.columns[0].id,
+          taskId: testData.tasks[1].id,
+          previousTaskId: null,
+          nextTaskId: original.id
+        })
+      ).rejects.toMatchObject({ code: "CONFLICT" });
+      const unchanged = await context.prisma.task.findUniqueOrThrow({
+        where: { id: testData.tasks[1].id }
+      });
+      expect(unchanged.rank).toBe(testData.tasks[1].rank);
+    } finally {
+      await context.prisma.task.update({
+        where: { id: original.id },
+        data: { rank: original.rank }
+      });
+    }
+  });
 });

@@ -5,6 +5,14 @@
   flex-direction: column;
   flex-grow: 1;
   background-color: $color-light;
+
+  .moveError {
+    display: flex;
+    align-items: center;
+    gap: $gap-lg;
+    padding: $padding-box-xl $padding-box-xxl 0;
+    color: $color-dark;
+  }
   .columnsWrapper {
     position: relative;
     overflow-x: auto;
@@ -38,6 +46,7 @@
       &.show {
         opacity: 1;
         pointer-events: all;
+        cursor: not-allowed;
       }
     }
 

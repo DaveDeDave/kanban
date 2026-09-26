@@ -12,6 +12,12 @@ export const useSortable = <T extends HTMLElement>(
 ) => {
   const listRef = useRef<T>(null);
   const [loading, setLoading] = useState(false);
+  const onChangeRef = useRef(onChange);
+  const optionsRef = useRef(options);
+  onChangeRef.current = onChange;
+  optionsRef.current = options;
+  const disabled = options?.disabled;
+  const handle = options?.handle;
 
   useEffect(() => {
     if (!listRef.current) {
@@ -19,8 +25,8 @@ export const useSortable = <T extends HTMLElement>(
     }
 
     const sortable = Sortable.create(listRef.current, {
-      ...options,
-      handle: options?.handle ? `.${options.handle}` : undefined,
+      ...optionsRef.current,
+      handle: handle ? `.${handle}` : undefined,
       animation: 150,
       onEnd: async (event) => {
         try {
@@ -37,7 +43,7 @@ export const useSortable = <T extends HTMLElement>(
           const previousItemId = targetItems[neighborsIndex[0]] || null;
           const nextItemId = targetItems[neighborsIndex[1]] || null;
 
-          await onChange?.({
+          await onChangeRef.current?.({
             itemId,
             previousItemId,
             nextItemId
@@ -51,7 +57,7 @@ export const useSortable = <T extends HTMLElement>(
     return () => {
       sortable.destroy();
     };
-  }, [items]);
+  }, [items, disabled, handle]);
 
   return { listRef, loading };
 };
@@ -68,7 +74,12 @@ export const useSharedSortable = <T extends HTMLElement>(
   options?: Sortable.Options
 ) => {
   const listsRef = useRef<Record<string, T>>({});
-  const [loading, setLoading] = useState(false);
+  const onChangeRef = useRef(onChange);
+  const optionsRef = useRef(options);
+  onChangeRef.current = onChange;
+  optionsRef.current = options;
+  const disabled = options?.disabled;
+  const handle = options?.handle;
 
   useEffect(() => {
     if (!listsRef.current) {
@@ -77,67 +88,66 @@ export const useSharedSortable = <T extends HTMLElement>(
 
     let nextSibling: Element | null = null;
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const sortables = Object.entries(listsRef.current).map(([_columnId, element]) =>
+    const sortables = Object.values(listsRef.current).map((element) =>
       Sortable.create(element, {
-        ...options,
-        handle: options?.handle ? `.${options.handle}` : undefined,
+        ...optionsRef.current,
+        handle: handle ? `.${handle}` : undefined,
         animation: 150,
         group: "shared",
         onChoose: (evt) => {
           nextSibling = evt.item.nextElementSibling;
         },
         onAdd: (evt) => {
-          const referenceNode = nextSibling && nextSibling.parentNode !== null ? nextSibling : null;
+          const referenceNode = nextSibling?.parentNode === evt.from ? nextSibling : null;
           evt.from.insertBefore(evt.item, referenceNode);
         },
-        onEnd: async (event) => {
-          try {
-            setLoading(true);
-            const fromListId = event.from.id;
-            const toListId = event.to.id;
+        onEnd: (event) => {
+          const fromListId = event.from.id;
+          const toListId = event.to.id;
+          const itemId = event.item.id;
+          if (event.oldIndex == null || event.newIndex == null) return;
+          if (!items[fromListId]?.includes(itemId) || !items[toListId]) return;
 
-            if (fromListId === toListId) {
-              if (event.oldIndex === event.newIndex) {
-                return;
-              }
-
-              const targetItems = items[fromListId];
-
-              const neighborsIndex =
-                event.newIndex! > event.oldIndex!
-                  ? [event.newIndex!, event.newIndex! + 1]
-                  : [event.newIndex! - 1, event.newIndex!];
-
-              const itemId = targetItems[event.oldIndex!];
-              const previousItemId = targetItems[neighborsIndex[0]] || null;
-              const nextItemId = targetItems[neighborsIndex[1]] || null;
-
-              await onChange?.({
-                listId: fromListId,
-                newListId: null,
-                itemId,
-                previousItemId,
-                nextItemId
-              });
-            } else {
-              const fromList = [...items[fromListId]];
-              const toList = [...items[toListId]];
-
-              const itemId = fromList[event.oldIndex!];
-              const previousItemId = toList[event.newIndex! - 1] || null;
-              const nextItemId = toList[event.newIndex!] || null;
-
-              await onChange?.({
-                listId: fromListId,
-                newListId: toListId,
-                itemId,
-                previousItemId,
-                nextItemId
-              });
+          if (fromListId === toListId) {
+            if (event.oldIndex === event.newIndex) {
+              return;
             }
-          } finally {
-            setLoading(false);
+
+            // Keep React's DOM in its last rendered order until the optimistic render.
+            event.from.insertBefore(
+              event.item,
+              nextSibling?.parentNode === event.from ? nextSibling : null
+            );
+
+            const targetItems = items[fromListId];
+            const neighborsIndex =
+              event.newIndex! > event.oldIndex!
+                ? [event.newIndex!, event.newIndex! + 1]
+                : [event.newIndex! - 1, event.newIndex!];
+
+            const previousItemId = targetItems[neighborsIndex[0]] || null;
+            const nextItemId = targetItems[neighborsIndex[1]] || null;
+
+            void onChangeRef.current?.({
+              listId: fromListId,
+              newListId: null,
+              itemId,
+              previousItemId,
+              nextItemId
+            });
+          } else {
+            const toList = items[toListId];
+
+            const previousItemId = toList[event.newIndex! - 1] || null;
+            const nextItemId = toList[event.newIndex!] || null;
+
+            void onChangeRef.current?.({
+              listId: fromListId,
+              newListId: toListId,
+              itemId,
+              previousItemId,
+              nextItemId
+            });
           }
         }
       })
@@ -146,7 +156,7 @@ export const useSharedSortable = <T extends HTMLElement>(
     return () => {
       sortables.forEach((sortable) => sortable.destroy());
     };
-  }, [items]);
+  }, [items, disabled, handle]);
 
-  return { listsRef, loading };
+  return { listsRef };
 };

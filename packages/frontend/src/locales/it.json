@@ -38,7 +38,7 @@
           "placeholder": "Inserisci di nuovo la tua password",
           "errors": {
             "required": "Inserisci di nuovo la tua password",
-            "mismatch": "Le due password non combaciano" 
+            "mismatch": "Le due password non combaciano"
           }
         }
       },
@@ -197,6 +197,8 @@
       }
     },
     "board": {
+      "moveError": "Impossibile salvare lo spostamento del task.",
+      "retryLoad": "Riprova il caricamento",
       "header": {
         "boardDescription": "Descrizione della board"
       }
