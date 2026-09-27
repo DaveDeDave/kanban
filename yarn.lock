@@ -4661,6 +4661,7 @@ __metadata:
     pg: ^8.23.0
     ts-jest: ^29.1.2
     ts-node: ^10.9.2
+    tsx: ^4.23.15
     typescript: ^5.4.2
     wrangler: ^4
     zod: ^3.22.4
@@ -17348,7 +17349,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tsx@npm:^4.21.0":
+"tsx@npm:^4.21.0, tsx@npm:^4.23.15":
   version: 4.23.15
   resolution: "tsx@npm:4.23.15"
   dependencies:
