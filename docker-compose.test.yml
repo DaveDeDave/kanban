@@ -7,6 +7,7 @@ services:
     environment:
       POSTGRES_USER: pguser
       POSTGRES_PASSWORD: pgpassword
+      POSTGRES_DB: kanban
     ports:
       - "5432:5432"
     networks:
