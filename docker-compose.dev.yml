@@ -7,11 +7,17 @@ services:
     environment:
       POSTGRES_USER: pguser
       POSTGRES_PASSWORD: pgpassword
+      POSTGRES_DB: kanban
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -h 127.0.0.1 -U pguser -d kanban"]
+      interval: 2s
+      timeout: 2s
+      retries: 15
     ports:
       - "5432:5432"
     networks:
       - kanban-network
-  
+
 networks:
   kanban-network:
     driver: bridge

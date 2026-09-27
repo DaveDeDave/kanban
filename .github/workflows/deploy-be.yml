@@ -23,10 +23,10 @@ jobs:
         uses: actions/setup-node@v7
         with:
           node-version: 26
-      - name: Launch test container
-        run: yarn && sudo yarn docker:start:test-gi
-      - name: Wait 10 seconds
-        run: sleep 10
+      - name: Install dependencies
+        run: yarn
+      - name: Launch test database
+        run: sudo docker compose -f docker-compose.dev.yml up -d --wait
       - name: Build
         run: yarn workspace @kanban/main-worker build
       - name: Apply Drizzle migrations to test database
