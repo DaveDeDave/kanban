@@ -4,6 +4,7 @@ on:
     branches: [prod]
     paths:
       - "packages/frontend/**"
+  workflow_dispatch:
 
 jobs:
   publish-fe:
