@@ -134,7 +134,9 @@ export const testData = {
 
 export const loadTestData = async (fixture: Fixture) => {
   const db = fixture.repositories;
-  await db.user.createMany(testData.users.map(({ id, email, hashedPassword }) => ({ id, email, hashedPassword })));
+  await db.user.createMany(
+    testData.users.map(({ id, email, hashedPassword }) => ({ id, email, hashedPassword }))
+  );
 
   await db.board.createMany(testData.boards);
 

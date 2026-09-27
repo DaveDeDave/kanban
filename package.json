@@ -15,6 +15,7 @@
     ]
   },
   "scripts": {
+    "prepare": "husky",
     "docker:start:dev": "docker-compose -f docker-compose.dev.yml up -d --build",
     "docker:stop:dev": "docker-compose -f docker-compose.dev.yml down",
     "docker:start:test": "docker-compose -f docker-compose.test.yml up -d --build",
@@ -25,6 +26,7 @@
     "@typescript-eslint/eslint-plugin": "latest",
     "@typescript-eslint/parser": "latest",
     "eslint": "latest",
+    "husky": "^9.1.7",
     "prettier": "^2.7.1",
     "ts-node": "^10.9.2",
     "typescript": "^5.3.3"

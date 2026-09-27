@@ -13,4 +13,6 @@ export default authProcedure
       deletedColumn: columnSchema
     })
   )
-  .mutation(async ({ input, ctx }) => ctx.services.column.deleteColumn(input.columnId, ctx.user.id));
+  .mutation(async ({ input, ctx }) =>
+    ctx.services.column.deleteColumn(input.columnId, ctx.user.id)
+  );

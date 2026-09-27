@@ -182,7 +182,7 @@ describe("Task router test", () => {
         nextTaskId: null
       })
     ).rejects.toMatchObject({ code: "CONFLICT" });
-    const task = await fixture.repositories.task.findOneById(testData.tasks[0].id );
+    const task = await fixture.repositories.task.findOneById(testData.tasks[0].id);
     expect(task?.columnId).toBe(testData.columns[0].id);
   });
 
@@ -239,7 +239,7 @@ describe("Task router test", () => {
           nextTaskId: testData.tasks[1].id
         })
       ).rejects.toMatchObject({ code: "CONFLICT" });
-      const unchanged = await fixture.repositories.task.findOneById(created.createdTask.id );
+      const unchanged = await fixture.repositories.task.findOneById(created.createdTask.id);
       expect(unchanged?.columnId).toBe(testData.columns[1].id);
     } finally {
       await caller.task.deleteTask({ taskId: created.createdTask.id });
@@ -264,9 +264,11 @@ describe("Task router test", () => {
   });
 
   test("Should never write an empty rank when rank generation fails", async () => {
-    const original = await fixture.repositories.task.findOneByIdOrThrow(testData.tasks[0].id );
+    const original = await fixture.repositories.task.findOneByIdOrThrow(testData.tasks[0].id);
     try {
-      await fixture.repositories.task.updateByIdAndColumn(original.id, original.columnId, { rank: "invalid-rank" });
+      await fixture.repositories.task.updateByIdAndColumn(original.id, original.columnId, {
+        rank: "invalid-rank"
+      });
       await expect(
         caller.task.rankTask({
           columnId: testData.columns[0].id,
@@ -275,10 +277,12 @@ describe("Task router test", () => {
           nextTaskId: original.id
         })
       ).rejects.toMatchObject({ code: "CONFLICT" });
-      const unchanged = await fixture.repositories.task.findOneByIdOrThrow(testData.tasks[1].id );
+      const unchanged = await fixture.repositories.task.findOneByIdOrThrow(testData.tasks[1].id);
       expect(unchanged.rank).toBe(testData.tasks[1].rank);
     } finally {
-      await fixture.repositories.task.updateByIdAndColumn(original.id, original.columnId, { rank: original.rank });
+      await fixture.repositories.task.updateByIdAndColumn(original.id, original.columnId, {
+        rank: original.rank
+      });
     }
   });
 });

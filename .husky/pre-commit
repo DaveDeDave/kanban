@@ -1,0 +1,31 @@
+printf '========== Starting pre-commit checks. ==========\n'
+
+printf '[BACKEND] Checking TypeScript...\n'
+if ! yarn workspace @kanban/main-worker check:ts; then
+  printf 'TypeScript errors in the backend. See the original errors above.\nPre-commit checks failed.\n' >&2
+  exit 1
+fi
+printf '[BACKEND] TypeScript OK!\n'
+
+printf '[BACKEND] Checking formatting...\n'
+if ! yarn workspace @kanban/main-worker check:prettier; then
+  printf 'Backend formatting check failed. Run: yarn workspace @kanban/main-worker check:prettier:fix\nPre-commit checks failed.\n' >&2
+  exit 1
+fi
+printf '[BACKEND] Formatting OK!\n'
+
+printf '[FRONTEND] Checking TypeScript...\n'
+if ! yarn workspace @kanban/frontend check:ts; then
+  printf 'TypeScript errors in the frontend. See the original errors above.\nPre-commit checks failed.\n' >&2
+  exit 1
+fi
+printf '[FRONTEND] TypeScript OK!\n'
+
+printf '[FRONTEND] Checking formatting...\n'
+if ! yarn workspace @kanban/frontend check:prettier; then
+  printf 'Frontend formatting check failed. Run: yarn workspace @kanban/frontend check:prettier:fix\nPre-commit checks failed.\n' >&2
+  exit 1
+fi
+printf '[FRONTEND] formatting OK!\n'
+
+printf '========== Pre-commit checks completed successfully. ==========\n'

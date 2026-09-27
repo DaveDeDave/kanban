@@ -28,7 +28,11 @@ export const TaskCard: FC<TaskCardProps> = ({
   return (
     <div
       id={id}
-      className={classNames(styles.taskCard, dragClassname && styles.sortable, dimmed && styles.dimmed)}
+      className={classNames(
+        styles.taskCard,
+        dragClassname && styles.sortable,
+        dimmed && styles.dimmed
+      )}
     >
       <div className={styles.head}>
         {dragClassname ? (

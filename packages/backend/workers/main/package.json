@@ -9,11 +9,16 @@
     "deploy": "wrangler deploy src/index.ts --minify --compatibility-date 2024-09-23 --compatibility-flags nodejs_compat --name main",
     "dev": "wrangler dev --config local.toml --env development",
     "tail": "wrangler tail --name main",
-    "lint": "eslint --cache --ext \".js,.ts,.tsx\" src",
     "build": "tsc -b",
     "build:clean": "tsc -b --clean",
+    "check:ts": "tsc -p tsconfig.json --noEmit",
+    "check:lint": "eslint . --config ../../../../.eslintrc.json",
+    "check:prettier": "yarn run -T prettier --check \"{src,test,scripts}/**/*.{ts,tsx}\" \"*.ts\" --config ../../../../.prettierrc",
+    "check:prettier:fix": "yarn run -T prettier --write \"{src,test,scripts}/**/*.{ts,tsx}\" \"*.ts\" --config ../../../../.prettierrc",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
+    "db:seed": "tsx scripts/db.ts seed",
+    "db:clear": "tsx scripts/db.ts clear",
     "test:integration": "yarn node --experimental-vm-modules $(yarn bin jest) test/integration --runInBand"
   },
   "dependencies": {
@@ -34,6 +39,7 @@
     "jest": "^29.7.0",
     "ts-jest": "^29.1.2",
     "ts-node": "^10.9.2",
+    "tsx": "^4.23.15",
     "typescript": "^5.4.2",
     "wrangler": "^4"
   }

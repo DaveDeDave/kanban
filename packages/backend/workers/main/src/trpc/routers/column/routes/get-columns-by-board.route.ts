@@ -13,4 +13,6 @@ export default authProcedure
       columns: z.array(columnSchema)
     })
   )
-  .query(async ({ input, ctx }) => ctx.services.column.getColumnsByBoard(input.boardId, ctx.user.id));
+  .query(async ({ input, ctx }) =>
+    ctx.services.column.getColumnsByBoard(input.boardId, ctx.user.id)
+  );

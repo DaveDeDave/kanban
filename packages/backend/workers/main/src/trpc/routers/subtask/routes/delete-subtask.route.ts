@@ -13,4 +13,6 @@ export default authProcedure
       deletedSubtask: subtaskSchema
     })
   )
-  .mutation(async ({ input, ctx }) => ctx.services.subtask.deleteSubtask(input.subtaskId, ctx.user.id));
+  .mutation(async ({ input, ctx }) =>
+    ctx.services.subtask.deleteSubtask(input.subtaskId, ctx.user.id)
+  );

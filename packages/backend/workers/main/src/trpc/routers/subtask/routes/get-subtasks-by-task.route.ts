@@ -13,4 +13,6 @@ export default authProcedure
       subtasks: z.array(subtaskSchema)
     })
   )
-  .query(async ({ input, ctx }) => ctx.services.subtask.getSubtasksByTask(input.taskId, ctx.user.id));
+  .query(async ({ input, ctx }) =>
+    ctx.services.subtask.getSubtasksByTask(input.taskId, ctx.user.id)
+  );
