@@ -13,7 +13,7 @@
     "build": "tsc -b",
     "build:clean": "tsc -b --clean",
     "db:generate": "drizzle-kit generate",
-    "db:migrate": "node scripts/migrate.mjs",
+    "db:migrate": "drizzle-kit migrate",
     "test:integration": "yarn node --experimental-vm-modules $(yarn bin jest) test/integration --runInBand"
   },
   "dependencies": {

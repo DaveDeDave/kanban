@@ -4,6 +4,7 @@ on:
     branches: [prod]
     paths:
       - "packages/frontend/**"
+      - "yarn.lock"
   workflow_dispatch:
 
 jobs:
