@@ -28,11 +28,9 @@ jobs:
           yarn workspace @kanban/main-worker build && \
           yarn workspace @kanban/frontend build
       - name: Publish to Cloudflare Pages
-        uses: cloudflare/pages-action@1.1.0
+        uses: cloudflare/wrangler-action@v4
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          projectName: kanban
-          directory: packages/frontend/dist
+          command: pages deploy packages/frontend/dist --project-name=kanban --branch=main
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
-          branch: main
