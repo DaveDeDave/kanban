@@ -38,7 +38,7 @@
           "placeholder": "Type again your password",
           "errors": {
             "required": "Insert again your password",
-            "mismatch": "The two password doesn't match" 
+            "mismatch": "The two password doesn't match"
           }
         }
       },
@@ -197,6 +197,9 @@
       }
     },
     "board": {
+      "moveError": "Could not save the task move.",
+      "columnMoveError": "Could not save the column move.",
+      "retryLoad": "Retry loading",
       "header": {
         "boardDescription": "Board's description"
       }

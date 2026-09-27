@@ -11,6 +11,7 @@ export interface TaskCardProps {
   title: string;
   description: string;
   dragClassname?: string;
+  dimmed?: boolean;
   onUpdate: (task: { id: string; title: string; description: string }) => void;
   onDelete: (task: { id: string; title: string }) => void;
 }
@@ -20,11 +21,15 @@ export const TaskCard: FC<TaskCardProps> = ({
   title,
   description,
   dragClassname,
+  dimmed,
   onUpdate,
   onDelete
 }) => {
   return (
-    <div id={id} className={classNames(styles.taskCard, dragClassname && styles.sortable)}>
+    <div
+      id={id}
+      className={classNames(styles.taskCard, dragClassname && styles.sortable, dimmed && styles.dimmed)}
+    >
       <div className={styles.head}>
         {dragClassname ? (
           <div className={classNames(styles.grabbableIcon, dragClassname)}>

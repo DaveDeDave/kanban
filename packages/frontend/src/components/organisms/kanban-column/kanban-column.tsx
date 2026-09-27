@@ -7,10 +7,11 @@ import { t } from "i18next";
 
 export interface KanbanColumnProps {
   head: Omit<KanbanColumnHeadProps, "actions" | "numberOfTasks">;
-  tasks: Omit<TaskCardProps, "onUpdate" | "onDelete">[];
+  tasks: Omit<TaskCardProps, "onUpdate" | "onDelete" | "dimmed">[];
   taskListRef?: Ref<HTMLDivElement>;
   columnClassName?: string;
   taskDragClassname?: string;
+  dimmedTaskId?: string;
   id?: string;
   onUpdate: () => void;
   onDelete: () => void;
@@ -25,6 +26,7 @@ export const KanbanColumn: FC<KanbanColumnProps> = ({
   taskListRef,
   columnClassName,
   taskDragClassname,
+  dimmedTaskId,
   id,
   onAddTask,
   onUpdate,
@@ -67,6 +69,7 @@ export const KanbanColumn: FC<KanbanColumnProps> = ({
             title={task.title}
             description={task.description}
             dragClassname={taskDragClassname}
+            dimmed={task.id === dimmedTaskId}
             onUpdate={onUpdateTask}
             onDelete={onDeleteTask}
           />

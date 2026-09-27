@@ -1,104 +1,155 @@
 import { BoardHeader } from "@/organisms/board-header";
 import { useParams } from "@tanstack/react-router";
-import { FC, useMemo } from "react";
+import { FC, useMemo, useRef, useState } from "react";
 import styles from "./board.module.scss";
 import { KanbanColumn } from "@/organisms/kanban-column/kanban-column";
 import { useGetBoard } from "@/hooks/trpc/board/getBoard.hook";
 import { AddColumnButton } from "@/atoms/add-kanban-column-button";
+import { Button } from "@/atoms/button";
 import { BoardModals, useBoardModals } from "./modals";
 import { useSharedSortable, useSortable } from "@/hooks/sortable.hooks";
-import { useRankColumn } from "@/hooks/trpc/column/rank-column.hook";
-import { useRankTask } from "@/hooks/trpc/board/rank-task.hook";
-import classNames from "classnames";
-import { RiLoader4Fill } from "@remixicon/react";
+import { useColumnMoveQueue } from "@/hooks/use-column-move-queue.hooks";
+import { useTaskMoveQueue } from "@/hooks/use-task-move-queue.hooks";
+import type { TaskMove } from "@/utils/task-move.utils";
+import type { ColumnMove } from "@/utils/column-move.utils";
+import type { RouterOutputs } from "@/config/trpc.config";
+import type { BoardSyncActivity } from "@/utils/board-sync.utils";
+import { t } from "i18next";
 
 const columnDragClassName = "column-handle";
 const taskDragClassName = "task-handle";
+type Board = RouterOutputs["board"]["getBoardById"]["board"];
 
 export const Component: FC = () => {
   const { boardId } = useParams({
     from: "/app/boards/$boardId"
   });
 
+  return <BoardView key={boardId} boardId={boardId} />;
+};
+
+const BoardView: FC<{ boardId: string }> = ({ boardId }) => {
   const boardModals = useBoardModals();
+  const syncActivity = useRef<BoardSyncActivity>({ taskQueue: false, columnQueue: false });
 
   const {
     data: boardData,
     isLoading,
-    isRefetching,
-    error
+    refetch
   } = useGetBoard({
     boardId
   });
 
-  const rankColumn = useRankColumn();
-  const rankTask = useRankTask({ boardId });
+  const {
+    visibleBoard: columnProjectedBoard,
+    moveError: columnMoveError,
+    syncBlocked: columnSyncBlocked,
+    enqueue: enqueueColumn,
+    retryLoad: retryColumns
+  } = useColumnMoveQueue(boardId, boardData?.board, refetch, syncActivity);
+  const {
+    visibleBoard: projectedBoard,
+    moveError: taskMoveError,
+    syncBlocked: taskSyncBlocked,
+    enqueue: enqueueTask,
+    retryLoad: retryTasks
+  } = useTaskMoveQueue(boardId, columnProjectedBoard, refetch, syncActivity);
+  const [taskDragging, setTaskDragging] = useState(false);
+  const [columnDragging, setColumnDragging] = useState(false);
+  const columnDragDisabled = !columnDragging && columnSyncBlocked;
+  const taskDragDisabled = !taskDragging && taskSyncBlocked;
+  const taskDragBoard = useRef<Board | undefined>(undefined);
+  const columnDragBoard = useRef<Board | undefined>(undefined);
+  const visibleBoard = taskDragging
+    ? taskDragBoard.current
+    : columnDragging
+    ? columnDragBoard.current
+    : projectedBoard;
 
   const columnIds = useMemo(() => {
-    if (!boardData?.board.columns) {
+    if (!visibleBoard) {
       return [];
     }
 
-    return boardData.board.columns.map((column) => column.id);
-  }, [boardData?.board.columns]);
+    return visibleBoard.columns.map((column) => column.id);
+  }, [visibleBoard]);
 
   const numberOfTasks = useMemo(() => {
-    if (!boardData) {
+    if (!visibleBoard) {
       return 0;
     }
 
-    return boardData.board.columns.reduce(
-      (totalTasks, column) => totalTasks + column.tasks.length,
-      0
-    );
-  }, [boardData?.board.columns]);
+    return visibleBoard.columns.reduce((totalTasks, column) => totalTasks + column.tasks.length, 0);
+  }, [visibleBoard]);
 
   const taskIdsByColumn = useMemo(() => {
-    if (!boardData?.board.columns) {
+    if (!visibleBoard) {
       return {};
     }
 
-    return boardData.board.columns.reduce((tasksByColumn, column) => {
+    return visibleBoard.columns.reduce((tasksByColumn, column) => {
       tasksByColumn[column.id] = column.tasks.map((task) => task.id);
       return tasksByColumn;
     }, {} as Record<string, string[]>);
-  }, [boardData?.board.columns]);
+  }, [visibleBoard]);
 
-  const { listRef: columnListRef, loading: sortableLoading } = useSortable<HTMLDivElement>(
+  const { listRef: columnListRef } = useSortable<HTMLDivElement>(
     columnIds,
-    async (event) => {
-      await rankColumn.mutateAsync({
-        boardId: boardId!,
+    (event) => {
+      const move: ColumnMove = {
         columnId: event.itemId,
         previousColumnId: event.previousItemId,
         nextColumnId: event.nextItemId
-      });
+      };
+      enqueueColumn(move);
     },
     {
-      handle: columnDragClassName
+      handle: columnDragClassName,
+      disabled: columnDragDisabled
+    },
+    {
+      onStart: () => {
+        columnDragBoard.current = visibleBoard;
+        setColumnDragging(true);
+      },
+      onEnd: () => setColumnDragging(false)
     }
   );
 
-  const { listsRef: taskListsRef, loading: sharedSortableLoading } =
-    useSharedSortable<HTMLDivElement>(
-      taskIdsByColumn,
-      async (event) => {
-        await rankTask.mutateAsync({
-          columnId: event.listId,
-          moveToColumnId: event.newListId,
-          taskId: event.itemId,
-          previousTaskId: event.previousItemId,
-          nextTaskId: event.nextItemId
-        });
+  const { listsRef: taskListsRef } = useSharedSortable<HTMLDivElement>(
+    taskIdsByColumn,
+    (event) => {
+      if (!visibleBoard) return;
+      const sourceTasks = visibleBoard.columns.find(({ id }) => id === event.listId)?.tasks;
+      const oldIndex = sourceTasks?.findIndex(({ id }) => id === event.itemId) ?? -1;
+      if (!sourceTasks || oldIndex < 0) return;
+
+      const move: TaskMove = {
+        taskId: event.itemId,
+        targetColumnId: event.newListId ?? event.listId,
+        previousTaskId: event.previousItemId,
+        nextTaskId: event.nextItemId
+      };
+      enqueueTask(move);
+    },
+    {
+      handle: taskDragClassName,
+      disabled: taskDragDisabled
+    },
+    {
+      onStart: () => {
+        taskDragBoard.current = visibleBoard;
+        setTaskDragging(true);
       },
-      {
-        handle: taskDragClassName
-      }
-    );
+      onEnd: () => setTaskDragging(false)
+    }
+  );
 
   const setTaskListRef = (el: HTMLDivElement | null, key: string) => {
     if (el) {
       taskListsRef.current[key] = el;
+    } else {
+      delete taskListsRef.current[key];
     }
   };
 
@@ -106,7 +157,7 @@ export const Component: FC = () => {
     return <></>;
   }
 
-  if (error || !boardData) {
+  if (!boardData || !visibleBoard) {
     return "TODO: handle errors (e.g. 404, 500)";
   }
 
@@ -115,42 +166,52 @@ export const Component: FC = () => {
       <BoardModals currentBoardId={boardId} {...boardModals} />
       <div className={styles.board}>
         <BoardHeader
-          name={boardData.board.name}
-          description={boardData.board.description}
+          name={visibleBoard.name}
+          description={visibleBoard.description}
           onUpdate={() => {
             boardModals.showUpdateBoardModal({
               id: boardId,
-              name: boardData.board.name,
-              description: boardData.board.description
+              name: visibleBoard.name,
+              description: visibleBoard.description
             });
           }}
           onDelete={() => {
             boardModals.showDeleteBoardModal({
-              id: boardData.board.id,
-              name: boardData.board.name
+              id: visibleBoard.id,
+              name: visibleBoard.name
             });
           }}
         />
-        <div className={styles.columnsWrapper}>
-          <div
-            className={classNames(
-              styles.loader,
-              (isRefetching || sortableLoading || sharedSortableLoading) && styles.show
-            )}
-          >
-            <span className={styles.loaderIcon}>
-              <RiLoader4Fill />
-            </span>
+        {taskMoveError && (
+          <div className={styles.moveError} role="alert">
+            {t("pages.board.moveError")}
+            <Button
+              type="button"
+              variant="secondary"
+              label={t("pages.board.retryLoad")}
+              onClick={retryTasks}
+            />
           </div>
+        )}
+        {columnMoveError && (
+          <div className={styles.moveError} role="alert">
+            {t("pages.board.columnMoveError")}
+            <Button
+              type="button"
+              variant="secondary"
+              label={t("pages.board.retryLoad")}
+              onClick={retryColumns}
+            />
+          </div>
+        )}
+        <div className={styles.columnsWrapper}>
           <div className={styles.columns} ref={columnListRef}>
-            {boardData.board.columns.map((column) => (
+            {visibleBoard.columns.map((column) => (
               <KanbanColumn
                 key={column.id}
                 id={column.id}
-                columnClassName={
-                  boardData.board.columns.length > 1 ? columnDragClassName : undefined
-                }
-                taskDragClassname={numberOfTasks > 1 ? taskDragClassName : undefined}
+                columnClassName={visibleBoard.columns.length > 1 ? columnDragClassName : undefined}
+                taskDragClassname={numberOfTasks > 0 ? taskDragClassName : undefined}
                 taskListRef={(el) => setTaskListRef(el, column.id)}
                 head={{
                   title: column.name,

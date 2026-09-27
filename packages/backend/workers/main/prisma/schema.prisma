@@ -50,6 +50,8 @@ model Task {
   updatedAt       DateTime   @updatedAt
   column          Column     @relation(fields: [columnId], references: [id], onDelete: Cascade)
   columnId        String
+
+  @@index([columnId, rank, createdAt])
 }
 
 model Subtask {

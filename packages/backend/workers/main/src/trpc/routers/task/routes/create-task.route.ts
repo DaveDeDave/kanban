@@ -34,38 +34,45 @@ export default authProcedure
       });
     }
 
-    const firstTask = await prisma.task.findFirst({
-      where: {
-        columnId
-      },
-      orderBy: {
-        rank: "asc"
+    return prisma.$transaction(async (tx) => {
+      await tx.$queryRaw`SELECT id FROM "Board" WHERE id = ${column.boardId} FOR UPDATE`;
+      const currentColumn = await tx.column.findUnique({ where: { id: columnId } });
+      if (!currentColumn || currentColumn.boardId !== column.boardId) {
+        throw new HttpNotFoundException({ errorCode: "ColumnNotFound" });
       }
+      const firstTask = await tx.task.findFirst({
+        where: {
+          columnId
+        },
+        orderBy: {
+          rank: "asc"
+        }
+      });
+
+      let rank: string;
+      if (firstTask) {
+        const firstTaskRank = LexoRank.parse(firstTask.rank);
+        rank = firstTaskRank.genPrev().toString();
+      } else {
+        rank = LexoRank.middle().toString();
+      }
+
+      // TODO: handle rebalancing ranks when necessary
+
+      const createdTask = await tx.task.create({
+        data: {
+          title,
+          description,
+          columnId,
+          rank
+        }
+      });
+
+      return {
+        createdTask: {
+          ...createdTask,
+          boardId: column.boardId
+        }
+      };
     });
-
-    let rank: string;
-    if (firstTask) {
-      const firstTaskRank = LexoRank.parse(firstTask.rank);
-      rank = firstTaskRank.genPrev().toString();
-    } else {
-      rank = LexoRank.middle().toString();
-    }
-
-    // TODO: handle rebalancing ranks when necessary
-
-    const createdTask = await prisma.task.create({
-      data: {
-        title,
-        description,
-        columnId,
-        rank
-      }
-    });
-
-    return {
-      createdTask: {
-        ...createdTask,
-        boardId: column.boardId
-      }
-    };
   });
