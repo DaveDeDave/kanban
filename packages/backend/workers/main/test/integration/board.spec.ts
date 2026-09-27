@@ -171,19 +171,28 @@ describe("Board router test", () => {
   });
 
   test("Should update timestamps and cascade a board deletion", async () => {
-    const created = (await caller.board.createBoard({ name: "Cascade", description: "" })).createdBoard;
-    const column = (await caller.column.createColumn({ boardId: created.id, name: "Column", color: "#ffffff" })).createdColumn;
-    const task = (await caller.task.createTask({ columnId: column.id, title: "Task", description: "" })).createdTask;
-    const subtask = (await caller.subtask.createSubtask({ taskId: task.id, description: "Subtask" })).createdSubtask;
+    const created = (await caller.board.createBoard({ name: "Cascade", description: "" }))
+      .createdBoard;
+    const column = (
+      await caller.column.createColumn({ boardId: created.id, name: "Column", color: "#ffffff" })
+    ).createdColumn;
+    const task = (
+      await caller.task.createTask({ columnId: column.id, title: "Task", description: "" })
+    ).createdTask;
+    const subtask = (
+      await caller.subtask.createSubtask({ taskId: task.id, description: "Subtask" })
+    ).createdSubtask;
     expect(created.createdAt).toBeInstanceOf(Date);
     expect(created.updatedAt).toBeInstanceOf(Date);
     await new Promise((resolve) => setTimeout(resolve, 10));
-    const updated = (await caller.board.updateBoard({ boardId: created.id, name: "Updated", description: "" })).updatedBoard;
+    const updated = (
+      await caller.board.updateBoard({ boardId: created.id, name: "Updated", description: "" })
+    ).updatedBoard;
     expect(updated.updatedAt.getTime()).toBeGreaterThan(created.updatedAt.getTime());
     await caller.board.deleteBoard({ boardId: created.id });
-    expect(await fixture.repositories.column.findOneById(column.id )).toBeNull();
-    expect(await fixture.repositories.task.findOneById(task.id )).toBeNull();
-    expect(await fixture.repositories.subtask.findOneById(subtask.id )).toBeNull();
+    expect(await fixture.repositories.column.findOneById(column.id)).toBeNull();
+    expect(await fixture.repositories.task.findOneById(task.id)).toBeNull();
+    expect(await fixture.repositories.subtask.findOneById(subtask.id)).toBeNull();
   });
 
   test("Should not get the board by id (not owned)", async () => {

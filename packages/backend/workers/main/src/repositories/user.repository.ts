@@ -17,7 +17,7 @@ export class UserRepository {
     return (await this.db.insert(users).values(data).returning())[0];
   }
 
-  async createMany(data: (typeof users.$inferInsert)[]) {
+  async createMany(data: typeof users.$inferInsert[]) {
     if (data.length) await this.db.insert(users).values(data);
   }
 

@@ -6,7 +6,11 @@ export class UserService {
 
   async getAuthenticatedUser(id: string) {
     const user = await this.users.findOneById(id);
-    if (!user) throw new HttpUnauthorizedException({ errorCode: "Unauthorized", message: "Unauthorized. User does not exists" });
+    if (!user)
+      throw new HttpUnauthorizedException({
+        errorCode: "Unauthorized",
+        message: "Unauthorized. User does not exists"
+      });
     return { id: user.id, email: user.email };
   }
 

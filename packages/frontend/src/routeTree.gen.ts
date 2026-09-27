@@ -8,381 +8,372 @@
 // You should NOT make any changes in this file as it will be overwritten.
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute } from "@tanstack/react-router";
 
 // Import Routes
 
-import { Route as rootRoute } from './routes/__root'
-import { Route as AuthImport } from './routes/auth'
-import { Route as AppImport } from './routes/app'
-import { Route as PublicImport } from './routes/_public'
-import { Route as AppSettingsImport } from './routes/app/settings'
-import { Route as AppBoardsImport } from './routes/app/boards'
-import { Route as AppBoardsBoardIdImport } from './routes/app/boards/$boardId'
+import { Route as rootRoute } from "./routes/__root";
+import { Route as AuthImport } from "./routes/auth";
+import { Route as AppImport } from "./routes/app";
+import { Route as PublicImport } from "./routes/_public";
+import { Route as AppSettingsImport } from "./routes/app/settings";
+import { Route as AppBoardsImport } from "./routes/app/boards";
+import { Route as AppBoardsBoardIdImport } from "./routes/app/boards/$boardId";
 
 // Create Virtual Routes
 
-const AppIndexLazyImport = createFileRoute('/app/')()
-const PublicIndexLazyImport = createFileRoute('/_public/')()
-const AuthRegisterLazyImport = createFileRoute('/auth/register')()
-const AuthLoginLazyImport = createFileRoute('/auth/login')()
-const PublicAboutLazyImport = createFileRoute('/_public/about')()
-const AppSettingsIndexLazyImport = createFileRoute('/app/settings/')()
-const AppBoardsIndexLazyImport = createFileRoute('/app/boards/')()
+const AppIndexLazyImport = createFileRoute("/app/")();
+const PublicIndexLazyImport = createFileRoute("/_public/")();
+const AuthRegisterLazyImport = createFileRoute("/auth/register")();
+const AuthLoginLazyImport = createFileRoute("/auth/login")();
+const PublicAboutLazyImport = createFileRoute("/_public/about")();
+const AppSettingsIndexLazyImport = createFileRoute("/app/settings/")();
+const AppBoardsIndexLazyImport = createFileRoute("/app/boards/")();
 
 // Create/Update Routes
 
 const AuthRoute = AuthImport.update({
-  id: '/auth',
-  path: '/auth',
-  getParentRoute: () => rootRoute,
-} as any)
+  id: "/auth",
+  path: "/auth",
+  getParentRoute: () => rootRoute
+} as any);
 
 const AppRoute = AppImport.update({
-  id: '/app',
-  path: '/app',
-  getParentRoute: () => rootRoute,
-} as any)
+  id: "/app",
+  path: "/app",
+  getParentRoute: () => rootRoute
+} as any);
 
 const PublicRoute = PublicImport.update({
-  id: '/_public',
-  getParentRoute: () => rootRoute,
-} as any)
+  id: "/_public",
+  getParentRoute: () => rootRoute
+} as any);
 
 const AppIndexLazyRoute = AppIndexLazyImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => AppRoute,
-} as any).lazy(() => import('./routes/app/index.lazy').then((d) => d.Route))
+  id: "/",
+  path: "/",
+  getParentRoute: () => AppRoute
+} as any).lazy(() => import("./routes/app/index.lazy").then((d) => d.Route));
 
 const PublicIndexLazyRoute = PublicIndexLazyImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => PublicRoute,
-} as any).lazy(() => import('./routes/_public/index.lazy').then((d) => d.Route))
+  id: "/",
+  path: "/",
+  getParentRoute: () => PublicRoute
+} as any).lazy(() => import("./routes/_public/index.lazy").then((d) => d.Route));
 
 const AuthRegisterLazyRoute = AuthRegisterLazyImport.update({
-  id: '/register',
-  path: '/register',
-  getParentRoute: () => AuthRoute,
-} as any).lazy(() => import('./routes/auth/register.lazy').then((d) => d.Route))
+  id: "/register",
+  path: "/register",
+  getParentRoute: () => AuthRoute
+} as any).lazy(() => import("./routes/auth/register.lazy").then((d) => d.Route));
 
 const AuthLoginLazyRoute = AuthLoginLazyImport.update({
-  id: '/login',
-  path: '/login',
-  getParentRoute: () => AuthRoute,
-} as any).lazy(() => import('./routes/auth/login.lazy').then((d) => d.Route))
+  id: "/login",
+  path: "/login",
+  getParentRoute: () => AuthRoute
+} as any).lazy(() => import("./routes/auth/login.lazy").then((d) => d.Route));
 
 const PublicAboutLazyRoute = PublicAboutLazyImport.update({
-  id: '/about',
-  path: '/about',
-  getParentRoute: () => PublicRoute,
-} as any).lazy(() => import('./routes/_public/about.lazy').then((d) => d.Route))
+  id: "/about",
+  path: "/about",
+  getParentRoute: () => PublicRoute
+} as any).lazy(() => import("./routes/_public/about.lazy").then((d) => d.Route));
 
 const AppSettingsRoute = AppSettingsImport.update({
-  id: '/settings',
-  path: '/settings',
-  getParentRoute: () => AppRoute,
-} as any)
+  id: "/settings",
+  path: "/settings",
+  getParentRoute: () => AppRoute
+} as any);
 
 const AppBoardsRoute = AppBoardsImport.update({
-  id: '/boards',
-  path: '/boards',
-  getParentRoute: () => AppRoute,
-} as any)
+  id: "/boards",
+  path: "/boards",
+  getParentRoute: () => AppRoute
+} as any);
 
 const AppSettingsIndexLazyRoute = AppSettingsIndexLazyImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => AppSettingsRoute,
-} as any).lazy(() =>
-  import('./routes/app/settings/index.lazy').then((d) => d.Route),
-)
+  id: "/",
+  path: "/",
+  getParentRoute: () => AppSettingsRoute
+} as any).lazy(() => import("./routes/app/settings/index.lazy").then((d) => d.Route));
 
 const AppBoardsIndexLazyRoute = AppBoardsIndexLazyImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => AppBoardsRoute,
-} as any).lazy(() =>
-  import('./routes/app/boards/index.lazy').then((d) => d.Route),
-)
+  id: "/",
+  path: "/",
+  getParentRoute: () => AppBoardsRoute
+} as any).lazy(() => import("./routes/app/boards/index.lazy").then((d) => d.Route));
 
 const AppBoardsBoardIdRoute = AppBoardsBoardIdImport.update({
-  id: '/$boardId',
-  path: '/$boardId',
-  getParentRoute: () => AppBoardsRoute,
-} as any)
+  id: "/$boardId",
+  path: "/$boardId",
+  getParentRoute: () => AppBoardsRoute
+} as any);
 
 // Populate the FileRoutesByPath interface
 
-declare module '@tanstack/react-router' {
+declare module "@tanstack/react-router" {
   interface FileRoutesByPath {
-    '/_public': {
-      id: '/_public'
-      path: ''
-      fullPath: ''
-      preLoaderRoute: typeof PublicImport
-      parentRoute: typeof rootRoute
-    }
-    '/app': {
-      id: '/app'
-      path: '/app'
-      fullPath: '/app'
-      preLoaderRoute: typeof AppImport
-      parentRoute: typeof rootRoute
-    }
-    '/auth': {
-      id: '/auth'
-      path: '/auth'
-      fullPath: '/auth'
-      preLoaderRoute: typeof AuthImport
-      parentRoute: typeof rootRoute
-    }
-    '/app/boards': {
-      id: '/app/boards'
-      path: '/boards'
-      fullPath: '/app/boards'
-      preLoaderRoute: typeof AppBoardsImport
-      parentRoute: typeof AppImport
-    }
-    '/app/settings': {
-      id: '/app/settings'
-      path: '/settings'
-      fullPath: '/app/settings'
-      preLoaderRoute: typeof AppSettingsImport
-      parentRoute: typeof AppImport
-    }
-    '/_public/about': {
-      id: '/_public/about'
-      path: '/about'
-      fullPath: '/about'
-      preLoaderRoute: typeof PublicAboutLazyImport
-      parentRoute: typeof PublicImport
-    }
-    '/auth/login': {
-      id: '/auth/login'
-      path: '/login'
-      fullPath: '/auth/login'
-      preLoaderRoute: typeof AuthLoginLazyImport
-      parentRoute: typeof AuthImport
-    }
-    '/auth/register': {
-      id: '/auth/register'
-      path: '/register'
-      fullPath: '/auth/register'
-      preLoaderRoute: typeof AuthRegisterLazyImport
-      parentRoute: typeof AuthImport
-    }
-    '/_public/': {
-      id: '/_public/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof PublicIndexLazyImport
-      parentRoute: typeof PublicImport
-    }
-    '/app/': {
-      id: '/app/'
-      path: '/'
-      fullPath: '/app/'
-      preLoaderRoute: typeof AppIndexLazyImport
-      parentRoute: typeof AppImport
-    }
-    '/app/boards/$boardId': {
-      id: '/app/boards/$boardId'
-      path: '/$boardId'
-      fullPath: '/app/boards/$boardId'
-      preLoaderRoute: typeof AppBoardsBoardIdImport
-      parentRoute: typeof AppBoardsImport
-    }
-    '/app/boards/': {
-      id: '/app/boards/'
-      path: '/'
-      fullPath: '/app/boards/'
-      preLoaderRoute: typeof AppBoardsIndexLazyImport
-      parentRoute: typeof AppBoardsImport
-    }
-    '/app/settings/': {
-      id: '/app/settings/'
-      path: '/'
-      fullPath: '/app/settings/'
-      preLoaderRoute: typeof AppSettingsIndexLazyImport
-      parentRoute: typeof AppSettingsImport
-    }
+    "/_public": {
+      id: "/_public";
+      path: "";
+      fullPath: "";
+      preLoaderRoute: typeof PublicImport;
+      parentRoute: typeof rootRoute;
+    };
+    "/app": {
+      id: "/app";
+      path: "/app";
+      fullPath: "/app";
+      preLoaderRoute: typeof AppImport;
+      parentRoute: typeof rootRoute;
+    };
+    "/auth": {
+      id: "/auth";
+      path: "/auth";
+      fullPath: "/auth";
+      preLoaderRoute: typeof AuthImport;
+      parentRoute: typeof rootRoute;
+    };
+    "/app/boards": {
+      id: "/app/boards";
+      path: "/boards";
+      fullPath: "/app/boards";
+      preLoaderRoute: typeof AppBoardsImport;
+      parentRoute: typeof AppImport;
+    };
+    "/app/settings": {
+      id: "/app/settings";
+      path: "/settings";
+      fullPath: "/app/settings";
+      preLoaderRoute: typeof AppSettingsImport;
+      parentRoute: typeof AppImport;
+    };
+    "/_public/about": {
+      id: "/_public/about";
+      path: "/about";
+      fullPath: "/about";
+      preLoaderRoute: typeof PublicAboutLazyImport;
+      parentRoute: typeof PublicImport;
+    };
+    "/auth/login": {
+      id: "/auth/login";
+      path: "/login";
+      fullPath: "/auth/login";
+      preLoaderRoute: typeof AuthLoginLazyImport;
+      parentRoute: typeof AuthImport;
+    };
+    "/auth/register": {
+      id: "/auth/register";
+      path: "/register";
+      fullPath: "/auth/register";
+      preLoaderRoute: typeof AuthRegisterLazyImport;
+      parentRoute: typeof AuthImport;
+    };
+    "/_public/": {
+      id: "/_public/";
+      path: "/";
+      fullPath: "/";
+      preLoaderRoute: typeof PublicIndexLazyImport;
+      parentRoute: typeof PublicImport;
+    };
+    "/app/": {
+      id: "/app/";
+      path: "/";
+      fullPath: "/app/";
+      preLoaderRoute: typeof AppIndexLazyImport;
+      parentRoute: typeof AppImport;
+    };
+    "/app/boards/$boardId": {
+      id: "/app/boards/$boardId";
+      path: "/$boardId";
+      fullPath: "/app/boards/$boardId";
+      preLoaderRoute: typeof AppBoardsBoardIdImport;
+      parentRoute: typeof AppBoardsImport;
+    };
+    "/app/boards/": {
+      id: "/app/boards/";
+      path: "/";
+      fullPath: "/app/boards/";
+      preLoaderRoute: typeof AppBoardsIndexLazyImport;
+      parentRoute: typeof AppBoardsImport;
+    };
+    "/app/settings/": {
+      id: "/app/settings/";
+      path: "/";
+      fullPath: "/app/settings/";
+      preLoaderRoute: typeof AppSettingsIndexLazyImport;
+      parentRoute: typeof AppSettingsImport;
+    };
   }
 }
 
 // Create and export the route tree
 
 interface PublicRouteChildren {
-  PublicAboutLazyRoute: typeof PublicAboutLazyRoute
-  PublicIndexLazyRoute: typeof PublicIndexLazyRoute
+  PublicAboutLazyRoute: typeof PublicAboutLazyRoute;
+  PublicIndexLazyRoute: typeof PublicIndexLazyRoute;
 }
 
 const PublicRouteChildren: PublicRouteChildren = {
   PublicAboutLazyRoute: PublicAboutLazyRoute,
-  PublicIndexLazyRoute: PublicIndexLazyRoute,
-}
+  PublicIndexLazyRoute: PublicIndexLazyRoute
+};
 
-const PublicRouteWithChildren =
-  PublicRoute._addFileChildren(PublicRouteChildren)
+const PublicRouteWithChildren = PublicRoute._addFileChildren(PublicRouteChildren);
 
 interface AppBoardsRouteChildren {
-  AppBoardsBoardIdRoute: typeof AppBoardsBoardIdRoute
-  AppBoardsIndexLazyRoute: typeof AppBoardsIndexLazyRoute
+  AppBoardsBoardIdRoute: typeof AppBoardsBoardIdRoute;
+  AppBoardsIndexLazyRoute: typeof AppBoardsIndexLazyRoute;
 }
 
 const AppBoardsRouteChildren: AppBoardsRouteChildren = {
   AppBoardsBoardIdRoute: AppBoardsBoardIdRoute,
-  AppBoardsIndexLazyRoute: AppBoardsIndexLazyRoute,
-}
+  AppBoardsIndexLazyRoute: AppBoardsIndexLazyRoute
+};
 
-const AppBoardsRouteWithChildren = AppBoardsRoute._addFileChildren(
-  AppBoardsRouteChildren,
-)
+const AppBoardsRouteWithChildren = AppBoardsRoute._addFileChildren(AppBoardsRouteChildren);
 
 interface AppSettingsRouteChildren {
-  AppSettingsIndexLazyRoute: typeof AppSettingsIndexLazyRoute
+  AppSettingsIndexLazyRoute: typeof AppSettingsIndexLazyRoute;
 }
 
 const AppSettingsRouteChildren: AppSettingsRouteChildren = {
-  AppSettingsIndexLazyRoute: AppSettingsIndexLazyRoute,
-}
+  AppSettingsIndexLazyRoute: AppSettingsIndexLazyRoute
+};
 
-const AppSettingsRouteWithChildren = AppSettingsRoute._addFileChildren(
-  AppSettingsRouteChildren,
-)
+const AppSettingsRouteWithChildren = AppSettingsRoute._addFileChildren(AppSettingsRouteChildren);
 
 interface AppRouteChildren {
-  AppBoardsRoute: typeof AppBoardsRouteWithChildren
-  AppSettingsRoute: typeof AppSettingsRouteWithChildren
-  AppIndexLazyRoute: typeof AppIndexLazyRoute
+  AppBoardsRoute: typeof AppBoardsRouteWithChildren;
+  AppSettingsRoute: typeof AppSettingsRouteWithChildren;
+  AppIndexLazyRoute: typeof AppIndexLazyRoute;
 }
 
 const AppRouteChildren: AppRouteChildren = {
   AppBoardsRoute: AppBoardsRouteWithChildren,
   AppSettingsRoute: AppSettingsRouteWithChildren,
-  AppIndexLazyRoute: AppIndexLazyRoute,
-}
+  AppIndexLazyRoute: AppIndexLazyRoute
+};
 
-const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
+const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren);
 
 interface AuthRouteChildren {
-  AuthLoginLazyRoute: typeof AuthLoginLazyRoute
-  AuthRegisterLazyRoute: typeof AuthRegisterLazyRoute
+  AuthLoginLazyRoute: typeof AuthLoginLazyRoute;
+  AuthRegisterLazyRoute: typeof AuthRegisterLazyRoute;
 }
 
 const AuthRouteChildren: AuthRouteChildren = {
   AuthLoginLazyRoute: AuthLoginLazyRoute,
-  AuthRegisterLazyRoute: AuthRegisterLazyRoute,
-}
+  AuthRegisterLazyRoute: AuthRegisterLazyRoute
+};
 
-const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)
+const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren);
 
 export interface FileRoutesByFullPath {
-  '': typeof PublicRouteWithChildren
-  '/app': typeof AppRouteWithChildren
-  '/auth': typeof AuthRouteWithChildren
-  '/app/boards': typeof AppBoardsRouteWithChildren
-  '/app/settings': typeof AppSettingsRouteWithChildren
-  '/about': typeof PublicAboutLazyRoute
-  '/auth/login': typeof AuthLoginLazyRoute
-  '/auth/register': typeof AuthRegisterLazyRoute
-  '/': typeof PublicIndexLazyRoute
-  '/app/': typeof AppIndexLazyRoute
-  '/app/boards/$boardId': typeof AppBoardsBoardIdRoute
-  '/app/boards/': typeof AppBoardsIndexLazyRoute
-  '/app/settings/': typeof AppSettingsIndexLazyRoute
+  "": typeof PublicRouteWithChildren;
+  "/app": typeof AppRouteWithChildren;
+  "/auth": typeof AuthRouteWithChildren;
+  "/app/boards": typeof AppBoardsRouteWithChildren;
+  "/app/settings": typeof AppSettingsRouteWithChildren;
+  "/about": typeof PublicAboutLazyRoute;
+  "/auth/login": typeof AuthLoginLazyRoute;
+  "/auth/register": typeof AuthRegisterLazyRoute;
+  "/": typeof PublicIndexLazyRoute;
+  "/app/": typeof AppIndexLazyRoute;
+  "/app/boards/$boardId": typeof AppBoardsBoardIdRoute;
+  "/app/boards/": typeof AppBoardsIndexLazyRoute;
+  "/app/settings/": typeof AppSettingsIndexLazyRoute;
 }
 
 export interface FileRoutesByTo {
-  '/auth': typeof AuthRouteWithChildren
-  '/about': typeof PublicAboutLazyRoute
-  '/auth/login': typeof AuthLoginLazyRoute
-  '/auth/register': typeof AuthRegisterLazyRoute
-  '/': typeof PublicIndexLazyRoute
-  '/app': typeof AppIndexLazyRoute
-  '/app/boards/$boardId': typeof AppBoardsBoardIdRoute
-  '/app/boards': typeof AppBoardsIndexLazyRoute
-  '/app/settings': typeof AppSettingsIndexLazyRoute
+  "/auth": typeof AuthRouteWithChildren;
+  "/about": typeof PublicAboutLazyRoute;
+  "/auth/login": typeof AuthLoginLazyRoute;
+  "/auth/register": typeof AuthRegisterLazyRoute;
+  "/": typeof PublicIndexLazyRoute;
+  "/app": typeof AppIndexLazyRoute;
+  "/app/boards/$boardId": typeof AppBoardsBoardIdRoute;
+  "/app/boards": typeof AppBoardsIndexLazyRoute;
+  "/app/settings": typeof AppSettingsIndexLazyRoute;
 }
 
 export interface FileRoutesById {
-  __root__: typeof rootRoute
-  '/_public': typeof PublicRouteWithChildren
-  '/app': typeof AppRouteWithChildren
-  '/auth': typeof AuthRouteWithChildren
-  '/app/boards': typeof AppBoardsRouteWithChildren
-  '/app/settings': typeof AppSettingsRouteWithChildren
-  '/_public/about': typeof PublicAboutLazyRoute
-  '/auth/login': typeof AuthLoginLazyRoute
-  '/auth/register': typeof AuthRegisterLazyRoute
-  '/_public/': typeof PublicIndexLazyRoute
-  '/app/': typeof AppIndexLazyRoute
-  '/app/boards/$boardId': typeof AppBoardsBoardIdRoute
-  '/app/boards/': typeof AppBoardsIndexLazyRoute
-  '/app/settings/': typeof AppSettingsIndexLazyRoute
+  __root__: typeof rootRoute;
+  "/_public": typeof PublicRouteWithChildren;
+  "/app": typeof AppRouteWithChildren;
+  "/auth": typeof AuthRouteWithChildren;
+  "/app/boards": typeof AppBoardsRouteWithChildren;
+  "/app/settings": typeof AppSettingsRouteWithChildren;
+  "/_public/about": typeof PublicAboutLazyRoute;
+  "/auth/login": typeof AuthLoginLazyRoute;
+  "/auth/register": typeof AuthRegisterLazyRoute;
+  "/_public/": typeof PublicIndexLazyRoute;
+  "/app/": typeof AppIndexLazyRoute;
+  "/app/boards/$boardId": typeof AppBoardsBoardIdRoute;
+  "/app/boards/": typeof AppBoardsIndexLazyRoute;
+  "/app/settings/": typeof AppSettingsIndexLazyRoute;
 }
 
 export interface FileRouteTypes {
-  fileRoutesByFullPath: FileRoutesByFullPath
+  fileRoutesByFullPath: FileRoutesByFullPath;
   fullPaths:
-    | ''
-    | '/app'
-    | '/auth'
-    | '/app/boards'
-    | '/app/settings'
-    | '/about'
-    | '/auth/login'
-    | '/auth/register'
-    | '/'
-    | '/app/'
-    | '/app/boards/$boardId'
-    | '/app/boards/'
-    | '/app/settings/'
-  fileRoutesByTo: FileRoutesByTo
+    | ""
+    | "/app"
+    | "/auth"
+    | "/app/boards"
+    | "/app/settings"
+    | "/about"
+    | "/auth/login"
+    | "/auth/register"
+    | "/"
+    | "/app/"
+    | "/app/boards/$boardId"
+    | "/app/boards/"
+    | "/app/settings/";
+  fileRoutesByTo: FileRoutesByTo;
   to:
-    | '/auth'
-    | '/about'
-    | '/auth/login'
-    | '/auth/register'
-    | '/'
-    | '/app'
-    | '/app/boards/$boardId'
-    | '/app/boards'
-    | '/app/settings'
+    | "/auth"
+    | "/about"
+    | "/auth/login"
+    | "/auth/register"
+    | "/"
+    | "/app"
+    | "/app/boards/$boardId"
+    | "/app/boards"
+    | "/app/settings";
   id:
-    | '__root__'
-    | '/_public'
-    | '/app'
-    | '/auth'
-    | '/app/boards'
-    | '/app/settings'
-    | '/_public/about'
-    | '/auth/login'
-    | '/auth/register'
-    | '/_public/'
-    | '/app/'
-    | '/app/boards/$boardId'
-    | '/app/boards/'
-    | '/app/settings/'
-  fileRoutesById: FileRoutesById
+    | "__root__"
+    | "/_public"
+    | "/app"
+    | "/auth"
+    | "/app/boards"
+    | "/app/settings"
+    | "/_public/about"
+    | "/auth/login"
+    | "/auth/register"
+    | "/_public/"
+    | "/app/"
+    | "/app/boards/$boardId"
+    | "/app/boards/"
+    | "/app/settings/";
+  fileRoutesById: FileRoutesById;
 }
 
 export interface RootRouteChildren {
-  PublicRoute: typeof PublicRouteWithChildren
-  AppRoute: typeof AppRouteWithChildren
-  AuthRoute: typeof AuthRouteWithChildren
+  PublicRoute: typeof PublicRouteWithChildren;
+  AppRoute: typeof AppRouteWithChildren;
+  AuthRoute: typeof AuthRouteWithChildren;
 }
 
 const rootRouteChildren: RootRouteChildren = {
   PublicRoute: PublicRouteWithChildren,
   AppRoute: AppRouteWithChildren,
-  AuthRoute: AuthRouteWithChildren,
-}
+  AuthRoute: AuthRouteWithChildren
+};
 
 export const routeTree = rootRoute
   ._addFileChildren(rootRouteChildren)
-  ._addFileTypes<FileRouteTypes>()
+  ._addFileTypes<FileRouteTypes>();
 
 /* ROUTE_MANIFEST_START
 {

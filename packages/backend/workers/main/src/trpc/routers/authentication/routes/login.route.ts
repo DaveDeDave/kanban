@@ -13,4 +13,6 @@ export default publicProcedure
       token: z.string()
     })
   )
-  .mutation(async ({ input, ctx }) => ctx.services.authentication.login(input.email, input.password));
+  .mutation(async ({ input, ctx }) =>
+    ctx.services.authentication.login(input.email, input.password)
+  );

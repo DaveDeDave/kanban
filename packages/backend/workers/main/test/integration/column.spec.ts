@@ -188,8 +188,8 @@ describe("Column router test", () => {
   });
 
   test("Should not write an empty rank when rank generation fails", async () => {
-    const original = await fixture.repositories.column.findOneByIdOrThrow(testData.columns[0].id );
-    const moving = await fixture.repositories.column.findOneByIdOrThrow(testData.columns[1].id );
+    const original = await fixture.repositories.column.findOneByIdOrThrow(testData.columns[0].id);
+    const moving = await fixture.repositories.column.findOneByIdOrThrow(testData.columns[1].id);
     try {
       await fixture.repositories.column.updateRank(original.id, original.boardId, "invalid-rank");
       await expect(
@@ -200,7 +200,7 @@ describe("Column router test", () => {
           nextColumnId: null
         })
       ).rejects.toMatchObject({ code: "CONFLICT" });
-      const unchanged = await fixture.repositories.column.findOneByIdOrThrow(moving.id );
+      const unchanged = await fixture.repositories.column.findOneByIdOrThrow(moving.id);
       expect(unchanged.rank).toBe(moving.rank);
     } finally {
       await fixture.repositories.column.updateRank(original.id, original.boardId, original.rank);
