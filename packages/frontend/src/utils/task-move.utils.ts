@@ -51,3 +51,24 @@ export const confirmTaskMove = (board: Board, task: Task): Board => ({
     )
   }))
 });
+
+// Resolve an intent against the latest confirmed board. A previous request or another
+// tab may have changed its source column or either of its original neighbors.
+export const resolveTaskMove = (board: Board, move: TaskMove) => {
+  const source = board.columns.find((column) =>
+    column.tasks.some((task) => task.id === move.taskId)
+  );
+  const target = board.columns.find((column) => column.id === move.targetColumnId);
+  if (!source || !target) return null;
+
+  const projected = projectTaskMove(board, move);
+  const tasks = projected.columns.find((column) => column.id === target.id)!.tasks;
+  const index = tasks.findIndex((task) => task.id === move.taskId);
+  return {
+    columnId: source.id,
+    moveToColumnId: source.id === target.id ? null : target.id,
+    taskId: move.taskId,
+    previousTaskId: tasks[index - 1]?.id ?? null,
+    nextTaskId: tasks[index + 1]?.id ?? null
+  };
+};

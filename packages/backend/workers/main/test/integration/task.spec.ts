@@ -153,7 +153,10 @@ describe("Task router test", () => {
       nextTaskId: null
     });
     const reordered = await caller.task.getTasksByColumn({ columnId: testData.columns[0].id });
-    expect(reordered.tasks.map(({ id }) => id)).toEqual([testData.tasks[1].id, testData.tasks[0].id]);
+    expect(reordered.tasks.map(({ id }) => id)).toEqual([
+      testData.tasks[1].id,
+      testData.tasks[0].id
+    ]);
 
     await caller.task.rankTask({
       columnId: testData.columns[0].id,
@@ -175,6 +178,43 @@ describe("Task router test", () => {
     ).rejects.toMatchObject({ code: "CONFLICT" });
     const task = await context.prisma.task.findUnique({ where: { id: testData.tasks[0].id } });
     expect(task?.columnId).toBe(testData.columns[0].id);
+  });
+
+  test("Should serialize simultaneous moves into the same slot", async () => {
+    const first = await caller.task.createTask({
+      columnId: testData.columns[1].id,
+      title: "Concurrent first",
+      description: ""
+    });
+    const second = await caller.task.createTask({
+      columnId: testData.columns[1].id,
+      title: "Concurrent second",
+      description: ""
+    });
+    try {
+      const results = await Promise.allSettled(
+        [first.createdTask.id, second.createdTask.id].map((taskId) =>
+          caller.task.rankTask({
+            columnId: testData.columns[1].id,
+            moveToColumnId: testData.columns[0].id,
+            taskId,
+            previousTaskId: null,
+            nextTaskId: testData.tasks[0].id
+          })
+        )
+      );
+      expect(results.filter((result) => result.status === "fulfilled")).toHaveLength(1);
+      expect(results.filter((result) => result.status === "rejected")).toHaveLength(1);
+      const board = await caller.board.getBoardById({ boardId: testData.boards[0].id });
+      const destination = board.board.columns.find(({ id }) => id === testData.columns[0].id)!;
+      const success = results.find((result) => result.status === "fulfilled");
+      if (success?.status === "fulfilled") {
+        expect(destination.tasks[0].id).toBe(success.value.task.id);
+      }
+    } finally {
+      await caller.task.deleteTask({ taskId: first.createdTask.id });
+      await caller.task.deleteTask({ taskId: second.createdTask.id });
+    }
   });
 
   test("Should reject non-adjacent neighbors", async () => {

@@ -1,7 +1,6 @@
 import { BoardHeader } from "@/organisms/board-header";
 import { useParams } from "@tanstack/react-router";
-import { FC, useEffect, useMemo, useRef, useState } from "react";
-import { flushSync } from "react-dom";
+import { FC, useMemo, useRef, useState } from "react";
 import styles from "./board.module.scss";
 import { KanbanColumn } from "@/organisms/kanban-column/kanban-column";
 import { useGetBoard } from "@/hooks/trpc/board/getBoard.hook";
@@ -10,29 +9,27 @@ import { Button } from "@/atoms/button";
 import { BoardModals, useBoardModals } from "./modals";
 import { useSharedSortable, useSortable } from "@/hooks/sortable.hooks";
 import { useRankColumn } from "@/hooks/trpc/column/rank-column.hook";
-import { useRankTask } from "@/hooks/trpc/board/rank-task.hook";
 import classNames from "classnames";
 import { RiLoader4Fill } from "@remixicon/react";
-import { projectTaskMove, TaskMove } from "@/utils/task-move.utils";
+import { useTaskMoveQueue } from "@/hooks/use-task-move-queue";
+import type { TaskMove } from "@/utils/task-move.utils";
+import type { RouterOutputs } from "@/config/trpc.config";
 import { t } from "i18next";
 
 const columnDragClassName = "column-handle";
 const taskDragClassName = "task-handle";
+type Board = RouterOutputs["board"]["getBoardById"]["board"];
 
 export const Component: FC = () => {
   const { boardId } = useParams({
     from: "/app/boards/$boardId"
   });
 
+  return <BoardView key={boardId} boardId={boardId} />;
+};
+
+const BoardView: FC<{ boardId: string }> = ({ boardId }) => {
   const boardModals = useBoardModals();
-  const [pendingMove, setPendingMove] = useState<TaskMove | null>(null);
-  const [confirmedTask, setConfirmedTask] = useState<{
-    id: string;
-    columnId: string;
-    rank: string;
-  } | null>(null);
-  const [moveError, setMoveError] = useState(false);
-  const moveLocked = useRef(false);
 
   const {
     data: boardData,
@@ -43,24 +40,17 @@ export const Component: FC = () => {
   });
 
   const rankColumn = useRankColumn();
-  const rankTask = useRankTask({ boardId });
-  const visibleBoard = useMemo(
-    () =>
-      boardData && pendingMove ? projectTaskMove(boardData.board, pendingMove) : boardData?.board,
-    [boardData, pendingMove]
-  );
-
-  useEffect(() => {
-    if (!confirmedTask || !boardData) return;
-    const task = boardData.board.columns
-      .flatMap((column) => column.tasks)
-      .find(({ id }) => id === confirmedTask.id);
-    if (!task || (task.columnId === confirmedTask.columnId && task.rank === confirmedTask.rank)) {
-      setPendingMove(null);
-      setConfirmedTask(null);
-      moveLocked.current = false;
-    }
-  }, [boardData, confirmedTask]);
+  const {
+    visibleBoard: projectedBoard,
+    pending,
+    moveError,
+    syncBlocked,
+    enqueue,
+    retryLoad
+  } = useTaskMoveQueue(boardId, boardData?.board, refetch);
+  const [taskDragging, setTaskDragging] = useState(false);
+  const dragBoard = useRef<Board | undefined>(undefined);
+  const visibleBoard = taskDragging ? dragBoard.current : projectedBoard;
 
   const columnIds = useMemo(() => {
     if (!visibleBoard) {
@@ -101,14 +91,14 @@ export const Component: FC = () => {
     },
     {
       handle: columnDragClassName,
-      disabled: Boolean(pendingMove)
+      disabled: pending.length > 0 || syncBlocked
     }
   );
 
   const { listsRef: taskListsRef } = useSharedSortable<HTMLDivElement>(
     taskIdsByColumn,
-    async (event) => {
-      if (moveLocked.current || !visibleBoard) return;
+    (event) => {
+      if (!visibleBoard) return;
       const sourceTasks = visibleBoard.columns.find(({ id }) => id === event.listId)?.tasks;
       const oldIndex = sourceTasks?.findIndex(({ id }) => id === event.itemId) ?? -1;
       if (!sourceTasks || oldIndex < 0) return;
@@ -119,46 +109,18 @@ export const Component: FC = () => {
         previousTaskId: event.previousItemId,
         nextTaskId: event.nextItemId
       };
-      const rollback: TaskMove = {
-        taskId: event.itemId,
-        targetColumnId: event.listId,
-        previousTaskId: sourceTasks[oldIndex - 1]?.id ?? null,
-        nextTaskId: sourceTasks[oldIndex + 1]?.id ?? null
-      };
-
-      moveLocked.current = true;
-      flushSync(() => {
-        setMoveError(false);
-        setPendingMove(move);
-      });
-      try {
-        const response = await rankTask.mutateAsync({
-          columnId: event.listId,
-          moveToColumnId: event.newListId,
-          taskId: event.itemId,
-          previousTaskId: event.previousItemId,
-          nextTaskId: event.nextItemId
-        });
-        setConfirmedTask({
-          id: response.task.id,
-          columnId: response.task.columnId,
-          rank: response.task.rank
-        });
-      } catch {
-        flushSync(() => {
-          setPendingMove(rollback);
-          setMoveError(true);
-        });
-        const refreshed = await refetch();
-        if (!refreshed.isError) {
-          setPendingMove(null);
-          moveLocked.current = false;
-        }
-      }
+      enqueue(move);
     },
     {
       handle: taskDragClassName,
-      disabled: Boolean(pendingMove || sortableLoading)
+      disabled: !taskDragging && (sortableLoading || syncBlocked)
+    },
+    {
+      onStart: () => {
+        dragBoard.current = visibleBoard;
+        setTaskDragging(true);
+      },
+      onEnd: () => setTaskDragging(false)
     }
   );
 
@@ -202,20 +164,12 @@ export const Component: FC = () => {
         {moveError && (
           <div className={styles.moveError} role="alert">
             {t("pages.board.moveError")}
-            {pendingMove && (
-              <Button
-                type="button"
-                variant="secondary"
-                label={t("pages.board.retryLoad")}
-                onClick={async () => {
-                  const refreshed = await refetch();
-                  if (!refreshed.isError) {
-                    setPendingMove(null);
-                    moveLocked.current = false;
-                  }
-                }}
-              />
-            )}
+            <Button
+              type="button"
+              variant="secondary"
+              label={t("pages.board.retryLoad")}
+              onClick={retryLoad}
+            />
           </div>
         )}
         <div className={styles.columnsWrapper}>
@@ -230,10 +184,9 @@ export const Component: FC = () => {
                 key={column.id}
                 id={column.id}
                 columnClassName={visibleBoard.columns.length > 1 ? columnDragClassName : undefined}
-                taskDragClassname={numberOfTasks > 1 ? taskDragClassName : undefined}
-                columnDragDisabled={Boolean(pendingMove)}
-                taskDragDisabled={Boolean(pendingMove || sortableLoading)}
-                dimmedTaskId={pendingMove?.taskId}
+                taskDragClassname={numberOfTasks > 0 ? taskDragClassName : undefined}
+                columnDragDisabled={pending.length > 0 || syncBlocked}
+                taskDragDisabled={!taskDragging && (sortableLoading || syncBlocked)}
                 taskListRef={(el) => setTaskListRef(el, column.id)}
                 head={{
                   title: column.name,

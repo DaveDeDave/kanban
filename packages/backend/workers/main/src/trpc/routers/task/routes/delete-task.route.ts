@@ -40,21 +40,24 @@ export default authProcedure
       });
     }
 
-    const deletedTask = await prisma.task.delete({
-      where: {
-        id: taskId,
-        column: {
-          board: {
-            ownerId: user.id
+    return prisma.$transaction(async (tx) => {
+      await tx.$queryRaw`SELECT id FROM "Board" WHERE id = ${task.column.boardId} FOR UPDATE`;
+      const deletedTask = await tx.task.delete({
+        where: {
+          id: taskId,
+          column: {
+            board: {
+              ownerId: user.id
+            }
           }
         }
-      }
-    });
+      });
 
-    return {
-      deletedTask: {
-        ...deletedTask,
-        boardId: task.column.boardId
-      }
-    };
+      return {
+        deletedTask: {
+          ...deletedTask,
+          boardId: task.column.boardId
+        }
+      };
+    });
   });

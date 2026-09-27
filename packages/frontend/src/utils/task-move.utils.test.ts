@@ -1,5 +1,5 @@
 import { test, expect } from "vitest";
-import { projectTaskMove, confirmTaskMove } from "./task-move.utils";
+import { projectTaskMove, confirmTaskMove, resolveTaskMove } from "./task-move.utils";
 
 type Board = Parameters<typeof projectTaskMove>[0];
 type Task = Board["columns"][number]["tasks"][number];
@@ -132,4 +132,63 @@ test("confirmation updates rank without overwriting a concurrent title edit", ()
   });
   expect(confirmed.columns[0].tasks[0].rank).toBe("4");
   expect(confirmed.columns[0].tasks[0].title).toBe("new title");
+});
+
+test("resolves a queued move from the latest confirmed column and neighbors", () => {
+  const first = projectTaskMove(board(), {
+    taskId: "b",
+    targetColumnId: "two",
+    previousTaskId: "d",
+    nextTaskId: null
+  });
+  expect(
+    resolveTaskMove(first, {
+      taskId: "b",
+      targetColumnId: "one",
+      previousTaskId: "a",
+      nextTaskId: "c"
+    })
+  ).toEqual({
+    columnId: "two",
+    moveToColumnId: "one",
+    taskId: "b",
+    previousTaskId: "a",
+    nextTaskId: "c"
+  });
+});
+
+test("rebases a move when an original neighbor has disappeared", () => {
+  const changed = board();
+  changed.columns[0].tasks = changed.columns[0].tasks.filter((task) => task.id !== "c");
+  expect(
+    resolveTaskMove(changed, {
+      taskId: "a",
+      targetColumnId: "one",
+      previousTaskId: "c",
+      nextTaskId: null
+    })
+  ).toEqual({
+    columnId: "one",
+    moveToColumnId: null,
+    taskId: "a",
+    previousTaskId: null,
+    nextTaskId: "b"
+  });
+});
+
+test("replays rapid moves of the same task over a refreshed board", () => {
+  const moves = [
+    { taskId: "b", targetColumnId: "two", previousTaskId: "d", nextTaskId: null },
+    { taskId: "b", targetColumnId: "empty", previousTaskId: null, nextTaskId: null },
+    { taskId: "b", targetColumnId: "one", previousTaskId: "c", nextTaskId: null }
+  ];
+  const visible = moves.reduce(projectTaskMove, board());
+  expect(ids(visible, "one")).toEqual(["a", "c", "b"]);
+  expect(ids(visible, "two")).toEqual(["d"]);
+  expect(ids(visible, "empty")).toEqual([]);
+
+  const afterFirstSave = projectTaskMove(board(), moves[0]);
+  const remaining = moves.slice(1).reduce(projectTaskMove, afterFirstSave);
+  expect(ids(remaining, "one")).toEqual(ids(visible, "one"));
+  expect(ids(remaining, "two")).toEqual(ids(visible, "two"));
 });
