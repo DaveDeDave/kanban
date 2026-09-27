@@ -8,12 +8,12 @@ import { AddColumnButton } from "@/atoms/add-kanban-column-button";
 import { Button } from "@/atoms/button";
 import { BoardModals, useBoardModals } from "./modals";
 import { useSharedSortable, useSortable } from "@/hooks/sortable.hooks";
-import { useRankColumn } from "@/hooks/trpc/column/rank-column.hook";
-import classNames from "classnames";
-import { RiLoader4Fill } from "@remixicon/react";
-import { useTaskMoveQueue } from "@/hooks/use-task-move-queue";
+import { useColumnMoveQueue } from "@/hooks/use-column-move-queue.hooks";
+import { useTaskMoveQueue } from "@/hooks/use-task-move-queue.hooks";
 import type { TaskMove } from "@/utils/task-move.utils";
+import type { ColumnMove } from "@/utils/column-move.utils";
 import type { RouterOutputs } from "@/config/trpc.config";
+import type { BoardSyncActivity } from "@/utils/board-sync.utils";
 import { t } from "i18next";
 
 const columnDragClassName = "column-handle";
@@ -30,6 +30,7 @@ export const Component: FC = () => {
 
 const BoardView: FC<{ boardId: string }> = ({ boardId }) => {
   const boardModals = useBoardModals();
+  const syncActivity = useRef<BoardSyncActivity>({ taskQueue: false, columnQueue: false });
 
   const {
     data: boardData,
@@ -39,18 +40,31 @@ const BoardView: FC<{ boardId: string }> = ({ boardId }) => {
     boardId
   });
 
-  const rankColumn = useRankColumn();
+  const {
+    visibleBoard: columnProjectedBoard,
+    moveError: columnMoveError,
+    syncBlocked: columnSyncBlocked,
+    enqueue: enqueueColumn,
+    retryLoad: retryColumns
+  } = useColumnMoveQueue(boardId, boardData?.board, refetch, syncActivity);
   const {
     visibleBoard: projectedBoard,
-    pending,
-    moveError,
-    syncBlocked,
-    enqueue,
-    retryLoad
-  } = useTaskMoveQueue(boardId, boardData?.board, refetch);
+    moveError: taskMoveError,
+    syncBlocked: taskSyncBlocked,
+    enqueue: enqueueTask,
+    retryLoad: retryTasks
+  } = useTaskMoveQueue(boardId, columnProjectedBoard, refetch, syncActivity);
   const [taskDragging, setTaskDragging] = useState(false);
-  const dragBoard = useRef<Board | undefined>(undefined);
-  const visibleBoard = taskDragging ? dragBoard.current : projectedBoard;
+  const [columnDragging, setColumnDragging] = useState(false);
+  const columnDragDisabled = !columnDragging && columnSyncBlocked;
+  const taskDragDisabled = !taskDragging && taskSyncBlocked;
+  const taskDragBoard = useRef<Board | undefined>(undefined);
+  const columnDragBoard = useRef<Board | undefined>(undefined);
+  const visibleBoard = taskDragging
+    ? taskDragBoard.current
+    : columnDragging
+    ? columnDragBoard.current
+    : projectedBoard;
 
   const columnIds = useMemo(() => {
     if (!visibleBoard) {
@@ -79,19 +93,26 @@ const BoardView: FC<{ boardId: string }> = ({ boardId }) => {
     }, {} as Record<string, string[]>);
   }, [visibleBoard]);
 
-  const { listRef: columnListRef, loading: sortableLoading } = useSortable<HTMLDivElement>(
+  const { listRef: columnListRef } = useSortable<HTMLDivElement>(
     columnIds,
-    async (event) => {
-      await rankColumn.mutateAsync({
-        boardId: boardId!,
+    (event) => {
+      const move: ColumnMove = {
         columnId: event.itemId,
         previousColumnId: event.previousItemId,
         nextColumnId: event.nextItemId
-      });
+      };
+      enqueueColumn(move);
     },
     {
       handle: columnDragClassName,
-      disabled: pending.length > 0 || syncBlocked
+      disabled: columnDragDisabled
+    },
+    {
+      onStart: () => {
+        columnDragBoard.current = visibleBoard;
+        setColumnDragging(true);
+      },
+      onEnd: () => setColumnDragging(false)
     }
   );
 
@@ -109,15 +130,15 @@ const BoardView: FC<{ boardId: string }> = ({ boardId }) => {
         previousTaskId: event.previousItemId,
         nextTaskId: event.nextItemId
       };
-      enqueue(move);
+      enqueueTask(move);
     },
     {
       handle: taskDragClassName,
-      disabled: !taskDragging && (sortableLoading || syncBlocked)
+      disabled: taskDragDisabled
     },
     {
       onStart: () => {
-        dragBoard.current = visibleBoard;
+        taskDragBoard.current = visibleBoard;
         setTaskDragging(true);
       },
       onEnd: () => setTaskDragging(false)
@@ -161,23 +182,29 @@ const BoardView: FC<{ boardId: string }> = ({ boardId }) => {
             });
           }}
         />
-        {moveError && (
+        {taskMoveError && (
           <div className={styles.moveError} role="alert">
             {t("pages.board.moveError")}
             <Button
               type="button"
               variant="secondary"
               label={t("pages.board.retryLoad")}
-              onClick={retryLoad}
+              onClick={retryTasks}
+            />
+          </div>
+        )}
+        {columnMoveError && (
+          <div className={styles.moveError} role="alert">
+            {t("pages.board.columnMoveError")}
+            <Button
+              type="button"
+              variant="secondary"
+              label={t("pages.board.retryLoad")}
+              onClick={retryColumns}
             />
           </div>
         )}
         <div className={styles.columnsWrapper}>
-          <div className={classNames(styles.loader, sortableLoading && styles.show)}>
-            <span className={styles.loaderIcon}>
-              <RiLoader4Fill />
-            </span>
-          </div>
           <div className={styles.columns} ref={columnListRef}>
             {visibleBoard.columns.map((column) => (
               <KanbanColumn
@@ -185,8 +212,6 @@ const BoardView: FC<{ boardId: string }> = ({ boardId }) => {
                 id={column.id}
                 columnClassName={visibleBoard.columns.length > 1 ? columnDragClassName : undefined}
                 taskDragClassname={numberOfTasks > 0 ? taskDragClassName : undefined}
-                columnDragDisabled={pending.length > 0 || syncBlocked}
-                taskDragDisabled={!taskDragging && (sortableLoading || syncBlocked)}
                 taskListRef={(el) => setTaskListRef(el, column.id)}
                 head={{
                   title: column.name,

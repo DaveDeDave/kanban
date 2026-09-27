@@ -198,6 +198,7 @@
     },
     "board": {
       "moveError": "Could not save the task move.",
+      "columnMoveError": "Could not save the column move.",
       "retryLoad": "Retry loading",
       "header": {
         "boardDescription": "Board's description"

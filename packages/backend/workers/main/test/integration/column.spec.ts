@@ -122,4 +122,94 @@ describe("Column router test", () => {
     const response = await caller.column.getColumnsByBoard(getColumnByBoardInput);
     expect(response.columns.length).toBe(0);
   });
+
+  test("Should reorder columns and reject stale neighbors", async () => {
+    await caller.column.rankColumn({
+      boardId: testBoard.id,
+      columnId: testData.columns[0].id,
+      previousColumnId: testData.columns[1].id,
+      nextColumnId: null
+    });
+    const reordered = await caller.board.getBoardById({ boardId: testBoard.id });
+    expect(reordered.board.columns.map(({ id }) => id)).toEqual([
+      testData.columns[1].id,
+      testData.columns[0].id
+    ]);
+    await expect(
+      caller.column.rankColumn({
+        boardId: testBoard.id,
+        columnId: testData.columns[0].id,
+        previousColumnId: null,
+        nextColumnId: null
+      })
+    ).rejects.toMatchObject({ code: "CONFLICT" });
+    await caller.column.rankColumn({
+      boardId: testBoard.id,
+      columnId: testData.columns[0].id,
+      previousColumnId: null,
+      nextColumnId: testData.columns[1].id
+    });
+  });
+
+  test("Should serialize simultaneous column moves into the same slot", async () => {
+    const first = await caller.column.createColumn({
+      boardId: testBoard.id,
+      name: "Concurrent first",
+      color: "#ffffff"
+    });
+    const second = await caller.column.createColumn({
+      boardId: testBoard.id,
+      name: "Concurrent second",
+      color: "#ffffff"
+    });
+    try {
+      const results = await Promise.allSettled(
+        [first.createdColumn.id, second.createdColumn.id].map((columnId) =>
+          caller.column.rankColumn({
+            boardId: testBoard.id,
+            columnId,
+            previousColumnId: null,
+            nextColumnId: testData.columns[0].id
+          })
+        )
+      );
+      expect(results.filter(({ status }) => status === "fulfilled")).toHaveLength(1);
+      expect(results.filter(({ status }) => status === "rejected")).toHaveLength(1);
+    } finally {
+      await caller.column.deleteColumn({ columnId: first.createdColumn.id });
+      await caller.column.deleteColumn({ columnId: second.createdColumn.id });
+    }
+  });
+
+  test("Should not write an empty rank when rank generation fails", async () => {
+    const original = await context.prisma.column.findUniqueOrThrow({
+      where: { id: testData.columns[0].id }
+    });
+    const moving = await context.prisma.column.findUniqueOrThrow({
+      where: { id: testData.columns[1].id }
+    });
+    try {
+      await context.prisma.column.update({
+        where: { id: original.id },
+        data: { rank: "invalid-rank" }
+      });
+      await expect(
+        caller.column.rankColumn({
+          boardId: testBoard.id,
+          columnId: moving.id,
+          previousColumnId: original.id,
+          nextColumnId: null
+        })
+      ).rejects.toMatchObject({ code: "CONFLICT" });
+      const unchanged = await context.prisma.column.findUniqueOrThrow({
+        where: { id: moving.id }
+      });
+      expect(unchanged.rank).toBe(moving.rank);
+    } finally {
+      await context.prisma.column.update({
+        where: { id: original.id },
+        data: { rank: original.rank }
+      });
+    }
+  });
 });

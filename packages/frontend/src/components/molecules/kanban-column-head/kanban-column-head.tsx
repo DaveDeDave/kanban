@@ -12,7 +12,6 @@ export interface KanbanColumnHeadProps {
   actions?: { onClick: () => void; icon: ReactNode }[];
   settings?: { onClick: () => void; label: string; icon: ReactNode; destructive?: boolean }[];
   dragClassname?: string;
-  dragDisabled?: boolean;
   className?: string;
 }
 
@@ -23,7 +22,6 @@ export const KanbanColumnHead: FC<KanbanColumnHeadProps> = ({
   actions,
   settings,
   dragClassname,
-  dragDisabled,
   className
 }) => {
   return (
@@ -35,7 +33,7 @@ export const KanbanColumnHead: FC<KanbanColumnHeadProps> = ({
     >
       <div className={styles.group}>
         {dragClassname ? (
-          <span className={classNames(styles.grabbableIcon, dragClassname, dragDisabled && styles.dragDisabled)}>
+          <span className={classNames(styles.grabbableIcon, dragClassname)}>
             <RiDraggable />
           </span>
         ) : null}

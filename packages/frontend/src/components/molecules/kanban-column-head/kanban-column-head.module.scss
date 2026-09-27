@@ -26,10 +26,6 @@
       &:active {
         cursor: grabbing;
       }
-      &.dragDisabled,
-      &.dragDisabled:active {
-        cursor: not-allowed;
-      }
     }
   }
 

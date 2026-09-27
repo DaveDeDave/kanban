@@ -1,6 +1,7 @@
 import { authProcedure } from "@/trpc/procedures";
 import { columnSchema, HttpNotFoundException } from "@kanban/base-lib";
 import { LexoRank } from "lexorank";
+import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 
 export default authProcedure
@@ -24,88 +25,61 @@ export default authProcedure
       ctx: { prisma, user }
     }) => {
       const board = await prisma.board.findUnique({
-        where: {
-          id: boardId,
-          ownerId: user.id
-        }
+        where: { id: boardId, ownerId: user.id }
       });
+      if (!board) throw new HttpNotFoundException({ errorCode: "BoardNotFound" });
 
-      if (!board) {
-        throw new HttpNotFoundException({
-          errorCode: "BoardNotFound"
+      return prisma.$transaction(async (tx) => {
+        // All order-changing mutations on this board acquire this lock first.
+        await tx.$queryRaw`SELECT id FROM "Board" WHERE id = ${boardId} FOR UPDATE`;
+        const ordered = await tx.column.findMany({
+          where: { boardId },
+          orderBy: [{ rank: "asc" }, { createdAt: "asc" }],
+          select: { id: true, rank: true }
         });
-      }
-
-      const column = await prisma.column.findFirst({
-        where: {
-          id: columnId,
-          boardId
+        if (!ordered.some(({ id }) => id === columnId)) {
+          throw new HttpNotFoundException({ errorCode: "ColumnNotFound" });
         }
-      });
 
-      if (!column) {
-        throw new HttpNotFoundException({
-          errorCode: "ColumnNotFound"
+        const remaining = ordered.filter(({ id }) => id !== columnId);
+        const previousIndex = previousColumnId
+          ? remaining.findIndex(({ id }) => id === previousColumnId)
+          : -1;
+        const nextIndex = nextColumnId ? remaining.findIndex(({ id }) => id === nextColumnId) : -1;
+        const validPosition =
+          previousColumnId === null
+            ? nextColumnId === null
+              ? remaining.length === 0
+              : nextIndex === 0
+            : nextColumnId === null
+            ? previousIndex >= 0 && previousIndex === remaining.length - 1
+            : previousIndex >= 0 && nextIndex === previousIndex + 1;
+        if (!validPosition) {
+          throw new TRPCError({ code: "CONFLICT", message: "Column order has changed" });
+        }
+
+        const previous = remaining[previousIndex];
+        const next = remaining[nextIndex];
+        let rank: string;
+        try {
+          if (previous && next) {
+            rank = LexoRank.parse(previous.rank).between(LexoRank.parse(next.rank)).toString();
+          } else if (previous) {
+            rank = LexoRank.parse(previous.rank).genNext().toString();
+          } else if (next) {
+            rank = LexoRank.parse(next.rank).genPrev().toString();
+          } else {
+            rank = LexoRank.middle().toString();
+          }
+        } catch {
+          throw new TRPCError({ code: "CONFLICT", message: "Column rank cannot be calculated" });
+        }
+
+        const column = await tx.column.update({
+          where: { id: columnId, boardId },
+          data: { rank }
         });
-      }
-
-      const previousColumn = previousColumnId
-        ? await prisma.column.findFirst({
-            where: {
-              id: previousColumnId,
-              boardId
-            }
-          })
-        : null;
-      const nextColumn = nextColumnId
-        ? await prisma.column.findFirst({
-            where: {
-              id: nextColumnId,
-              boardId
-            }
-          })
-        : null;
-
-      let newRank: string = "";
-      let needRebalance = false;
-
-      try {
-        // Generate a new rank based on the position of the previous and next tasks
-        if (previousColumn && nextColumn) {
-          const previousRank = LexoRank.parse(previousColumn.rank);
-          const nextRank = LexoRank.parse(nextColumn.rank);
-          newRank = previousRank.between(nextRank).toString();
-        } else if (previousColumn) {
-          const previousRank = LexoRank.parse(previousColumn.rank);
-          newRank = previousRank.genNext().toString();
-        } else if (nextColumn) {
-          const nextRank = LexoRank.parse(nextColumn.rank);
-          newRank = nextRank.genPrev().toString();
-        } else {
-          newRank = LexoRank.middle().toString();
-        }
-      } catch (e) {
-        // In case of an error (e.g., ranks are too close), we set a flag to rebalance
-        needRebalance = true;
-      }
-
-      if (needRebalance) {
-        // TODO: handle rebalancing ranks when necessary
-      }
-
-      const updatedColumn = await prisma.column.update({
-        where: {
-          id: columnId,
-          boardId
-        },
-        data: {
-          rank: newRank
-        }
+        return { boardId, column };
       });
-
-      return {
-        boardId,
-        column: updatedColumn
-      };
     }
   );

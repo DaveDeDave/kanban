@@ -198,6 +198,7 @@
     },
     "board": {
       "moveError": "Impossibile salvare lo spostamento del task.",
+      "columnMoveError": "Impossibile salvare lo spostamento della colonna.",
       "retryLoad": "Riprova il caricamento",
       "header": {
         "boardDescription": "Descrizione della board"
