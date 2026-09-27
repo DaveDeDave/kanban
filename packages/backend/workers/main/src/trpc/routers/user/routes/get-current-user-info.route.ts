@@ -10,23 +10,4 @@ export default authProcedure
       })
     })
   )
-  .query(
-    async ({
-      ctx: {
-        user: { id },
-        prisma
-      }
-    }) => {
-      const user = await prisma.user.findUnique({
-        where: {
-          id: id
-        },
-        select: {
-          id: true,
-          email: true
-        }
-      });
-
-      return { user: user! };
-    }
-  );
+  .query(async ({ ctx }) => ctx.services.user.getCurrentUserInfo(ctx.user.id));

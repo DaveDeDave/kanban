@@ -1,3 +1,4 @@
+import { createFixture, type Fixture } from "../test.utility";
 import { TRPCError } from "@trpc/server";
 import { deleteTestData, loadTestData, testData } from "../test.data";
 import {
@@ -9,11 +10,13 @@ import {
   RouterOutputs
 } from "../test.utility";
 import { HttpNotFoundException } from "@kanban/base-lib";
-import { Board } from "@prisma/client";
+import { boards } from "../../src/db/tables";
+type Board = typeof boards.$inferSelect;
 
 describe("Board router test", () => {
   let caller: Caller;
   let context: Context;
+  let fixture: Fixture;
   const testUser = testData.users[0];
   let board: Board | null = null;
 
@@ -21,11 +24,14 @@ describe("Board router test", () => {
     context = await createContext({ headers: { Authorization: `Bearer ${testUser.jwt}` } });
     caller = createCaller(context);
 
-    await loadTestData(context.prisma);
+    fixture = createFixture();
+    await loadTestData(fixture);
   });
 
   afterAll(async () => {
-    await deleteTestData(context.prisma);
+    await deleteTestData(fixture);
+    await context.services.close();
+    await fixture.close();
   });
 
   // createBoard
@@ -162,6 +168,22 @@ describe("Board router test", () => {
     const response = await caller.board.getBoardById(getBoardByIdInput);
 
     expect(response.board).toEqual(expectedBoard);
+  });
+
+  test("Should update timestamps and cascade a board deletion", async () => {
+    const created = (await caller.board.createBoard({ name: "Cascade", description: "" })).createdBoard;
+    const column = (await caller.column.createColumn({ boardId: created.id, name: "Column", color: "#ffffff" })).createdColumn;
+    const task = (await caller.task.createTask({ columnId: column.id, title: "Task", description: "" })).createdTask;
+    const subtask = (await caller.subtask.createSubtask({ taskId: task.id, description: "Subtask" })).createdSubtask;
+    expect(created.createdAt).toBeInstanceOf(Date);
+    expect(created.updatedAt).toBeInstanceOf(Date);
+    await new Promise((resolve) => setTimeout(resolve, 10));
+    const updated = (await caller.board.updateBoard({ boardId: created.id, name: "Updated", description: "" })).updatedBoard;
+    expect(updated.updatedAt.getTime()).toBeGreaterThan(created.updatedAt.getTime());
+    await caller.board.deleteBoard({ boardId: created.id });
+    expect(await fixture.repositories.column.findOneById(column.id )).toBeNull();
+    expect(await fixture.repositories.task.findOneById(task.id )).toBeNull();
+    expect(await fixture.repositories.subtask.findOneById(subtask.id )).toBeNull();
   });
 
   test("Should not get the board by id (not owned)", async () => {

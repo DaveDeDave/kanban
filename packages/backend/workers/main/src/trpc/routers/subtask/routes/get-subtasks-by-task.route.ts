@@ -13,24 +13,4 @@ export default authProcedure
       subtasks: z.array(subtaskSchema)
     })
   )
-  .query(async ({ input: { taskId }, ctx: { prisma, user } }) => {
-    const subtasks = await prisma.subtask.findMany({
-      where: {
-        taskId,
-        task: {
-          column: {
-            board: {
-              ownerId: user.id
-            }
-          }
-        }
-      },
-      orderBy: {
-        createdAt: "asc"
-      }
-    });
-
-    return {
-      subtasks
-    };
-  });
+  .query(async ({ input, ctx }) => ctx.services.subtask.getSubtasksByTask(input.taskId, ctx.user.id));

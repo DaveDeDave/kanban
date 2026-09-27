@@ -1,3 +1,4 @@
+import { createFixture, type Fixture } from "../test.utility";
 import { TRPCError } from "@trpc/server";
 import { deleteTestData, loadTestData, testData } from "../test.data";
 import { Caller, Context, createCaller, createContext } from "../test.utility";
@@ -7,17 +8,21 @@ import { HttpBadRequestException } from "@kanban/base-lib/src/exceptions/http/ba
 describe("Authentication router test", () => {
   let caller: Caller;
   let context: Context;
+  let fixture: Fixture;
   const testUser = testData.users[0];
 
   beforeAll(async () => {
     context = await createContext();
     caller = createCaller(context);
 
-    await loadTestData(context.prisma);
+    fixture = createFixture();
+    await loadTestData(fixture);
   });
 
   afterAll(async () => {
-    await deleteTestData(context.prisma);
+    await deleteTestData(fixture);
+    await context.services.close();
+    await fixture.close();
   });
 
   // register

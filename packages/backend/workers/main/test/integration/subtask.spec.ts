@@ -1,12 +1,15 @@
+import { createFixture, type Fixture } from "../test.utility";
 import { TRPCError } from "@trpc/server";
 import { deleteTestData, loadTestData, testData } from "../test.data";
 import { Caller, Context, createCaller, createContext, RouterInputs } from "../test.utility";
 import { HttpNotFoundException } from "@kanban/base-lib";
-import { Subtask } from "@prisma/client";
+import { subtasks } from "../../src/db/tables";
+type Subtask = typeof subtasks.$inferSelect;
 
 describe("Subtask router test", () => {
   let caller: Caller;
   let context: Context;
+  let fixture: Fixture;
   const testUser = testData.users[0];
   const testTask = testData.tasks[0];
   let subtask: Subtask | null = null;
@@ -15,11 +18,14 @@ describe("Subtask router test", () => {
     context = await createContext({ headers: { Authorization: `Bearer ${testUser.jwt}` } });
     caller = createCaller(context);
 
-    await loadTestData(context.prisma);
+    fixture = createFixture();
+    await loadTestData(fixture);
   });
 
   afterAll(async () => {
-    await deleteTestData(context.prisma);
+    await deleteTestData(fixture);
+    await context.services.close();
+    await fixture.close();
   });
 
   // createSubtask

@@ -1,5 +1,5 @@
 import { authProcedure } from "@/trpc/procedures";
-import { HttpNotFoundException, populatedBoardSchema } from "@kanban/base-lib";
+import { populatedBoardSchema } from "@kanban/base-lib";
 import { z } from "zod";
 
 export default authProcedure
@@ -13,45 +13,4 @@ export default authProcedure
       board: populatedBoardSchema
     })
   )
-  .query(async ({ input: { boardId }, ctx: { prisma, user } }) => {
-    const board = await prisma.board.findUnique({
-      where: {
-        id: boardId,
-        ownerId: user.id
-      },
-      include: {
-        columns: {
-          orderBy: [
-            {
-              rank: "asc"
-            },
-            {
-              createdAt: "asc"
-            }
-          ],
-          include: {
-            tasks: {
-              orderBy: [
-                {
-                  rank: "asc"
-                },
-                {
-                  createdAt: "asc"
-                }
-              ]
-            }
-          }
-        }
-      }
-    });
-
-    if (!board) {
-      throw new HttpNotFoundException({
-        errorCode: "BoardNotFound"
-      });
-    }
-
-    return {
-      board
-    };
-  });
+  .query(async ({ input, ctx }) => ctx.services.board.getBoardById(input.boardId, ctx.user.id));

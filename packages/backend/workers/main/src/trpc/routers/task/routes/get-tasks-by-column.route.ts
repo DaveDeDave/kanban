@@ -13,27 +13,4 @@ export default authProcedure
       tasks: z.array(taskSchema)
     })
   )
-  .query(async ({ input: { columnId }, ctx: { prisma, user } }) => {
-    const tasks = await prisma.task.findMany({
-      where: {
-        columnId,
-        column: {
-          board: {
-            ownerId: user.id
-          }
-        }
-      },
-      orderBy: [
-        {
-          rank: "asc"
-        },
-        {
-          createdAt: "asc"
-        }
-      ]
-    });
-
-    return {
-      tasks
-    };
-  });
+  .query(async ({ input, ctx }) => ctx.services.task.getTasksByColumn(input.columnId, ctx.user.id));

@@ -1,5 +1,4 @@
 import { publicProcedure } from "@/trpc/procedures";
-import { HttpUnauthorizedException, compare } from "@kanban/base-lib";
 import { z } from "zod";
 
 export default publicProcedure
@@ -14,39 +13,4 @@ export default publicProcedure
       token: z.string()
     })
   )
-  .mutation(
-    async ({
-      input: { email, password },
-      ctx: {
-        prisma,
-        helpers: { jwt }
-      }
-    }) => {
-      const user = await prisma.user.findUnique({
-        where: {
-          email
-        }
-      });
-      if (!user) {
-        throw new HttpUnauthorizedException({
-          errorCode: "WrongCredentials"
-        });
-      }
-
-      const isPasswordCorrect = await compare(password, user.hashedPassword);
-      if (!isPasswordCorrect) {
-        throw new HttpUnauthorizedException({
-          errorCode: "WrongCredentials"
-        });
-      }
-
-      const token = await jwt.sign({
-        id: user.id,
-        email: user.email
-      });
-
-      return {
-        token
-      };
-    }
-  );
+  .mutation(async ({ input, ctx }) => ctx.services.authentication.login(input.email, input.password));

@@ -1,12 +1,15 @@
+import { createFixture, type Fixture } from "../test.utility";
 import { TRPCError } from "@trpc/server";
 import { deleteTestData, loadTestData, testData } from "../test.data";
 import { Caller, Context, createCaller, createContext, RouterInputs } from "../test.utility";
 import { HttpNotFoundException } from "@kanban/base-lib";
-import { Task } from "@prisma/client";
+import { tasks } from "../../src/db/tables";
+type Task = typeof tasks.$inferSelect;
 
 describe("Task router test", () => {
   let caller: Caller;
   let context: Context;
+  let fixture: Fixture;
   const testUser = testData.users[0];
   const testColumn = testData.columns[0];
   let task: Task | null = null;
@@ -15,11 +18,14 @@ describe("Task router test", () => {
     context = await createContext({ headers: { Authorization: `Bearer ${testUser.jwt}` } });
     caller = createCaller(context);
 
-    await loadTestData(context.prisma);
+    fixture = createFixture();
+    await loadTestData(fixture);
   });
 
   afterAll(async () => {
-    await deleteTestData(context.prisma);
+    await deleteTestData(fixture);
+    await context.services.close();
+    await fixture.close();
   });
 
   // createTask
@@ -176,7 +182,7 @@ describe("Task router test", () => {
         nextTaskId: null
       })
     ).rejects.toMatchObject({ code: "CONFLICT" });
-    const task = await context.prisma.task.findUnique({ where: { id: testData.tasks[0].id } });
+    const task = await fixture.repositories.task.findOneById(testData.tasks[0].id );
     expect(task?.columnId).toBe(testData.columns[0].id);
   });
 
@@ -233,9 +239,7 @@ describe("Task router test", () => {
           nextTaskId: testData.tasks[1].id
         })
       ).rejects.toMatchObject({ code: "CONFLICT" });
-      const unchanged = await context.prisma.task.findUnique({
-        where: { id: created.createdTask.id }
-      });
+      const unchanged = await fixture.repositories.task.findOneById(created.createdTask.id );
       expect(unchanged?.columnId).toBe(testData.columns[1].id);
     } finally {
       await caller.task.deleteTask({ taskId: created.createdTask.id });
@@ -260,14 +264,9 @@ describe("Task router test", () => {
   });
 
   test("Should never write an empty rank when rank generation fails", async () => {
-    const original = await context.prisma.task.findUniqueOrThrow({
-      where: { id: testData.tasks[0].id }
-    });
+    const original = await fixture.repositories.task.findOneByIdOrThrow(testData.tasks[0].id );
     try {
-      await context.prisma.task.update({
-        where: { id: original.id },
-        data: { rank: "invalid-rank" }
-      });
+      await fixture.repositories.task.updateByIdAndColumn(original.id, original.columnId, { rank: "invalid-rank" });
       await expect(
         caller.task.rankTask({
           columnId: testData.columns[0].id,
@@ -276,15 +275,10 @@ describe("Task router test", () => {
           nextTaskId: original.id
         })
       ).rejects.toMatchObject({ code: "CONFLICT" });
-      const unchanged = await context.prisma.task.findUniqueOrThrow({
-        where: { id: testData.tasks[1].id }
-      });
+      const unchanged = await fixture.repositories.task.findOneByIdOrThrow(testData.tasks[1].id );
       expect(unchanged.rank).toBe(testData.tasks[1].rank);
     } finally {
-      await context.prisma.task.update({
-        where: { id: original.id },
-        data: { rank: original.rank }
-      });
+      await fixture.repositories.task.updateByIdAndColumn(original.id, original.columnId, { rank: original.rank });
     }
   });
 });

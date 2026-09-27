@@ -1,6 +1,6 @@
 import { Env } from "@/config/env.config";
-import { getPrismaClient } from "@/config/prisma.config";
-import { HttpException, getJwtHelper } from "@kanban/base-lib";
+import { createServices, type Services } from "@/services";
+import { HttpException } from "@kanban/base-lib";
 import { initTRPC } from "@trpc/server";
 import { FetchCreateContextFnOptions } from "@trpc/server/adapters/fetch";
 
@@ -9,20 +9,11 @@ const createContext = async ({
   env
 }: FetchCreateContextFnOptions & { env: Env }): Promise<{
   headers: Headers;
-  prisma: ReturnType<typeof getPrismaClient>;
-  helpers: {
-    jwt: Awaited<ReturnType<typeof getJwtHelper>>;
-  };
+  services: Services;
 }> => {
-  const prisma = getPrismaClient(env.DATABASE_URL);
-  const jwt = await getJwtHelper(env.JWT_SECRET);
-
   return {
     headers: req.headers,
-    prisma,
-    helpers: {
-      jwt
-    }
+    services: await createServices(env.DATABASE_URL, env.JWT_SECRET)
   };
 };
 

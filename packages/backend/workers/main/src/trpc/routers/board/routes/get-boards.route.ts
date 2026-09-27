@@ -15,30 +15,4 @@ export default authProcedure
       nextCursor: z.string().optional()
     })
   )
-  .query(async ({ ctx: { prisma, user }, input: { limit, cursor } }) => {
-    const boards = await prisma.board.findMany({
-      take: limit + 1,
-      where: {
-        ownerId: user.id
-      },
-      cursor: cursor ? { id: cursor } : undefined,
-      orderBy: [
-        {
-          createdAt: "asc"
-        },
-        {
-          id: "asc"
-        }
-      ]
-    });
-
-    let nextCursor: string | undefined;
-    if (boards.length > limit) {
-      nextCursor = boards.pop()?.id;
-    }
-
-    return {
-      boards,
-      nextCursor
-    };
-  });
+  .query(async ({ input, ctx }) => ctx.services.board.getBoards(input, ctx.user.id));

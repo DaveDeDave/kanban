@@ -1,5 +1,5 @@
 import { authProcedure } from "@/trpc/procedures";
-import { boardSchema, HttpNotFoundException } from "@kanban/base-lib";
+import { boardSchema } from "@kanban/base-lib";
 import { z } from "zod";
 
 export default authProcedure
@@ -13,26 +13,4 @@ export default authProcedure
       deletedBoard: boardSchema
     })
   )
-  .mutation(async ({ input: { boardId }, ctx: { prisma, user } }) => {
-    const board = await prisma.board.findUnique({
-      where: {
-        id: boardId,
-        ownerId: user.id
-      }
-    });
-
-    if (!board) {
-      throw new HttpNotFoundException({
-        errorCode: "BoardNotFound"
-      });
-    }
-
-    const deletedBoard = await prisma.board.delete({
-      where: {
-        id: boardId,
-        ownerId: user.id
-      }
-    });
-
-    return { deletedBoard };
-  });
+  .mutation(async ({ input, ctx }) => ctx.services.board.deleteBoard(input.boardId, ctx.user.id));

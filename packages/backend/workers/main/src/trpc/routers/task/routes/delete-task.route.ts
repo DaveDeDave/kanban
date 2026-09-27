@@ -1,5 +1,5 @@
 import { authProcedure } from "@/trpc/procedures";
-import { HttpNotFoundException, taskSchema } from "@kanban/base-lib";
+import { taskSchema } from "@kanban/base-lib";
 import { z } from "zod";
 
 export default authProcedure
@@ -15,49 +15,4 @@ export default authProcedure
       })
     })
   )
-  .mutation(async ({ input: { taskId }, ctx: { prisma, user } }) => {
-    const task = await prisma.task.findUnique({
-      where: {
-        id: taskId,
-        column: {
-          board: {
-            ownerId: user.id
-          }
-        }
-      },
-      include: {
-        column: {
-          select: {
-            boardId: true
-          }
-        }
-      }
-    });
-
-    if (!task) {
-      throw new HttpNotFoundException({
-        errorCode: "TaskNotFound"
-      });
-    }
-
-    return prisma.$transaction(async (tx) => {
-      await tx.$queryRaw`SELECT id FROM "Board" WHERE id = ${task.column.boardId} FOR UPDATE`;
-      const deletedTask = await tx.task.delete({
-        where: {
-          id: taskId,
-          column: {
-            board: {
-              ownerId: user.id
-            }
-          }
-        }
-      });
-
-      return {
-        deletedTask: {
-          ...deletedTask,
-          boardId: task.column.boardId
-        }
-      };
-    });
-  });
+  .mutation(async ({ input, ctx }) => ctx.services.task.deleteTask(input.taskId, ctx.user.id));
