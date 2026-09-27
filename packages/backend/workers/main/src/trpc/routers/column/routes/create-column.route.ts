@@ -30,33 +30,36 @@ export default authProcedure
       });
     }
 
-    const lastColumn = await prisma.column.findFirst({
-      where: {
-        boardId
-      },
-      orderBy: {
-        rank: "desc"
+    return prisma.$transaction(async (tx) => {
+      await tx.$queryRaw`SELECT id FROM "Board" WHERE id = ${boardId} FOR UPDATE`;
+      const lastColumn = await tx.column.findFirst({
+        where: {
+          boardId
+        },
+        orderBy: {
+          rank: "desc"
+        }
+      });
+
+      let rank: string;
+      if (lastColumn) {
+        const lastColumnRank = LexoRank.parse(lastColumn.rank);
+        rank = lastColumnRank.genNext().toString();
+      } else {
+        rank = LexoRank.middle().toString();
       }
+
+      // TODO: handle rebalancing ranks when necessary
+
+      const createdColumn = await tx.column.create({
+        data: {
+          name,
+          color,
+          boardId,
+          rank
+        }
+      });
+
+      return { createdColumn };
     });
-
-    let rank: string;
-    if (lastColumn) {
-      const lastColumnRank = LexoRank.parse(lastColumn.rank);
-      rank = lastColumnRank.genNext().toString();
-    } else {
-      rank = LexoRank.middle().toString();
-    }
-
-    // TODO: handle rebalancing ranks when necessary
-
-    const createdColumn = await prisma.column.create({
-      data: {
-        name,
-        color,
-        boardId,
-        rank
-      }
-    });
-
-    return { createdColumn };
   });

@@ -29,14 +29,17 @@ export default authProcedure
       });
     }
 
-    const deletedColumn = await prisma.column.delete({
-      where: {
-        id: columnId,
-        board: {
-          ownerId: user.id
+    return prisma.$transaction(async (tx) => {
+      await tx.$queryRaw`SELECT id FROM "Board" WHERE id = ${column.boardId} FOR UPDATE`;
+      const deletedColumn = await tx.column.delete({
+        where: {
+          id: columnId,
+          board: {
+            ownerId: user.id
+          }
         }
-      }
-    });
+      });
 
-    return { deletedColumn };
+      return { deletedColumn };
+    });
   });

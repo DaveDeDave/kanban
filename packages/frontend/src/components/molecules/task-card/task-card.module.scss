@@ -8,6 +8,11 @@
   padding: $padding-container-md;
   border: $border-size-sm solid $color-light;
   background-color: white;
+  transition: opacity 150ms ease;
+
+  &.dimmed {
+    opacity: 0.65;
+  }
 
   .head {
     display: flex;
