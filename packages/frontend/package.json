@@ -10,6 +10,7 @@
     "build": "tsc && vite build",
     "check:ts": "tsc -p tsconfig.json --noEmit",
     "check:lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "check:prettier": "yarn run -T prettier --check \"./src/**/*.{ts,tsx}\"",
     "check:prettier:fix": "yarn run -T prettier --write \"./src/**/*.{ts,tsx}\"",
     "test": "vitest run",
     "preview": "vite preview",

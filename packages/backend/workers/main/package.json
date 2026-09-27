@@ -13,6 +13,7 @@
     "build:clean": "tsc -b --clean",
     "check:ts": "tsc -p tsconfig.json --noEmit",
     "check:lint": "eslint . --config ../../../../.eslintrc.json",
+    "check:prettier": "yarn run -T prettier --check \"{src,test,scripts}/**/*.{ts,tsx}\" \"*.ts\" --config ../../../../.prettierrc",
     "check:prettier:fix": "yarn run -T prettier --write \"{src,test,scripts}/**/*.{ts,tsx}\" \"*.ts\" --config ../../../../.prettierrc",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
