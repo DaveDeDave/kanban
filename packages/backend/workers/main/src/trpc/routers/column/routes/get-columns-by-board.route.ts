@@ -13,25 +13,4 @@ export default authProcedure
       columns: z.array(columnSchema)
     })
   )
-  .query(async ({ input: { boardId }, ctx: { prisma, user } }) => {
-    const columns = await prisma.column.findMany({
-      where: {
-        boardId,
-        board: {
-          ownerId: user.id
-        }
-      },
-      orderBy: [
-        {
-          rank: "asc"
-        },
-        {
-          createdAt: "asc"
-        }
-      ]
-    });
-
-    return {
-      columns
-    };
-  });
+  .query(async ({ input, ctx }) => ctx.services.column.getColumnsByBoard(input.boardId, ctx.user.id));

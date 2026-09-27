@@ -1,5 +1,5 @@
 import { authProcedure } from "@/trpc/procedures";
-import { columnSchema, HttpNotFoundException } from "@kanban/base-lib";
+import { columnSchema } from "@kanban/base-lib";
 import { z } from "zod";
 
 export default authProcedure
@@ -15,36 +15,4 @@ export default authProcedure
       updatedColumn: columnSchema
     })
   )
-  .mutation(async ({ input: { columnId, name, color }, ctx: { prisma, user } }) => {
-    const column = await prisma.column.findUnique({
-      where: {
-        id: columnId,
-        board: {
-          ownerId: user.id
-        }
-      }
-    });
-
-    if (!column) {
-      throw new HttpNotFoundException({
-        errorCode: "ColumnNotFound"
-      });
-    }
-
-    const updatedColumn = await prisma.column.update({
-      where: {
-        id: columnId,
-        board: {
-          ownerId: user.id
-        }
-      },
-      data: {
-        name,
-        color
-      }
-    });
-
-    return {
-      updatedColumn
-    };
-  });
+  .mutation(async ({ input, ctx }) => ctx.services.column.updateColumn(input, ctx.user.id));

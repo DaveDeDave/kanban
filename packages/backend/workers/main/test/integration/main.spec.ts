@@ -1,19 +1,24 @@
+import { createFixture, type Fixture } from "../test.utility";
 import { deleteTestData, loadTestData } from "../test.data";
 import { Caller, Context, createCaller, createContext } from "../test.utility";
 
 describe("Root routes test", () => {
   let caller: Caller;
   let context: Context;
+  let fixture: Fixture;
 
   beforeAll(async () => {
     context = await createContext();
     caller = createCaller(context);
 
-    await loadTestData(context.prisma);
+    fixture = createFixture();
+    await loadTestData(fixture);
   });
 
   afterAll(async () => {
-    await deleteTestData(context.prisma);
+    await deleteTestData(fixture);
+    await context.services.close();
+    await fixture.close();
   });
 
   // healthcheck

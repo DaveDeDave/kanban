@@ -1,6 +1,5 @@
 import { publicProcedure } from "@/trpc/procedures";
-import { hash, passwordRegex } from "@kanban/base-lib";
-import { HttpBadRequestException } from "@kanban/base-lib/src/exceptions/http/bad-request/bad-request";
+import { passwordRegex } from "@kanban/base-lib";
 import { z } from "zod";
 
 export default publicProcedure
@@ -15,42 +14,4 @@ export default publicProcedure
       token: z.string()
     })
   )
-  .mutation(
-    async ({
-      input: { email, password },
-      ctx: {
-        prisma,
-        helpers: { jwt }
-      }
-    }) => {
-      const userExists = await prisma.user.findUnique({
-        where: {
-          email
-        }
-      });
-
-      if (userExists) {
-        throw new HttpBadRequestException({
-          errorCode: "EmailAlreadyExists"
-        });
-      }
-
-      const hashedPassword = await hash(password, 10);
-      const user = await prisma.user.create({
-        data: {
-          email,
-          hashedPassword
-        },
-        select: {
-          id: true,
-          email: true
-        }
-      });
-
-      const token = await jwt.sign(user);
-
-      return {
-        token
-      };
-    }
-  );
+  .mutation(async ({ input, ctx }) => ctx.services.authentication.register(input.email, input.password));

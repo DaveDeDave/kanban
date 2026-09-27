@@ -1,5 +1,5 @@
 import { authProcedure } from "@/trpc/procedures";
-import { HttpNotFoundException, subtaskSchema } from "@kanban/base-lib";
+import { subtaskSchema } from "@kanban/base-lib";
 import { z } from "zod";
 
 export default authProcedure
@@ -14,30 +14,4 @@ export default authProcedure
       createdSubtask: subtaskSchema
     })
   )
-  .mutation(async ({ input: { description, taskId }, ctx: { prisma, user } }) => {
-    const task = await prisma.task.findUnique({
-      where: {
-        id: taskId,
-        column: {
-          board: {
-            ownerId: user.id
-          }
-        }
-      }
-    });
-
-    if (!task) {
-      throw new HttpNotFoundException({
-        errorCode: "TaskNotFound"
-      });
-    }
-
-    const createdSubtask = await prisma.subtask.create({
-      data: {
-        description,
-        taskId
-      }
-    });
-
-    return { createdSubtask };
-  });
+  .mutation(async ({ input, ctx }) => ctx.services.subtask.createSubtask(input, ctx.user.id));

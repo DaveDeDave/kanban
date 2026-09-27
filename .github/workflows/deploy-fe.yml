@@ -25,7 +25,6 @@ jobs:
       - name: Build
         run: |
           yarn && \
-          yarn workspace @kanban/main-worker prisma:generate && \
           yarn workspace @kanban/main-worker build && \
           yarn workspace @kanban/frontend build
       - name: Publish to Cloudflare Pages

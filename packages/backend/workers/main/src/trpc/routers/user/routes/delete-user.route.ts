@@ -10,16 +10,4 @@ export default authProcedure
       })
     })
   )
-  .mutation(async ({ ctx: { user, prisma } }) => {
-    const deletedUser = await prisma.user.delete({
-      where: {
-        id: user.id
-      },
-      select: {
-        id: true,
-        email: true
-      }
-    });
-
-    return { deletedUser };
-  });
+  .mutation(async ({ ctx }) => ctx.services.user.deleteUser(ctx.user.id));

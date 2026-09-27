@@ -1,7 +1,8 @@
-import { PrismaClient } from "@prisma/client";
+import { getDatabase } from "../src/config/db.config";
+import { createRepositories } from "../src/repositories/unit-of-work";
+import { createServices } from "../src/services";
 import { createCallerFactory } from "../src/config/trpc.config";
 import { inferRouterContext, inferRouterInputs, inferRouterOutputs } from "@trpc/server";
-import { getJwtHelper } from "@kanban/base-lib";
 import { AppRouter, appRouter } from "../src/trpc/app-router";
 
 export const createCaller = createCallerFactory(appRouter);
@@ -14,14 +15,14 @@ export type RouterOutputs = inferRouterOutputs<AppRouter>;
 export type RouterInputs = inferRouterInputs<AppRouter>;
 export const createContext = async (options?: CreateContextInput): Promise<Context> => {
   const headers = new Headers(options?.headers);
-  const prisma = new PrismaClient();
-  const jwt = await getJwtHelper("secret" ?? process.env.JWT_SECRET!);
-
   return {
     headers,
-    prisma,
-    helpers: {
-      jwt
-    }
+    services: await createServices(process.env.DATABASE_URL!, process.env.JWT_SECRET ?? "secret")
   };
 };
+
+export const createFixture = () => {
+  const { db, pool } = getDatabase(process.env.DATABASE_URL!);
+  return { repositories: createRepositories(db), close: () => pool.end() };
+};
+export type Fixture = ReturnType<typeof createFixture>;

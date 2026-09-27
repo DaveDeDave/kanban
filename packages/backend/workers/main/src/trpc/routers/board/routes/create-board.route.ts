@@ -14,14 +14,4 @@ export default authProcedure
       createdBoard: boardSchema
     })
   )
-  .mutation(async ({ input: { name, description }, ctx: { prisma, user } }) => {
-    const createdBoard = await prisma.board.create({
-      data: {
-        name,
-        description,
-        ownerId: user.id
-      }
-    });
-
-    return { createdBoard };
-  });
+  .mutation(async ({ input, ctx }) => ctx.services.board.createBoard(input, ctx.user.id));
