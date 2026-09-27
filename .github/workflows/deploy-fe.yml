@@ -16,10 +16,10 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-      - name: Install Node.js 24
-        uses: actions/setup-node@v3
+      - name: Install Node.js 26
+        uses: actions/setup-node@v7
         with:
-          node-version: 24
+          node-version: 26
       - name: Copy production env
         run: cp packages/frontend/.env.prod packages/frontend/.env
       - name: Build
