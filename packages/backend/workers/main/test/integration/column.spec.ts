@@ -1,12 +1,15 @@
+import { createFixture, type Fixture } from "../test.utility";
 import { TRPCError } from "@trpc/server";
 import { deleteTestData, loadTestData, testData } from "../test.data";
 import { Caller, Context, createCaller, createContext, RouterInputs } from "../test.utility";
 import { HttpNotFoundException } from "@kanban/base-lib";
-import { Column } from "@prisma/client";
+import { columns } from "../../src/db/tables";
+type Column = typeof columns.$inferSelect;
 
 describe("Column router test", () => {
   let caller: Caller;
   let context: Context;
+  let fixture: Fixture;
   const testUser = testData.users[0];
   const testBoard = testData.boards[0];
   let column: Column | null = null;
@@ -15,11 +18,14 @@ describe("Column router test", () => {
     context = await createContext({ headers: { Authorization: `Bearer ${testUser.jwt}` } });
     caller = createCaller(context);
 
-    await loadTestData(context.prisma);
+    fixture = createFixture();
+    await loadTestData(fixture);
   });
 
   afterAll(async () => {
-    await deleteTestData(context.prisma);
+    await deleteTestData(fixture);
+    await context.services.close();
+    await fixture.close();
   });
 
   // createColumn
@@ -182,17 +188,10 @@ describe("Column router test", () => {
   });
 
   test("Should not write an empty rank when rank generation fails", async () => {
-    const original = await context.prisma.column.findUniqueOrThrow({
-      where: { id: testData.columns[0].id }
-    });
-    const moving = await context.prisma.column.findUniqueOrThrow({
-      where: { id: testData.columns[1].id }
-    });
+    const original = await fixture.repositories.column.findOneByIdOrThrow(testData.columns[0].id );
+    const moving = await fixture.repositories.column.findOneByIdOrThrow(testData.columns[1].id );
     try {
-      await context.prisma.column.update({
-        where: { id: original.id },
-        data: { rank: "invalid-rank" }
-      });
+      await fixture.repositories.column.updateRank(original.id, original.boardId, "invalid-rank");
       await expect(
         caller.column.rankColumn({
           boardId: testBoard.id,
@@ -201,15 +200,10 @@ describe("Column router test", () => {
           nextColumnId: null
         })
       ).rejects.toMatchObject({ code: "CONFLICT" });
-      const unchanged = await context.prisma.column.findUniqueOrThrow({
-        where: { id: moving.id }
-      });
+      const unchanged = await fixture.repositories.column.findOneByIdOrThrow(moving.id );
       expect(unchanged.rank).toBe(moving.rank);
     } finally {
-      await context.prisma.column.update({
-        where: { id: original.id },
-        data: { rank: original.rank }
-      });
+      await fixture.repositories.column.updateRank(original.id, original.boardId, original.rank);
     }
   });
 });

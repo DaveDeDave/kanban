@@ -12,14 +12,21 @@ export default {
     }
 
     const parsedEnv = await envSchema.parseAsync(env);
-    const trpcRequest = await fetchRequestHandler({
-      endpoint: "/trpc",
-      req: request,
-      router: appRouter,
-      createContext: (options: FetchCreateContextFnOptions) =>
-        createContext({ ...options, env: parsedEnv })
-    });
-
-    return addCORSHeadersToRequest(trpcRequest, corsOptions);
+    let services: Awaited<ReturnType<typeof createContext>>["services"] | undefined;
+    try {
+      const trpcRequest = await fetchRequestHandler({
+        endpoint: "/trpc",
+        req: request,
+        router: appRouter,
+        createContext: async (options: FetchCreateContextFnOptions) => {
+          const context = await createContext({ ...options, env: parsedEnv });
+          services = context.services;
+          return context;
+        }
+      });
+      return addCORSHeadersToRequest(trpcRequest, corsOptions);
+    } finally {
+      await services?.close();
+    }
   }
 };

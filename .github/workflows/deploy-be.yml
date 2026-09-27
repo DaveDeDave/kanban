@@ -5,6 +5,8 @@ on:
     paths:
       - "packages/backend/workers/main/**"
       - "packages/backend/libs/base/**"
+      - ".github/workflows/deploy-be.yml"
+      - "yarn.lock"
   workflow_dispatch:
 
 jobs:
@@ -21,21 +23,23 @@ jobs:
         uses: actions/setup-node@v7
         with:
           node-version: 26
-      - name: Install wrangler-cli
-        run: npm install -g wrangler
       - name: Launch test container
         run: yarn && sudo yarn docker:start:test-gi
       - name: Wait 10 seconds
         run: sleep 10
       - name: Build
-        run: |
-          yarn workspace @kanban/main-worker prisma:generate && \
-          yarn workspace @kanban/main-worker build
-      - name: Apply prisma migration to test database
-        run: DATABASE_URL=${{ secrets.TEST_DATABASE_URL }} yarn workspace @kanban/main-worker prisma:migrate:deploy
+        run: yarn workspace @kanban/main-worker build
+      - name: Apply Drizzle migrations to test database
+        env:
+          DATABASE_URL: ${{ secrets.TEST_DATABASE_URL }}
+        run: yarn workspace @kanban/main-worker db:migrate
       - name: Run tests
+        env:
+          DATABASE_URL: ${{ secrets.TEST_DATABASE_URL }}
         run: yarn workspace @kanban/main-worker test:integration
-      - name: Apply prisma migration
-        run: DATABASE_URL=${{ secrets.DATABASE_URL }} yarn workspace @kanban/main-worker prisma:migrate:deploy
+      - name: Apply Drizzle migrations to production
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        run: yarn workspace @kanban/main-worker db:migrate
       - name: Deploy
         run: CLOUDFLARE_API_TOKEN=${{ secrets.CLOUDFLARE_API_TOKEN }} yarn workspace @kanban/main-worker deploy

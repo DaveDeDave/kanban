@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client";
+import type { Fixture } from "./test.utility";
 
 const testDate = new Date();
 
@@ -132,28 +132,19 @@ export const testData = {
   ]
 };
 
-export const loadTestData = async (prisma: PrismaClient) => {
-  await prisma.user.createMany({
-    data: testData.users.map(({ id, email, hashedPassword }) => ({ id, email, hashedPassword }))
-  });
+export const loadTestData = async (fixture: Fixture) => {
+  const db = fixture.repositories;
+  await db.user.createMany(testData.users.map(({ id, email, hashedPassword }) => ({ id, email, hashedPassword })));
 
-  await prisma.board.createMany({
-    data: testData.boards
-  });
+  await db.board.createMany(testData.boards);
 
-  await prisma.column.createMany({
-    data: testData.columns
-  });
+  await db.column.createMany(testData.columns);
 
-  await prisma.task.createMany({
-    data: testData.tasks
-  });
+  await db.task.createMany(testData.tasks);
 
-  await prisma.subtask.createMany({
-    data: testData.subtasks
-  });
+  await db.subtask.createMany(testData.subtasks);
 };
 
-export const deleteTestData = async (prisma: PrismaClient) => {
-  await prisma.user.deleteMany();
+export const deleteTestData = async (fixture: Fixture) => {
+  await fixture.repositories.user.deleteAll();
 };

@@ -1,3 +1,4 @@
+import { createFixture, type Fixture } from "../test.utility";
 import { HttpUnauthorizedException } from "@kanban/base-lib";
 import { deleteTestData, loadTestData, testData } from "../test.data";
 import { Caller, Context, createCaller, createContext } from "../test.utility";
@@ -6,6 +7,7 @@ import { TRPCError } from "@trpc/server";
 describe("User router test", () => {
   let caller: Caller;
   let context: Context;
+  let fixture: Fixture;
   let authCaller: Caller;
   let authContext: Context;
   const testUser = testData.users[0];
@@ -16,11 +18,15 @@ describe("User router test", () => {
     authContext = await createContext({ headers: { Authorization: `Bearer ${testUser.jwt}` } });
     authCaller = createCaller(authContext);
 
-    await loadTestData(context.prisma);
+    fixture = createFixture();
+    await loadTestData(fixture);
   });
 
   afterAll(async () => {
-    await deleteTestData(context.prisma);
+    await deleteTestData(fixture);
+    await context.services.close();
+    await fixture.close();
+    await authContext.services.close();
   });
 
   // deleteUser
